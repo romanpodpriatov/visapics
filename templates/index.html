@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <!-- Мета-теги и заголовок -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загрузка фото для визы | Минималистичный загрузчик</title>
+
+    <!-- Подключение Tailwind CSS через CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Дополнительные стили (опционально) -->
+    <style>
+        /* Кастомные стили при необходимости */
+        /* Анимация для индикатора неопределенного состояния */
+        @keyframes indeterminate {
+            0% {
+                left: -40%;
+                width: 40%;
+            }
+            50% {
+                left: 20%;
+                width: 60%;
+            }
+            100% {
+                left: 100%;
+                width: 0%;
+            }
+        }
+        .indeterminate-bar {
+            position: relative;
+            background-color: #3b82f6; /* Цвет полосы загрузки */
+            height: 100%;
+            animation: indeterminate 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <!-- Контейнер -->
+    <div class="container mx-auto my-12 px-4">
+
+        <!-- Карточка -->
+        <div class="bg-white rounded-lg shadow-md p-8">
+
+            <!-- Заголовок -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Загрузка фото для визы</h1>
+                <p class="text-gray-600 mt-2">Загрузите фотографию, соответствующую требованиям. Мы автоматически обработаем её под нужный формат.</p>
+            </div>
+
+            <!-- Область загрузки -->
+            <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 01.88-2.528A4 4 0 019 9h.28a2 2 0 001.787-1.106l.025-.05A2 2 0 0114 6h2a4 4 0 010 8h-1m-6 2v1m0 4h.01M12 19h.01M12 15v4m0 0H9m3 0h3"/>
+                </svg>
+                <p class="text-gray-600">Перетащите фото сюда или кликните для выбора файла</p>
+                <p class="text-sm text-gray-500 mt-2">JPG, JPEG, PNG • Макс. размер: 10MB</p>
+                <input type="file" id="file-input" accept="image/*" class="hidden">
+            </div>
+
+            <!-- Превью изображения -->
+            <div id="preview-container" class="mt-8 hidden">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Загруженное фото:</h2>
+                <img id="preview-image" src="#" alt="Превью" class="w-full max-w-md mx-auto rounded-md shadow-md">
+            </div>
+
+            <!-- Прогресс загрузки -->
+            <div id="progress-container" class="mt-8 hidden">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Обработка:</h2>
+                <div class="w-full bg-gray-200 rounded-full h-2 mb-4 overflow-hidden">
+                    <div id="progress-bar" class="bg-blue-500 h-2"></div>
+                </div>
+            </div>
+
+            <!-- Сообщения -->
+            <div id="message-container" class="mt-8"></div>
+
+            <!-- Обработанное фото и информация -->
+            <div id="processed-container" class="mt-8 hidden">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Обработанное фото:</h2>
+                <img id="processed-image" src="#" alt="Обработанное фото" class="w-full max-w-md mx-auto rounded-md shadow-md mb-4">
+                <a href="#" id="download-link" class="block bg-blue-500 text-white text-center py-2 rounded-md hover:bg-blue-600 transition-colors duration-200">Скачать фото для электронной загрузки</a>
+                <!-- Новая ссылка для скачивания фото для печати -->
+                <a href="#" id="download-printable-link" class="block bg-green-500 text-white text-center py-2 rounded-md hover:bg-green-600 transition-colors duration-200 mt-4">Скачать фото для печати (4x6")</a>
+
+                <!-- Превью изображения для печати -->
+                <div id="printable-preview-container" class="mt-8 hidden">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Превью фото для печати:</h2>
+                    <img id="printable-preview-image" src="#" alt="Превью печатного фото" class="w-full max-w-md mx-auto rounded-md shadow-md">
+                </div>
+
+                <!-- Таблица информации о фото -->
+                <h3 class="text-lg font-semibold text-gray-800 mt-8 mb-4">Информация о фотографии:</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-md shadow-md">
+                        <thead>
+                            <tr>
+                                <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Параметр</th>
+                                <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Значение</th>
+                                <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Соответствие</th>
+                            </tr>
+                        </thead>
+                        <tbody id="info-table-body">
+                            <!-- Динамически заполняемый контент -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript код -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-area');
+            const fileInput = document.getElementById('file-input');
+            const previewContainer = document.getElementById('preview-container');
+            const previewImage = document.getElementById('preview-image');
+            const progressContainer = document.getElementById('progress-container');
+            const progressBar = document.getElementById('progress-bar');
+            const messageContainer = document.getElementById('message-container');
+            const processedContainer = document.getElementById('processed-container');
+            const processedImage = document.getElementById('processed-image');
+            const downloadLink = document.getElementById('download-link');
+            const downloadPrintableLink = document.getElementById('download-printable-link');
+            const printablePreviewContainer = document.getElementById('printable-preview-container');
+            const printablePreviewImage = document.getElementById('printable-preview-image');
+            const infoTableBody = document.getElementById('info-table-body');
+
+            // Клик по области загрузки
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            // Обработка перетаскивания файлов
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            // Подсветка при перетаскивании
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => {
+                    uploadArea.classList.add('border-blue-500');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => {
+                    uploadArea.classList.remove('border-blue-500');
+                }, false);
+            });
+
+            // Обработка сброшенных файлов
+            uploadArea.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            });
+
+            // Обработка выбранных файлов
+            fileInput.addEventListener('change', () => {
+                handleFiles(fileInput.files);
+            });
+
+            function handleFiles(files) {
+                if (files.length === 0) return;
+                const file = files[0];
+
+                if (!file.type.startsWith('image/')) {
+                    showMessage('error', 'Пожалуйста, загрузите изображение.');
+                    return;
+                }
+
+                // Проверка размера файла
+                if (file.size > 10 * 1024 * 1024) {
+                    showMessage('error', 'Размер файла превышает 10 МБ.');
+                    return;
+                }
+
+                // Отображение превью
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+
+                // Загрузка файла
+                uploadFile(file);
+            }
+
+            function uploadFile(file) {
+                const url = '/upload';
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', url, true);
+
+                xhr.upload.onprogress = function(e) {
+                    if (e.lengthComputable) {
+                        const percentComplete = (e.loaded / e.total) * 100;
+                        progressBar.style.width = percentComplete.toFixed(2) + '%';
+                    }
+                };
+
+                xhr.onloadstart = function() {
+                    progressContainer.classList.remove('hidden');
+                    progressBar.style.width = '0%';
+                    progressBar.classList.remove('indeterminate-bar');
+                    messageContainer.innerHTML = '';
+                    processedContainer.classList.add('hidden');
+                    printablePreviewContainer.classList.add('hidden');
+                    infoTableBody.innerHTML = '';
+                };
+
+                xhr.onloadend = function() {
+                    // Если загрузка завершена, но ответ еще не получен, переключаем прогресс-бар в неопределенное состояние
+                    if (xhr.status === 0) {
+                        progressBar.style.width = '100%';
+                        progressBar.classList.add('indeterminate-bar');
+                    }
+                };
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        progressContainer.classList.add('hidden');
+                        progressBar.style.width = '0%';
+                        progressBar.classList.remove('indeterminate-bar');
+
+                        if (xhr.status === 200) {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.success) {
+                                showMessage('success', response.message);
+                                if (response.preview_filename && response.download_filename && response.printable_filename && response.printable_preview_filename) {
+                                    processedImage.src = `/previews/${encodeURIComponent(response.preview_filename)}`;
+                                    downloadLink.href = `/download/${encodeURIComponent(response.download_filename)}`;
+                                    downloadPrintableLink.href = `/download_printable/${encodeURIComponent(response.printable_filename)}`;
+                                    processedContainer.classList.remove('hidden');
+                                    updateInfoTable(response);
+
+                                    // Отображение превью печатного изображения
+                                    printablePreviewImage.src = `/previews/printable/${encodeURIComponent(response.printable_preview_filename)}`;
+                                    printablePreviewContainer.classList.remove('hidden');
+                                }
+                            } else {
+                                showMessage('error', response.error || 'Произошла ошибка при обработке файла.');
+                            }
+                        } else {
+                            showMessage('error', 'Произошла ошибка при загрузке файла.');
+                        }
+                    }
+                };
+
+                xhr.onerror = function() {
+                    progressContainer.classList.add('hidden');
+                    progressBar.style.width = '0%';
+                    progressBar.classList.remove('indeterminate-bar');
+                    showMessage('error', 'Произошла ошибка при загрузке файла.');
+                };
+
+                xhr.send(formData);
+            }
+
+            function showMessage(type, text) {
+                const messageHTML = `
+                    <div class="py-3 px-4 mb-4 rounded-md ${type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                        ${text}
+                    </div>
+                `;
+                messageContainer.innerHTML = messageHTML;
+            }
+
+            function updateInfoTable(response) {
+                const photoInfo = response.photo_info;
+                const compliance = photoInfo.compliance;
+
+                infoTableBody.innerHTML = `
+                    <tr class="border-b">
+                        <td class="py-3 px-6 text-gray-700">Высота головы</td>
+                        <td class="py-3 px-6 text-gray-700">${photoInfo.head_height}"</td>
+                        <td class="py-3 px-6 text-gray-700">${compliance.head_height ? 'Соответствует' : 'Не соответствует'}</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="py-3 px-6 text-gray-700">Расстояние от глаз до низа</td>
+                        <td class="py-3 px-6 text-gray-700">${photoInfo.eye_to_bottom}"</td>
+                        <td class="py-3 px-6 text-gray-700">${compliance.eye_to_bottom ? 'Соответствует' : 'Не соответствует'}</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="py-3 px-6 text-gray-700">Размер файла</td>
+                        <td class="py-3 px-6 text-gray-700">${photoInfo.file_size_kb} KB</td>
+                        <td class="py-3 px-6 text-gray-700">-</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="py-3 px-6 text-gray-700">Качество</td>
+                        <td class="py-3 px-6 text-gray-700">${photoInfo.quality}</td>
+                        <td class="py-3 px-6 text-gray-700">-</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-6 text-gray-700">Дата загрузки</td>
+                        <td class="py-3 px-6 text-gray-700">${new Date().toLocaleString()}</td>
+                        <td class="py-3 px-6 text-gray-700">-</td>
+                    </tr>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
