@@ -10,32 +10,63 @@ def create_printable_image(processed_image_path, printable_path, fonts_folder, r
     """
     Создание изображения для печати с размещением нескольких копий фотографии.
     """
-    canvas_width = 4 * PIXELS_PER_INCH
-    canvas_height = 6 * PIXELS_PER_INCH
+    canvas_width = 4 * PIXELS_PER_INCH  # 4 inches
+    canvas_height = 6 * PIXELS_PER_INCH  # 6 inches
 
     # Создание холста
     canvas = Image.new('RGB', (canvas_width, canvas_height), 'white')
+    draw = ImageDraw.Draw(canvas)
 
     # Загрузка обработанного изображения
     photo = Image.open(processed_image_path)
 
     # Проверка размера
-    expected_size = (2 * PIXELS_PER_INCH, 2 * PIXELS_PER_INCH)
+    expected_size = (2 * PIXELS_PER_INCH, 2 * PIXELS_PER_INCH)  # 2x2 inches
     if photo.size != expected_size:
         photo = photo.resize(expected_size, Image.LANCZOS)
 
-    # Отступы
-    margin_x = (canvas_width - (cols * photo.width)) // (cols + 1)
-    margin_y = (canvas_height - (rows * photo.height)) // (rows + 1)
+    # Фиксированный отступ между фотографиями (0.25 дюйма = 75 пикселей при 300 DPI)
+    spacing = int(0.25 * PIXELS_PER_INCH)  
+
+    # Вычисление общей ширины и высоты группы фотографий с отступами
+    total_width = cols * photo.width + (cols - 1) * spacing
+    total_height = rows * photo.height + (rows - 1) * spacing
+
+    # Вычисление начальных координат для центрирования группы фотографий
+    start_x = (canvas_width - total_width) // 2
+    start_y = (canvas_height - total_height) // 2
 
     # Размещение фотографий
     for row in range(rows):
         for col in range(cols):
-            x = margin_x + col * (photo.width + margin_x)
-            y = margin_y + row * (photo.height + margin_y)
+            x = start_x + col * (photo.width + spacing)
+            y = start_y + row * (photo.height + spacing)
             canvas.paste(photo, (x, y))
 
-    # Сохранение изображения без водяного знака
+    # Добавление пунктирных линий для обрезки
+    dash_length = int(0.1 * PIXELS_PER_INCH)  # 0.1 inch dashes
+    gap_length = int(0.1 * PIXELS_PER_INCH)   # 0.1 inch gaps
+    line_color = (180, 180, 180)  # Светло-серый цвет
+
+    # Горизонтальные линии
+    for row in range(rows - 1):
+        y = start_y + (row + 1) * photo.height + (row * spacing) + spacing // 2
+        x = 0
+        while x < canvas_width:
+            x_end = min(x + dash_length, canvas_width)
+            draw.line([(x, y), (x_end, y)], fill=line_color, width=1)
+            x = x_end + gap_length
+
+    # Вертикальные линии
+    for col in range(cols - 1):
+        x = start_x + (col + 1) * photo.width + (col * spacing) + spacing // 2
+        y = 0
+        while y < canvas_height:
+            y_end = min(y + dash_length, canvas_height)
+            draw.line([(x, y), (x, y_end)], fill=line_color, width=1)
+            y = y_end + gap_length
+
+    # Сохранение изображения
     canvas.save(printable_path, dpi=(PIXELS_PER_INCH, PIXELS_PER_INCH), quality=95)
     logging.info(f"Printable image saved at {printable_path}")
 
@@ -48,6 +79,7 @@ def create_printable_preview(processed_image_path, printable_preview_path, fonts
 
     # Создание холста
     canvas = Image.new('RGB', (canvas_width, canvas_height), 'white')
+    draw = ImageDraw.Draw(canvas)
 
     # Загрузка обработанного изображения
     photo = Image.open(processed_image_path)
@@ -60,16 +92,46 @@ def create_printable_preview(processed_image_path, printable_preview_path, fonts
     # Применение водяного знака
     watermarked_photo = apply_watermark_to_photo(photo, fonts_folder)
 
-    # Отступы
-    margin_x = (canvas_width - (cols * photo.width)) // (cols + 1)
-    margin_y = (canvas_height - (rows * photo.height)) // (rows + 1)
+    # Фиксированный отступ между фотографиями (0.25 дюйма = 75 пикселей при 300 DPI)
+    spacing = int(0.25 * PIXELS_PER_INCH)
+
+    # Вычисление общей ширины и высоты группы фотографий с отступами
+    total_width = cols * photo.width + (cols - 1) * spacing
+    total_height = rows * photo.height + (rows - 1) * spacing
+
+    # Вычисление начальных координат для центрирования группы фотографий
+    start_x = (canvas_width - total_width) // 2
+    start_y = (canvas_height - total_height) // 2
 
     # Размещение фотографий
     for row in range(rows):
         for col in range(cols):
-            x = margin_x + col * (photo.width + margin_x)
-            y = margin_y + row * (photo.height + margin_y)
+            x = start_x + col * (photo.width + spacing)
+            y = start_y + row * (photo.height + spacing)
             canvas.paste(watermarked_photo, (x, y))
+
+    # Добавление тех же пунктирных линий для превью
+    dash_length = int(0.1 * PIXELS_PER_INCH)
+    gap_length = int(0.1 * PIXELS_PER_INCH)
+    line_color = (180, 180, 180)
+
+    # Горизонтальные линии
+    for row in range(rows - 1):
+        y = start_y + (row + 1) * photo.height + (row * spacing) + spacing // 2
+        x = 0
+        while x < canvas_width:
+            x_end = min(x + dash_length, canvas_width)
+            draw.line([(x, y), (x_end, y)], fill=line_color, width=1)
+            x = x_end + gap_length
+
+    # Вертикальные линии
+    for col in range(cols - 1):
+        x = start_x + (col + 1) * photo.width + (col * spacing) + spacing // 2
+        y = 0
+        while y < canvas_height:
+            y_end = min(y + dash_length, canvas_height)
+            draw.line([(x, y), (x, y_end)], fill=line_color, width=1)
+            y = y_end + gap_length
 
     # Сохранение превью с водяным знаком
     canvas.save(printable_preview_path, dpi=(PIXELS_PER_INCH, PIXELS_PER_INCH), quality=95)
