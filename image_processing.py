@@ -57,12 +57,19 @@ class ImageProcessor(ABC):
 
 class VisaPhotoProcessor(ImageProcessor):
     def process(self):
-        # Шаг 1: Загрузка изображения
+        # Call the process_with_updates method with a dummy socketio object
+        # if you want to keep the process method for compatibility
+        self.process_with_updates(None)
+
+    def process_with_updates(self, socketio):
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Loading image'})
         img_cv = cv2.imread(self.input_path)
         if img_cv is None:
-            raise ValueError("Не удалось прочитать загруженное изображение")
+            raise ValueError("Failed to read the uploaded image")
 
-        # Шаг 2: Обнаружене лицевых меток
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Detecting face landmarks'})
         mp_face_mesh = mp.solutions.face_mesh
         img_rgb = cv2.cvtColor(img_cv, cv2.COLOR_BGR2RGB)
 
@@ -84,24 +91,29 @@ class VisaPhotoProcessor(ImageProcessor):
         if not face_landmarks:
             raise ValueError("Не удалось обнаружить лицо. Пожалуйста, убедитесь, что лицо хорошо видно")
 
-        # Шаг 3: Вычисление размеров обрезки
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Calculating crop dimensions'})
         img_height, img_width = img_cv.shape[:2]
         crop_data = calculate_crop_dimensions(face_landmarks, img_height, img_width)
 
-        # Шаг 4: Обрезка и масштабирование изображения
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Cropping and scaling image'})
         processed_img = self._crop_and_scale_image(img_cv, crop_data)
 
-        # Шаг 5: Удаление фона
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Removing background'})
         processed_img = remove_background_and_make_white(processed_img, ort_session)
 
-        # Шаг 6: Улучшение изображения
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Enhancing image'})
         processed_img = self._enhance_image(processed_img)
 
-        # Шаг 7: Сохранение обработанного изображения
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Saving processed image'})
         processed_img.save(self.processed_path, dpi=(PIXELS_PER_INCH, PIXELS_PER_INCH), quality=95)
-        logging.info(f"Processed image saved at {self.processed_path}")
 
-        # Шаг 8: Создание превью
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Creating preview'})
         create_preview_with_watermark(
             self.processed_path,
             self.preview_path,
@@ -110,7 +122,8 @@ class VisaPhotoProcessor(ImageProcessor):
             self.fonts_folder
         )
 
-        # Шаг 9: Создание изображения для печати
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Creating printable image'})
         create_printable_image(
             self.processed_path,
             self.printable_path,
@@ -119,7 +132,8 @@ class VisaPhotoProcessor(ImageProcessor):
             cols=2
         )
 
-        # Шаг 10: Создание превью для печати с водяным знаком
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Creating printable preview'})
         create_printable_preview(
             self.processed_path,
             self.printable_preview_path,
@@ -128,7 +142,9 @@ class VisaPhotoProcessor(ImageProcessor):
             cols=2
         )
 
-        # Формирование информации о фотографии
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Processing complete'})
+
         photo_info = {
             'head_height': round(crop_data['head_height'], 2),
             'eye_to_bottom': round(crop_data['eye_to_bottom'], 2),
@@ -143,13 +159,13 @@ class VisaPhotoProcessor(ImageProcessor):
         return photo_info
 
     def _crop_and_scale_image(self, img_cv, crop_data):
-        # Масштабирование
+        # Scaling
         scale = crop_data['scale_factor']
         scaled_width = int(img_cv.shape[1] * scale)
         scaled_height = int(img_cv.shape[0] * scale)
         scaled_img = cv2.resize(img_cv, (scaled_width, scaled_height), interpolation=cv2.INTER_LINEAR)
 
-        # Обрезка
+        # Cropping
         crop_top = max(0, crop_data['crop_top'])
         crop_bottom = min(scaled_height, crop_data['crop_bottom'])
         crop_left = max(0, crop_data['crop_left'])
@@ -160,7 +176,7 @@ class VisaPhotoProcessor(ImageProcessor):
 
         cropped = scaled_img[crop_top:crop_bottom, crop_left:crop_right]
 
-        # зменение размера с добавлением отступов, если необходимо
+        # Changing size with padding if necessary
         if cropped.shape[0] != PHOTO_SIZE_PIXELS or cropped.shape[1] != PHOTO_SIZE_PIXELS:
             from utils import create_image_with_padding
             cropped_pil = Image.fromarray(cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB))
@@ -172,7 +188,7 @@ class VisaPhotoProcessor(ImageProcessor):
         return pil_img
 
     def _enhance_image(self, image):
-        # Улучшение изображения с помощью GFPGAN
+        # Enhancing the image with GFPGAN
         img_np = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
         _, _, restored_img = gfpganer.enhance(
             img_np,

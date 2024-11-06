@@ -7,11 +7,13 @@ import urllib.parse
 import logging
 import traceback
 
+from flask_socketio import SocketIO, emit
 from image_processing import VisaPhotoProcessor
 from utils import allowed_file, is_allowed_file, clean_filename, ALLOWED_EXTENSIONS
 
 # Инициализация Flask-приложения
 app = Flask(__name__, static_folder='static', template_folder='templates')
+socketio = SocketIO(app)
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -60,12 +62,12 @@ def upload_file():
     try:
         if 'file' not in request.files:
             logging.warning("No file part in the request")
-            return jsonify({'error': 'Нет файла в запросе'}), 400
+            return jsonify({'error': 'No file in request'}), 400
 
         file = request.files['file']
         if file.filename == '':
             logging.warning("No selected file")
-            return jsonify({'error': 'Файл не выбран'}), 400
+            return jsonify({'error': 'No file selected'}), 400
 
         if file and allowed_file(file.filename):
             base_filename = clean_filename(file.filename)
@@ -87,7 +89,10 @@ def upload_file():
             logging.info(f"File saved at {input_path}")
 
             if os.path.getsize(input_path) > 10 * 1024 * 1024:
-                raise ValueError("Размер файла превышает 10 МБ")
+                raise ValueError("File size exceeds 10MB")
+
+            # Emit an event to notify the client that the file is being processed
+            socketio.emit('processing_status', {'status': 'Processing started'})
 
             # Используем класс VisaPhotoProcessor для обработки изображения
             processor = VisaPhotoProcessor(
@@ -99,8 +104,8 @@ def upload_file():
                 fonts_folder=FONTS_FOLDER
             )
 
-            # Обработка изображения
-            photo_info = processor.process()
+            # Обработка изображения и emit status updates
+            photo_info = processor.process_with_updates(socketio)
 
             response_data = {
                 'success': True,
@@ -124,8 +129,8 @@ def upload_file():
         else:
             logging.warning("Invalid file type uploaded")
             return jsonify({
-                'error': 'Недопустимый тип файла',
-                'message': 'Поддерживаемые форматы: JPG, JPEG, PNG'
+                'error': 'Invalid file type',
+                'message': 'Supported formats: JPG, JPEG, PNG'
             }), 400
 
     except Exception as e:
@@ -142,7 +147,7 @@ def upload_file():
                     logging.error(f"Error cleaning up file {path}: {cleanup_error}")
 
         return jsonify({
-            'error': 'Ошибка при обработке изображения',
+            'error': 'Error processing image',
             'message': str(e)
         }), 500
 
@@ -279,4 +284,4 @@ def download_printable(filename):
         return jsonify({'error': 'Произошла ошибка при загрузке файла для печати'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8000)
+    socketio.run(app, debug=True, host='0.0.0.0', port=8000)

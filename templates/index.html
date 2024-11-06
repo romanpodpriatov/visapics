@@ -9,6 +9,13 @@
     <!-- Подключение Tailwind CSS через CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Подключение Socket.IO через CDN -->
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+    <!-- Подключение NProgress через CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+
     <!-- Дополнительные стили (опционально) -->
     <style>
         /* Кастомные стили при необходимости */
@@ -33,6 +40,30 @@
             height: 100%;
             animation: indeterminate 1.5s infinite;
         }
+
+        #nprogress {
+            position: relative !important;
+            z-index: 9999;
+        }
+        
+        #nprogress .bar {
+            background: #3b82f6 !important;
+            height: 4px !important;
+        }
+
+        #nprogress .peg {
+            box-shadow: 0 0 10px #3b82f6, 0 0 5px #3b82f6 !important;
+        }
+
+        #nprogress .spinner {
+            display: none !important;
+        }
+
+        .progress-status {
+            text-align: center;
+            margin-top: 8px;
+            color: #4b5563;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
@@ -45,8 +76,8 @@
 
             <!-- Заголовок -->
             <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-800">Загрузка фото для визы</h1>
-                <p class="text-gray-600 mt-2">Загрузите фотографию, соответствующую требованиям. Мы автоматически обработаем её под нужный формат.</p>
+                <h1 class="text-3xl font-bold text-gray-800">Visa Photo Upload</h1>
+                <p class="text-gray-600 mt-2">Upload your photo and we'll automatically process it to meet visa requirements.</p>
             </div>
 
             <!-- Область загрузки -->
@@ -54,22 +85,22 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 01.88-2.528A4 4 0 019 9h.28a2 2 0 001.787-1.106l.025-.05A2 2 0 0114 6h2a4 4 0 010 8h-1m-6 2v1m0 4h.01M12 19h.01M12 15v4m0 0H9m3 0h3"/>
                 </svg>
-                <p class="text-gray-600">Перетащите фото сюда или кликните для выбора файла</p>
-                <p class="text-sm text-gray-500 mt-2">JPG, JPEG, PNG • Макс. размер: 10MB</p>
+                <p class="text-gray-600">Drag and drop your photo here or click to select</p>
+                <p class="text-sm text-gray-500 mt-2">JPG, JPEG, PNG • Max size: 10MB</p>
                 <input type="file" id="file-input" accept="image/*" class="hidden">
             </div>
 
             <!-- Превью изображения -->
             <div id="preview-container" class="mt-8 hidden">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Загруженное фото:</h2>
-                <img id="preview-image" src="#" alt="Превью" class="w-full max-w-md mx-auto rounded-md shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Uploaded Photo:</h2>
+                <img id="preview-image" src="#" alt="Preview" class="w-full max-w-md mx-auto rounded-md shadow-md">
             </div>
 
             <!-- Прогресс загрузки -->
-            <div id="progress-container" class="mt-8 hidden">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Обработка:</h2>
-                <div class="w-full bg-gray-200 rounded-full h-2 mb-4 overflow-hidden">
-                    <div id="progress-bar" class="bg-blue-500 h-2"></div>
+            <div id="progress-container" class="mt-4 mb-4 hidden">
+                <div class="text-sm font-medium text-gray-700 mb-2" id="progress-status">Processing...</div>
+                <div class="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="absolute top-0 left-0 h-full bg-blue-500 transition-all duration-300" style="width: 0%"></div>
                 </div>
             </div>
 
@@ -78,34 +109,36 @@
 
             <!-- Обработанное фото и информация -->
             <div id="processed-container" class="mt-8 hidden">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Обработанное фото:</h2>
-                <img id="processed-image" src="#" alt="Обработанное фото" class="w-full max-w-md mx-auto rounded-md shadow-md mb-4">
-                <a href="#" id="download-link" class="block bg-blue-500 text-white text-center py-2 rounded-md hover:bg-blue-600 transition-colors duration-200">Скачать фото для электронной загрузки</a>
-                <!-- Новая ссылка для скачивания фото для печати -->
-                <a href="#" id="download-printable-link" class="block bg-green-500 text-white text-center py-2 rounded-md hover:bg-green-600 transition-colors duration-200 mt-4">Скачать фото для печати (4x6")</a>
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Processed Photo:</h2>
+                <img id="processed-image" src="#" alt="Processed photo" class="w-full max-w-md mx-auto rounded-md shadow-md mb-4">
+                <a href="#" id="download-link" class="block bg-blue-500 text-white text-center py-2 rounded-md hover:bg-blue-600 transition-colors duration-200">Download Photo for Digital Upload</a>
+                <a href="#" id="download-printable-link" class="block bg-green-500 text-white text-center py-2 rounded-md hover:bg-green-600 transition-colors duration-200 mt-4">Download Photo for Print (4x6")</a>
 
                 <!-- Превью изображения для печати -->
                 <div id="printable-preview-container" class="mt-8 hidden">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Превью фото для печати:</h2>
-                    <img id="printable-preview-image" src="#" alt="Превью печатного фото" class="w-full max-w-md mx-auto rounded-md shadow-md">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Print Preview:</h2>
+                    <img id="printable-preview-image" src="#" alt="Print preview" class="w-full max-w-md mx-auto rounded-md shadow-md">
                 </div>
 
                 <!-- Таблица информации о фото -->
-                <h3 class="text-lg font-semibold text-gray-800 mt-8 mb-4">Информация о фотографии:</h3>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white rounded-md shadow-md">
-                        <thead>
-                            <tr>
-                                <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Параметр</th>
-                                <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Значение</th>
-                                <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Соответствие</th>
-                            </tr>
-                        </thead>
-                        <tbody id="info-table-body">
-                            <!-- Динамически заполняемый контент -->
-                        </tbody>
-                    </table>
+                <div id="photo-info-container" class="mt-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Photo Information:</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white rounded-md shadow-md">
+                            <thead>
+                                <tr>
+                                    <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Parameter</th>
+                                    <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Value</th>
+                                    <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Compliance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="info-table-body">
+                                <!-- Динамически заполняемый контент -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
 
         </div>
@@ -118,8 +151,6 @@
             const fileInput = document.getElementById('file-input');
             const previewContainer = document.getElementById('preview-container');
             const previewImage = document.getElementById('preview-image');
-            const progressContainer = document.getElementById('progress-container');
-            const progressBar = document.getElementById('progress-bar');
             const messageContainer = document.getElementById('message-container');
             const processedContainer = document.getElementById('processed-container');
             const processedImage = document.getElementById('processed-image');
@@ -128,6 +159,61 @@
             const printablePreviewContainer = document.getElementById('printable-preview-container');
             const printablePreviewImage = document.getElementById('printable-preview-image');
             const infoTableBody = document.getElementById('info-table-body');
+
+            const socket = io();
+
+            // Listen for processing status updates
+            socket.on('processing_status', (data) => {
+                const status = data.status;
+                updateProgressBar(status);
+            });
+
+            function updateProgressBar(status) {
+                const progressSteps = {
+                    'Processing started': 0.1,
+                    'Loading image': 0.2,
+                    'Detecting face landmarks': 0.3,
+                    'Calculating crop dimensions': 0.4,
+                    'Cropping and scaling image': 0.5,
+                    'Removing background': 0.6,
+                    'Enhancing image': 0.7,
+                    'Saving processed image': 0.8,
+                    'Creating preview': 0.9,
+                    'Creating printable image': 0.95,
+                    'Creating printable preview': 1.0,
+                    'Processing complete': 1.0
+                };
+                
+                const statusMessages = {
+                    'Processing started': 'Starting process...',
+                    'Loading image': 'Loading image...',
+                    'Detecting face landmarks': 'Detecting face...',
+                    'Calculating crop dimensions': 'Calculating dimensions...',
+                    'Cropping and scaling image': 'Adjusting image size...',
+                    'Removing background': 'Removing background...',
+                    'Enhancing image': 'Enhancing image quality...',
+                    'Saving processed image': 'Saving processed image...',
+                    'Creating preview': 'Creating preview...',
+                    'Creating printable image': 'Preparing printable version...',
+                    'Creating printable preview': 'Finalizing...',
+                    'Processing complete': 'Processing complete!'
+                };
+
+                const progress = progressSteps[status] || 0;
+                const statusText = statusMessages[status] || status;
+                const progressPercent = progress * 100;
+                
+                // Update both NProgress and custom progress bar
+                NProgress.set(progress);
+                
+                // Show progress container
+                const progressContainer = document.getElementById('progress-container');
+                progressContainer.classList.remove('hidden');
+                
+                // Update status text and progress bar
+                document.getElementById('progress-status').textContent = statusText;
+                document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+            }
 
             // Клик по области загрузки
             uploadArea.addEventListener('click', () => {
@@ -206,15 +292,15 @@
 
                 xhr.upload.onprogress = function(e) {
                     if (e.lengthComputable) {
-                        const percentComplete = (e.loaded / e.total) * 100;
-                        progressBar.style.width = percentComplete.toFixed(2) + '%';
+                        const percentComplete = (e.loaded / e.total) * 0.1; // Only 10% for upload
+                        updateProgressBar('Uploading file...');
+                        NProgress.set(percentComplete);
                     }
                 };
 
                 xhr.onloadstart = function() {
-                    progressContainer.classList.remove('hidden');
-                    progressBar.style.width = '0%';
-                    progressBar.classList.remove('indeterminate-bar');
+                    NProgress.start();
+                    document.getElementById('progress-container').classList.remove('hidden');
                     messageContainer.innerHTML = '';
                     processedContainer.classList.add('hidden');
                     printablePreviewContainer.classList.add('hidden');
@@ -222,18 +308,15 @@
                 };
 
                 xhr.onloadend = function() {
-                    // Если загрузка завершена, но ответ еще не получен, переключаем прогресс-бар в неопределенное состояние
                     if (xhr.status === 0) {
-                        progressBar.style.width = '100%';
-                        progressBar.classList.add('indeterminate-bar');
+                        NProgress.done();
+                        document.getElementById('progress-container').classList.add('hidden');
                     }
                 };
 
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
-                        progressContainer.classList.add('hidden');
-                        progressBar.style.width = '0%';
-                        progressBar.classList.remove('indeterminate-bar');
+                        NProgress.done();
 
                         if (xhr.status === 200) {
                             const response = JSON.parse(xhr.responseText);
@@ -260,9 +343,7 @@
                 };
 
                 xhr.onerror = function() {
-                    progressContainer.classList.add('hidden');
-                    progressBar.style.width = '0%';
-                    progressBar.classList.remove('indeterminate-bar');
+                    NProgress.done();
                     showMessage('error', 'Произошла ошибка при загрузке файла.');
                 };
 
@@ -270,9 +351,24 @@
             }
 
             function showMessage(type, text) {
+                // Translate error messages to English
+                const errorMessages = {
+                    'Нет файла в запросе': 'No file in request',
+                    'Файл не выбран': 'No file selected',
+                    'Недопустимый тип файла': 'Invalid file type',
+                    'Размер файла превышает 10 МБ': 'File size exceeds 10MB',
+                    'Произошла ошибка при обработке файла': 'Error processing file',
+                    'Произошла ошибка при загрузке файла': 'Error uploading file',
+                    'Пожалуйста, загрузите изображение': 'Please upload an image',
+                    'Поддерживаемые форматы: JPG, JPEG, PNG': 'Supported formats: JPG, JPEG, PNG',
+                    'Файл успешно обработан': 'File successfully processed'
+                };
+
+                const translatedText = errorMessages[text] || text;
+                
                 const messageHTML = `
                     <div class="py-3 px-4 mb-4 rounded-md ${type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
-                        ${text}
+                        ${translatedText}
                     </div>
                 `;
                 messageContainer.innerHTML = messageHTML;
@@ -284,27 +380,27 @@
 
                 infoTableBody.innerHTML = `
                     <tr class="border-b">
-                        <td class="py-3 px-6 text-gray-700">Высота головы</td>
+                        <td class="py-3 px-6 text-gray-700">Head Height</td>
                         <td class="py-3 px-6 text-gray-700">${photoInfo.head_height}"</td>
-                        <td class="py-3 px-6 text-gray-700">${compliance.head_height ? 'Соответствует' : 'Не соответствует'}</td>
+                        <td class="py-3 px-6 text-gray-700">${compliance.head_height ? 'Compliant' : 'Non-compliant'}</td>
                     </tr>
                     <tr class="border-b">
-                        <td class="py-3 px-6 text-gray-700">Расстояние от глаз до низа</td>
+                        <td class="py-3 px-6 text-gray-700">Eye to Bottom Distance</td>
                         <td class="py-3 px-6 text-gray-700">${photoInfo.eye_to_bottom}"</td>
-                        <td class="py-3 px-6 text-gray-700">${compliance.eye_to_bottom ? 'Соответствует' : 'Не соответствует'}</td>
+                        <td class="py-3 px-6 text-gray-700">${compliance.eye_to_bottom ? 'Compliant' : 'Non-compliant'}</td>
                     </tr>
                     <tr class="border-b">
-                        <td class="py-3 px-6 text-gray-700">Размер файла</td>
+                        <td class="py-3 px-6 text-gray-700">File Size</td>
                         <td class="py-3 px-6 text-gray-700">${photoInfo.file_size_kb} KB</td>
                         <td class="py-3 px-6 text-gray-700">-</td>
                     </tr>
                     <tr class="border-b">
-                        <td class="py-3 px-6 text-gray-700">Качество</td>
+                        <td class="py-3 px-6 text-gray-700">Quality</td>
                         <td class="py-3 px-6 text-gray-700">${photoInfo.quality}</td>
                         <td class="py-3 px-6 text-gray-700">-</td>
                     </tr>
                     <tr>
-                        <td class="py-3 px-6 text-gray-700">Дата загрузки</td>
+                        <td class="py-3 px-6 text-gray-700">Upload Date</td>
                         <td class="py-3 px-6 text-gray-700">${new Date().toLocaleString()}</td>
                         <td class="py-3 px-6 text-gray-700">-</td>
                     </tr>
