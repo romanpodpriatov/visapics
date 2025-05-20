@@ -11,6 +11,12 @@ from flask_socketio import SocketIO, emit
 from image_processing import VisaPhotoProcessor
 from utils import allowed_file, is_allowed_file, clean_filename, ALLOWED_EXTENSIONS
 
+# Imports for Dependency Injection
+from gfpgan import GFPGANer
+import onnxruntime as ort
+import mediapipe as mp
+import wget # For GFPGAN model download
+
 # Инициализация Flask-приложения
 app = Flask(__name__, static_folder='static', template_folder='templates')
 socketio = SocketIO(app)
@@ -29,6 +35,64 @@ FONTS_FOLDER = os.path.join(BASE_DIR, 'fonts')
 for folder in [UPLOAD_FOLDER, PROCESSED_FOLDER, PREVIEW_FOLDER, FONTS_FOLDER]:
     os.makedirs(folder, exist_ok=True)
     logging.info(f"Created directory: {folder}")
+
+# --- Initialize ML Models and Services ---
+GFPGAN_MODEL_PATH = 'gfpgan/weights/GFPGANv1.4.pth'
+ONNX_MODEL_PATH = os.path.join('models', 'BiRefNet-portrait-epoch_150.onnx')
+
+# Initialize GFPGANer
+if not os.path.exists(GFPGAN_MODEL_PATH):
+    logging.info(f"GFPGAN model not found at {GFPGAN_MODEL_PATH}. Downloading...")
+    try:
+        os.makedirs(os.path.dirname(GFPGAN_MODEL_PATH), exist_ok=True)
+        wget.download('https://github.com/TencentARC/GFPGAN/releases/download/v1.3.4/GFPGANv1.4.pth', GFPGAN_MODEL_PATH)
+        logging.info(f"GFPGAN model downloaded successfully to {GFPGAN_MODEL_PATH}.")
+    except Exception as e:
+        logging.error(f"Failed to download GFPGAN model: {e}")
+        # Depending on the application's needs, you might want to exit or raise an error here.
+        # For now, it will try to proceed and GFPGANer will likely fail if path is incorrect.
+        pass # Or raise SystemExit("GFPGAN model download failed.")
+
+try:
+    gfpganer_instance = GFPGANer(
+        model_path=GFPGAN_MODEL_PATH,
+        upscale=1,
+        arch='clean',
+        channel_multiplier=2,
+        bg_upsampler=None
+    )
+    logging.info("GFPGANer initialized successfully.")
+except Exception as e:
+    logging.error(f"Error initializing GFPGANer: {e}")
+    gfpganer_instance = None # Ensure it's None if initialization fails
+
+# Initialize ONNX Runtime Session for background removal
+if not os.path.exists(ONNX_MODEL_PATH):
+    logging.error(f"ONNX model not found at {ONNX_MODEL_PATH}. Background removal will fail.")
+    # Depending on the application's needs, you might want to exit or raise an error here.
+    ort_session_instance = None # Ensure it's None if model is missing
+    # raise FileNotFoundError(f"ONNX model not found: {ONNX_MODEL_PATH}") # Alternative: stop app
+else:
+    try:
+        ort_session_instance = ort.InferenceSession(ONNX_MODEL_PATH)
+        logging.info("ONNX Runtime session initialized successfully.")
+    except Exception as e:
+        logging.error(f"Error initializing ONNX Runtime session: {e}")
+        ort_session_instance = None
+
+# Initialize MediaPipe FaceMesh
+try:
+    face_mesh_instance = mp.solutions.face_mesh.FaceMesh(
+        max_num_faces=1,
+        refine_landmarks=True,
+        min_detection_confidence=0.5,
+        min_tracking_confidence=0.5
+    )
+    logging.info("MediaPipe FaceMesh initialized successfully.")
+except Exception as e:
+    logging.error(f"Error initializing MediaPipe FaceMesh: {e}")
+    face_mesh_instance = None
+# --- End of ML Models and Services Initialization ---
 
 # Настройка конфигурации приложения
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -101,8 +165,16 @@ def upload_file():
                 preview_path=preview_path,
                 printable_path=printable_path,
                 printable_preview_path=printable_preview_path,
-                fonts_folder=FONTS_FOLDER
+                fonts_folder=FONTS_FOLDER,
+                gfpganer_instance=gfpganer_instance,
+                ort_session_instance=ort_session_instance,
+                face_mesh_instance=face_mesh_instance
             )
+
+            # Check if instances were initialized correctly
+            if not gfpganer_instance or not ort_session_instance or not face_mesh_instance:
+                logging.error("One or more ML models failed to initialize. Aborting processing.")
+                raise RuntimeError("ML model initialization failed. Please check server logs.")
 
             # Обработка изображения и emit status updates
             photo_info = processor.process_with_updates(socketio)

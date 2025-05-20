@@ -9,8 +9,9 @@ import logging
 from abc import ABC, abstractmethod
 import torchvision
 
-from gfpgan import GFPGANer
-import onnxruntime as ort
+from gfpgan import GFPGANer # For type hinting if used, instance provided by DI
+import onnxruntime as ort # For type hinting if used, instance provided by DI
+# mediapipe is already imported as mp
 
 from utils import clean_filename, is_allowed_file, PIXELS_PER_INCH, PHOTO_SIZE_PIXELS
 from face_analyzer import calculate_crop_dimensions
@@ -18,32 +19,18 @@ from background_remover import remove_background_and_make_white
 from preview_creator import create_preview_with_watermark
 from printable_creator import create_printable_image, create_printable_preview
 
-# Инициализация GFPGAN
-gfpgan_model_path = 'gfpgan/weights/GFPGANv1.4.pth'  # Укажите путь к весам модели
-if not os.path.exists(gfpgan_model_path):
-    # Если весов нет, скачиваем их
-    import wget
-    url = 'https://github.com/TencentARC/GFPGAN/releases/download/v1.3.4/GFPGANv1.4.pth'
-    os.makedirs(os.path.dirname(gfpgan_model_path), exist_ok=True)
-    wget.download(url, gfpgan_model_path)
-
-gfpganer = GFPGANer(
-    model_path=gfpgan_model_path,
-    upscale=1,
-    arch='clean',
-    channel_multiplier=2,
-    bg_upsampler=None
-)
-
-# Инициализация модели сегментации (BiSeNet)
-model_path = os.path.join('models', 'BiRefNet-portrait-epoch_150.onnx')  # Обновите путь при необходимости
-if not os.path.exists(model_path):
-    raise FileNotFoundError(f"Модель не найдена по пути: {model_path}")
-ort_session = ort.InferenceSession(model_path)
+# Global initializations for gfpganer and ort_session are removed.
+# They will be initialized in main.py and passed via DI.
 
 # Абстрактный базовый класс
 class ImageProcessor(ABC):
-    def __init__(self, input_path, processed_path, preview_path, printable_path, printable_preview_path, fonts_folder):
+    def __init__(self, 
+                 input_path, 
+                 processed_path, 
+                 preview_path, 
+                 printable_path, 
+                 printable_preview_path, 
+                 fonts_folder):
         self.input_path = input_path
         self.processed_path = processed_path
         self.preview_path = preview_path
@@ -56,6 +43,21 @@ class ImageProcessor(ABC):
         pass
 
 class VisaPhotoProcessor(ImageProcessor):
+    def __init__(self, 
+                 input_path, 
+                 processed_path, 
+                 preview_path, 
+                 printable_path, 
+                 printable_preview_path, 
+                 fonts_folder,
+                 gfpganer_instance, 
+                 ort_session_instance, 
+                 face_mesh_instance):
+        super().__init__(input_path, processed_path, preview_path, printable_path, printable_preview_path, fonts_folder)
+        self.gfpganer = gfpganer_instance
+        self.ort_session = ort_session_instance
+        self.face_mesh = face_mesh_instance
+
     def process(self):
         # Call the process_with_updates method with a dummy socketio object
         # if you want to keep the process method for compatibility
@@ -70,24 +72,16 @@ class VisaPhotoProcessor(ImageProcessor):
 
         if socketio:
             socketio.emit('processing_status', {'status': 'Detecting face landmarks'})
-        mp_face_mesh = mp.solutions.face_mesh
+        # mp_face_mesh module is still available via 'import mediapipe as mp'
         img_rgb = cv2.cvtColor(img_cv, cv2.COLOR_BGR2RGB)
 
         face_landmarks = None
-        detection_configs = [
-            {'max_num_faces': 1, 'refine_landmarks': True, 'min_detection_confidence': 0.5},
-            {'max_num_faces': 1, 'refine_landmarks': True, 'min_detection_confidence': 0.3},
-            {'max_num_faces': 1, 'refine_landmarks': False, 'min_detection_confidence': 0.2},
-        ]
-
-        for config in detection_configs:
-            with mp_face_mesh.FaceMesh(**config) as face_mesh:
-                results = face_mesh.process(img_rgb)
-                if results.multi_face_landmarks:
-                    face_landmarks = results.multi_face_landmarks[0]
-                    logging.info("Face landmarks detected")
-                    break
-
+        # The loop with detection_configs is removed. Using the single injected face_mesh instance.
+        results = self.face_mesh.process(img_rgb)
+        if results.multi_face_landmarks:
+            face_landmarks = results.multi_face_landmarks[0]
+            logging.info("Face landmarks detected with injected FaceMesh instance.")
+        
         if not face_landmarks:
             raise ValueError("Не удалось обнаружить лицо. Пожалуйста, убедитесь, что лицо хорошо видно")
 
@@ -102,11 +96,12 @@ class VisaPhotoProcessor(ImageProcessor):
 
         if socketio:
             socketio.emit('processing_status', {'status': 'Removing background'})
-        processed_img = remove_background_and_make_white(processed_img, ort_session)
+        # Pass the injected ort_session instance
+        processed_img = remove_background_and_make_white(processed_img, self.ort_session) 
 
         if socketio:
             socketio.emit('processing_status', {'status': 'Enhancing image'})
-        processed_img = self._enhance_image(processed_img)
+        processed_img = self._enhance_image(processed_img) # Will use self.gfpganer
 
         if socketio:
             socketio.emit('processing_status', {'status': 'Saving processed image'})
@@ -190,7 +185,8 @@ class VisaPhotoProcessor(ImageProcessor):
     def _enhance_image(self, image):
         # Enhancing the image with GFPGAN
         img_np = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-        _, _, restored_img = gfpganer.enhance(
+        # Use the injected gfpganer instance
+        _, _, restored_img = self.gfpganer.enhance( 
             img_np,
             has_aligned=False,
             only_center_face=False,
