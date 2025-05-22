@@ -42,8 +42,8 @@ class TestBackgroundRemover(unittest.TestCase):
         logit_output[:, :, 512:, :] = 10   # Foreground (will be near 1 after sigmoid)
         mock_ort_session.run.return_value = [logit_output]
 
-        # Call the function
-        output_image = remove_background_and_make_white(dummy_input_image, mock_ort_session)
+        # Call the function with default white background
+        output_image = remove_background_and_make_white(dummy_input_image, mock_ort_session, target_color_rgb=(255,255,255))
 
         # Assertions
         mock_ort_session.run.assert_called_once()
@@ -91,8 +91,8 @@ class TestBackgroundRemover(unittest.TestCase):
         logit_output = np.zeros((1, 1, 1024, 1024), dtype=np.float32)
         mock_ort_session.run.return_value = [logit_output]
 
-        # Call the function
-        remove_background_and_make_white(dummy_input_image, mock_ort_session)
+        # Call the function with default white background
+        remove_background_and_make_white(dummy_input_image, mock_ort_session, target_color_rgb=(255,255,255))
 
         # Assertions for preprocessing
         # 1. Check if input image was resized to (1024, 1024)
@@ -143,8 +143,8 @@ class TestBackgroundRemover(unittest.TestCase):
         # The function expects ort_outs[0][0] to be the (1, H, W) logit mask
         mock_ort_session.run.return_value = [[logit_values]] 
 
-        # Call the function
-        output_image = remove_background_and_make_white(dummy_input_image, mock_ort_session)
+        # Call the function with default white background
+        output_image = remove_background_and_make_white(dummy_input_image, mock_ort_session, target_color_rgb=(255,255,255))
 
         # Assertions
         self.assertEqual(output_image.size, (original_width, original_height))
@@ -177,6 +177,44 @@ class TestBackgroundRemover(unittest.TestCase):
         # Check a few more pixels in the right half
         self.assertTrue(np.allclose(output_array[original_height // 4, 3 * original_width // 4], color_right, atol=5))
         self.assertTrue(np.allclose(output_array[3 * original_height // 4, 3 * original_width // 4], color_right, atol=5))
+
+    def test_remove_background_custom_color(self):
+        custom_bg_color_rgb = (211, 211, 211) # Light grey
+        foreground_color = (0, 128, 0) # Green
+
+        dummy_input_image = self.create_dummy_image(size=(200,200), color1=foreground_color) # Single color foreground
+        
+        mock_ort_session = MagicMock(spec=ort.InferenceSession)
+        mock_input_meta = MagicMock()
+        mock_input_meta.name = 'input_tensor_name'
+        mock_ort_session.get_inputs.return_value = [mock_input_meta]
+        
+        # Mask: top half background, bottom half foreground
+        logit_output = np.zeros((1, 1, 1024, 1024), dtype=np.float32)
+        logit_output[:, :, :512, :] = -10  # Background
+        logit_output[:, :, 512:, :] = 10   # Foreground
+        mock_ort_session.run.return_value = [logit_output]
+
+        # Call the function with custom background color
+        output_image = remove_background_and_make_white(dummy_input_image, mock_ort_session, target_color_rgb=custom_bg_color_rgb)
+
+        # Assertions
+        self.assertEqual(output_image.mode, 'RGB')
+        self.assertEqual(output_image.size, dummy_input_image.size)
+
+        output_array = np.array(output_image)
+        
+        # Check background area (top half) - should be custom_bg_color_rgb
+        # Sample pixel from top-middle
+        self.assertTrue(np.all(output_array[50, 100] == custom_bg_color_rgb), 
+                        f"Pixel in expected background area is not custom color {custom_bg_color_rgb}. Got {output_array[50,100]}")
+
+        # Check foreground area (bottom half) - should be foreground_color (green)
+        # Sample pixel from bottom-middle
+        self.assertTrue(np.allclose(output_array[150, 100], foreground_color, atol=5),
+                        f"Pixel in expected foreground area is not original color {foreground_color}. Got {output_array[150,100]}")
+        # Ensure it's not the background color
+        self.assertFalse(np.all(output_array[150, 100] == custom_bg_color_rgb))
 
 
 if __name__ == '__main__':

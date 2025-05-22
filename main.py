@@ -15,7 +15,7 @@ from utils import allowed_file, is_allowed_file, clean_filename, ALLOWED_EXTENSI
 from gfpgan import GFPGANer
 import onnxruntime as ort
 # Imports for Document Specifications
-from photo_specs import DOCUMENT_SPECIFICATIONS, PhotoSpecification
+from photo_specs import DOCUMENT_SPECIFICATIONS, PhotoSpecification, get_photo_specification # Added get_photo_specification
 import mediapipe as mp
 import wget # For GFPGAN model download
 
@@ -105,6 +105,8 @@ COUNTRY_DISPLAY_NAMES = {
     "US": "United States",
     "GB": "United Kingdom",
     "DE_schengen": "Germany (Schengen)", # Example, adapt as per actual country codes in photo_specs
+    "IN": "India",
+    "CA": "Canada",
     # Add more mappings if country_code in PhotoSpecification is just 'DE' for Schengen
 }
 
@@ -203,6 +205,12 @@ def upload_file():
             # Emit an event to notify the client that the file is being processed
             socketio.emit('processing_status', {'status': 'Processing started'})
 
+            # Get the PhotoSpecification object
+            spec = get_photo_specification(country_code, document_name)
+            if not spec:
+                logging.error(f"No specification found for Country: {country_code}, Document: {document_name}")
+                return jsonify({'error': f"Invalid document specification selected: {country_code} - {document_name}"}), 400
+
             # Используем класс VisaPhotoProcessor для обработки изображения
             processor = VisaPhotoProcessor(
                 input_path=input_path,
@@ -211,6 +219,7 @@ def upload_file():
                 printable_path=printable_path,
                 printable_preview_path=printable_preview_path,
                 fonts_folder=FONTS_FOLDER,
+                photo_spec=spec, # Pass the spec object
                 gfpganer_instance=gfpganer_instance,
                 ort_session_instance=ort_session_instance,
                 face_mesh_instance=face_mesh_instance

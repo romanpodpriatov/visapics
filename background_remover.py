@@ -3,10 +3,11 @@
 import numpy as np
 from PIL import Image
 import logging
+from typing import Tuple # For type hinting
 
-def remove_background_and_make_white(image, ort_session):
+def remove_background_and_make_white(image, ort_session, target_color_rgb: Tuple[int, int, int] = (255, 255, 255)):
     """
-    Удаление фона изображения и замена его на белый цвет с использованием модели сегментации.
+    Удаление фона изображения и замена его на target_color_rgb с использованием модели сегментации.
     """
     # Оригинальный размер
     original_size = image.size
@@ -39,8 +40,8 @@ def remove_background_and_make_white(image, ort_session):
     # Изменение размера маски до оригинального
     mask = Image.fromarray((pred * 255).astype(np.uint8)).resize(original_size, Image.BILINEAR)
 
-    # Создание белого фона
-    white_bg = Image.new('RGB', original_size, (255, 255, 255))
+    # Создание фона с заданным цветом
+    background_img = Image.new('RGB', original_size, target_color_rgb)
 
     # Обеспечение наличия альфа-канала
     if image.mode != 'RGBA':
@@ -49,7 +50,7 @@ def remove_background_and_make_white(image, ort_session):
     # Применение маски
     image.putalpha(mask)
 
-    # Наложение на белый фон
-    result_image = Image.alpha_composite(white_bg.convert('RGBA'), image)
+    # Наложение на фон
+    result_image = Image.alpha_composite(background_img.convert('RGBA'), image)
 
     return result_image.convert('RGB')

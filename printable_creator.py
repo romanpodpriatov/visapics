@@ -4,14 +4,21 @@ import os
 import logging
 from PIL import Image, ImageDraw, ImageFont
 
-from utils import PIXELS_PER_INCH
+from utils import PIXELS_PER_INCH # Used for fixed canvas size, ensure it's compatible with spec.dpi for print
+from photo_specs import PhotoSpecification # Import for type hinting
 
-def create_printable_image(processed_image_path, printable_path, fonts_folder, rows=2, cols=2):
+def create_printable_image(processed_image_path, printable_path, fonts_folder, 
+                           rows=2, cols=2, photo_spec: Optional[PhotoSpecification] = None):
     """
     Создание изображения для печати с размещением нескольких копий фотографии.
     """
-    canvas_width = 4 * PIXELS_PER_INCH  # 4 inches
-    canvas_height = 6 * PIXELS_PER_INCH  # 6 inches
+    # Use a default DPI if spec is not provided, or spec's DPI.
+    # For canvas size, we use a fixed 300 DPI for a 4x6 inch paper.
+    # The photo_spec.dpi will be used for saving the image.
+    current_dpi = photo_spec.dpi if photo_spec else PIXELS_PER_INCH
+
+    canvas_width = 4 * PIXELS_PER_INCH  # Standard 4x6 paper at 300 DPI for canvas calculations
+    canvas_height = 6 * PIXELS_PER_INCH
 
     # Создание холста
     canvas = Image.new('RGB', (canvas_width, canvas_height), 'white')
@@ -20,15 +27,19 @@ def create_printable_image(processed_image_path, printable_path, fonts_folder, r
     # Загрузка обработанного изображения
     photo = Image.open(processed_image_path)
 
-    # Проверка размера
-    expected_size = (2 * PIXELS_PER_INCH, 2 * PIXELS_PER_INCH)  # 2x2 inches
-    if photo.size != expected_size:
-        photo = photo.resize(expected_size, Image.LANCZOS)
+    # Photo dimensions should come from photo_spec
+    photo_target_width_px = photo_spec.photo_width_px if photo_spec else (2 * PIXELS_PER_INCH)
+    photo_target_height_px = photo_spec.photo_height_px if photo_spec else (2 * PIXELS_PER_INCH)
 
-    # Фиксированный отступ между фотографиями (0.25 дюйма = 75 пикселей при 300 DPI)
-    spacing = int(0.25 * PIXELS_PER_INCH)  
+    if photo.size != (photo_target_width_px, photo_target_height_px):
+        photo = photo.resize((photo_target_width_px, photo_target_height_px), Image.LANCZOS)
+        logging.info(f"Resized photo for printable to {photo_target_width_px}x{photo_target_height_px}px.")
+
+    # Фиксированный отступ между фотографиями (0.25 дюйма = 75 пикселей при 300 DPI for canvas)
+    spacing = int(0.25 * PIXELS_PER_INCH)
 
     # Вычисление общей ширины и высоты группы фотографий с отступами
+    # photo.width and photo.height are now correctly spec-defined photo sizes
     total_width = cols * photo.width + (cols - 1) * spacing
     total_height = rows * photo.height + (rows - 1) * spacing
 
@@ -67,14 +78,17 @@ def create_printable_image(processed_image_path, printable_path, fonts_folder, r
             y = y_end + gap_length
 
     # Сохранение изображения
-    canvas.save(printable_path, dpi=(PIXELS_PER_INCH, PIXELS_PER_INCH), quality=95)
-    logging.info(f"Printable image saved at {printable_path}")
+    canvas.save(printable_path, dpi=(current_dpi, current_dpi), quality=95)
+    logging.info(f"Printable image saved at {printable_path} with DPI {current_dpi}")
 
-def create_printable_preview(processed_image_path, printable_preview_path, fonts_folder, rows=2, cols=2):
+def create_printable_preview(processed_image_path, printable_preview_path, fonts_folder, 
+                             rows=2, cols=2, photo_spec: Optional[PhotoSpecification] = None):
     """
     Создание превью изображения для печати с водяным знаком.
     """
-    canvas_width = 4 * PIXELS_PER_INCH
+    current_dpi = photo_spec.dpi if photo_spec else PIXELS_PER_INCH
+    
+    canvas_width = 4 * PIXELS_PER_INCH # Standard 4x6 paper at 300 DPI for canvas
     canvas_height = 6 * PIXELS_PER_INCH
 
     # Создание холста
@@ -84,20 +98,24 @@ def create_printable_preview(processed_image_path, printable_preview_path, fonts
     # Загрузка обработанного изображения
     photo = Image.open(processed_image_path)
 
-    # Проверка размера
-    expected_size = (2 * PIXELS_PER_INCH, 2 * PIXELS_PER_INCH)
-    if photo.size != expected_size:
-        photo = photo.resize(expected_size, Image.LANCZOS)
+    # Photo dimensions should come from photo_spec
+    photo_target_width_px = photo_spec.photo_width_px if photo_spec else (2 * PIXELS_PER_INCH)
+    photo_target_height_px = photo_spec.photo_height_px if photo_spec else (2 * PIXELS_PER_INCH)
+
+    if photo.size != (photo_target_width_px, photo_target_height_px):
+        photo = photo.resize((photo_target_width_px, photo_target_height_px), Image.LANCZOS)
+        logging.info(f"Resized photo for printable preview to {photo_target_width_px}x{photo_target_height_px}px.")
 
     # Применение водяного знака
     watermarked_photo = apply_watermark_to_photo(photo, fonts_folder)
 
-    # Фиксированный отступ между фотографиями (0.25 дюйма = 75 пикселей при 300 DPI)
+    # Фиксированный отступ между фотографиями (0.25 дюйма = 75 пикселей при 300 DPI for canvas)
     spacing = int(0.25 * PIXELS_PER_INCH)
 
     # Вычисление общей ширины и высоты группы фотографий с отступами
-    total_width = cols * photo.width + (cols - 1) * spacing
-    total_height = rows * photo.height + (rows - 1) * spacing
+    # watermarked_photo.width and .height are now correctly spec-defined photo sizes
+    total_width = cols * watermarked_photo.width + (cols - 1) * spacing
+    total_height = rows * watermarked_photo.height + (rows - 1) * spacing
 
     # Вычисление начальных координат для центрирования группы фотографий
     start_x = (canvas_width - total_width) // 2
@@ -134,8 +152,8 @@ def create_printable_preview(processed_image_path, printable_preview_path, fonts
             y = y_end + gap_length
 
     # Сохранение превью с водяным знаком
-    canvas.save(printable_preview_path, dpi=(PIXELS_PER_INCH, PIXELS_PER_INCH), quality=95)
-    logging.info(f"Printable preview saved at {printable_preview_path}")
+    canvas.save(printable_preview_path, dpi=(current_dpi, current_dpi), quality=95)
+    logging.info(f"Printable preview saved at {printable_preview_path} with DPI {current_dpi}")
 
 def apply_watermark_to_photo(photo, fonts_folder):
     """
