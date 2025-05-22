@@ -226,6 +226,64 @@ DOCUMENT_SPECIFICATIONS.append(
 # - India Passport/Visa/OCI
 # - etc.
 
+# India - Passport
+# Typical size 2x2 inch (51x51mm). Head size often 65-75% or specific mm.
+# Eye position often derived from head centering or top/bottom head margins.
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="IN",
+        document_name="Passport",
+        photo_width_mm=51.0, 
+        photo_height_mm=51.0,
+        dpi=300,
+        head_min_percentage=0.65, # Approx 33mm on 51mm photo
+        head_max_percentage=0.75, # Approx 38mm on 51mm photo
+        # If using percentages, mm fields for head can be omitted or calculated for reference.
+        # head_min_mm = 51.0 * 0.65, (approx 33.15mm)
+        # head_max_mm = 51.0 * 0.75, (approx 38.25mm)
+        eye_min_from_bottom_mm=None, # Often, eyes are centered within the head, or head is centered.
+        eye_max_from_bottom_mm=None, # This makes direct eye-line-from-bottom spec less common.
+        distance_top_of_head_to_top_of_photo_min_mm=3.0, # Common placeholder based on other specs
+        distance_top_of_head_to_top_of_photo_max_mm=5.0, # Common placeholder
+        background_color="white",
+        glasses_allowed="no", # Generally discouraged/not allowed for recent photos
+        neutral_expression_required=True,
+        other_requirements="Face should be centered. Neutral expression, mouth closed. Both ears visible.",
+        source_url="Placeholder - official source verification needed (e.g., Indian Passport Office website)"
+    )
+)
+
+# Canada - Passport
+# Standard size 50mm x 70mm. Head height (chin to crown) 31mm to 36mm.
+# Background: Plain white or light-coloured.
+# Source: https (colon double slash) www.canada.ca/en/immigration-refugees-citizenship/services/canadian-passports/photos.html
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="CA",
+        document_name="Passport",
+        photo_width_mm=50.0,
+        photo_height_mm=70.0,
+        dpi=300, # Official spec might ask for 600 DPI for digital. For print, 300 is common.
+        head_min_mm=31.0,
+        head_max_mm=36.0,
+        # Canadian spec: "The distance from the bottom of the photo to the chin must be minimum 31 mm to maximum 36 mm."
+        # This is actually the head height. And "Your face must be square to the camera with a neutral expression, neither frowning nor smiling, and with your mouth closed."
+        # "The distance from chin to crown of head must be between 31 mm (1 1/4 inches) and 36 mm (1 7/16 inches)."
+        # Eye position: Not directly specified as range from bottom. Usually derived from head centering.
+        # Assuming head is centered or positioned with some space from top, and eyes are ~45% from top of head.
+        # If head is 31mm, eyes ~14mm from top of head. If head is 36mm, eyes ~16mm from top of head.
+        # If top of head is ~3-7mm from top of photo: eye_min_from_top ~17mm, eye_max_from_top ~23mm
+        eye_min_from_top_mm=17.0, # Placeholder derived from typical head proportions and top margin
+        eye_max_from_top_mm=23.0, # Placeholder
+        background_color="white", # "Plain white or light-coloured background"
+        glasses_allowed="no", # Generally no, unless for medical reasons with a signed note.
+        neutral_expression_required=True,
+        other_requirements="Photos must be taken by a commercial photographer. Stamped or handwritten date on back is required for physical photos.",
+        source_url="https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-passports/photos.html (official site, values interpreted)"
+    )
+)
+
+
 # Example of how to use it:
 # us_passport_spec = get_photo_specification("US", "Passport")
 # if us_passport_spec:
