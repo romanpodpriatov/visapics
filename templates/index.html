@@ -80,8 +80,27 @@
                 <p class="text-gray-600 mt-2">Upload your photo and we'll automatically process it to meet visa requirements.</p>
             </div>
 
+            <!-- Document Selection Dropdowns -->
+            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="country_select" class="block text-sm font-medium text-gray-700 mb-1">Country:</label>
+                    <select id="country_select" name="country_code" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <option value="">Select Country</option>
+                        {% for country_code, display_name in countries %}
+                            <option value="{{ country_code }}">{{ display_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="document_type_select" class="block text-sm font-medium text-gray-700 mb-1">Document Type:</label>
+                    <select id="document_type_select" name="document_name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" disabled>
+                        <option value="">Select Document Type</option>
+                    </select>
+                </div>
+            </div>
+
             <!-- Область загрузки -->
-            <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 transition-colors duration-200">
+            <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-not-allowed bg-gray-100 opacity-50 transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 01.88-2.528A4 4 0 019 9h.28a2 2 0 001.787-1.106l.025-.05A2 2 0 0114 6h2a4 4 0 010 8h-1m-6 2v1m0 4h.01M12 19h.01M12 15v4m0 0H9m3 0h3"/>
                 </svg>
@@ -159,6 +178,10 @@
             const printablePreviewContainer = document.getElementById('printable-preview-container');
             const printablePreviewImage = document.getElementById('printable-preview-image');
             const infoTableBody = document.getElementById('info-table-body');
+            
+            const countrySelect = document.getElementById('country_select');
+            const documentTypeSelect = document.getElementById('document_type_select');
+            // For now, upload is triggered by file selection. We'll enable upload-area when selections are made.
 
             const socket = io();
 
@@ -215,9 +238,71 @@
                 document.getElementById('progress-bar').style.width = `${progressPercent}%`;
             }
 
+            // Initial state: disable document type and upload area
+            documentTypeSelect.disabled = true;
+            // To disable upload area interaction:
+            let uploadAreaActive = false;
+            updateUploadAreaState();
+
+
+            function updateUploadAreaState() {
+                if (countrySelect.value && documentTypeSelect.value && documentTypeSelect.value !== "") {
+                    uploadArea.classList.remove('cursor-not-allowed', 'bg-gray-100', 'opacity-50');
+                    uploadArea.classList.add('cursor-pointer', 'hover:border-blue-500');
+                    uploadAreaActive = true;
+                } else {
+                    uploadArea.classList.add('cursor-not-allowed', 'bg-gray-100', 'opacity-50');
+                    uploadArea.classList.remove('cursor-pointer', 'hover:border-blue-500');
+                    uploadAreaActive = false;
+                }
+            }
+
+            countrySelect.addEventListener('change', async () => {
+                const selectedCountryCode = countrySelect.value;
+                documentTypeSelect.innerHTML = '<option value="">Select Document Type</option>'; // Reset
+                documentTypeSelect.disabled = true;
+                updateUploadAreaState();
+
+
+                if (selectedCountryCode) {
+                    try {
+                        const response = await fetch(`/get_document_types/${selectedCountryCode}`);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const docTypes = await response.json();
+                        if (docTypes.length > 0) {
+                            docTypes.forEach(docName => {
+                                const option = document.createElement('option');
+                                option.value = docName;
+                                option.textContent = docName;
+                                documentTypeSelect.appendChild(option);
+                            });
+                            documentTypeSelect.disabled = false;
+                        } else {
+                             documentTypeSelect.innerHTML = '<option value="">No document types found</option>';
+                        }
+                    } catch (error) {
+                        console.error('Error fetching document types:', error);
+                        showMessage('error', 'Could not load document types.');
+                        documentTypeSelect.innerHTML = '<option value="">Error loading types</option>';
+                    }
+                }
+                updateUploadAreaState(); // Re-check state after populating doc types
+            });
+
+            documentTypeSelect.addEventListener('change', ()_ADD_CERT_TO_STORE_FAILED
+                updateUploadAreaState();
+            });
+
+
             // Клик по области загрузки
             uploadArea.addEventListener('click', () => {
-                fileInput.click();
+                if (uploadAreaActive) {
+                    fileInput.click();
+                } else {
+                    showMessage('info', 'Please select a country and document type first.');
+                }
             });
 
             // Обработка перетаскивания файлов
@@ -245,9 +330,14 @@
 
             // Обработка сброшенных файлов
             uploadArea.addEventListener('drop', (e) => {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                handleFiles(files);
+                preventDefaults(e); // Important to call this here too
+                if (uploadAreaActive) {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    handleFiles(files);
+                } else {
+                     showMessage('info', 'Please select a country and document type first to enable drag and drop.');
+                }
             });
 
             // Обработка выбранных файлов
@@ -286,6 +376,8 @@
                 const url = '/upload';
                 const formData = new FormData();
                 formData.append('file', file);
+                formData.append('country_code', countrySelect.value);
+                formData.append('document_name', documentTypeSelect.value);
 
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', url, true);
@@ -317,6 +409,7 @@
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         NProgress.done();
+                        document.getElementById('progress-container').classList.add('hidden'); // Ensure it's hidden on completion
 
                         if (xhr.status === 200) {
                             const response = JSON.parse(xhr.responseText);
@@ -334,40 +427,50 @@
                                     printablePreviewContainer.classList.remove('hidden');
                                 }
                             } else {
-                                showMessage('error', response.error || 'Произошла ошибка при обработке файла.');
+                                showMessage('error', response.error || 'Error processing file.'); // Default English error
                             }
-                        } else {
-                            showMessage('error', 'Произошла ошибка при загрузке файла.');
+                        } else if (xhr.status === 400) { // Specific handling for 400 errors from server
+                             const response = JSON.parse(xhr.responseText);
+                             showMessage('error', response.error || 'Bad request during upload.');
+                        }
+                        else {
+                            showMessage('error', 'Error uploading file.'); // Default English error
                         }
                     }
                 };
 
                 xhr.onerror = function() {
                     NProgress.done();
-                    showMessage('error', 'Произошла ошибка при загрузке файла.');
+                    document.getElementById('progress-container').classList.add('hidden');
+                    showMessage('error', 'Error uploading file.');
                 };
 
                 xhr.send(formData);
             }
 
             function showMessage(type, text) {
-                // Translate error messages to English
+                // Basic translation for known server messages, can be expanded
                 const errorMessages = {
-                    'Нет файла в запросе': 'No file in request',
-                    'Файл не выбран': 'No file selected',
-                    'Недопустимый тип файла': 'Invalid file type',
-                    'Размер файла превышает 10 МБ': 'File size exceeds 10MB',
-                    'Произошла ошибка при обработке файла': 'Error processing file',
-                    'Произошла ошибка при загрузке файла': 'Error uploading file',
-                    'Пожалуйста, загрузите изображение': 'Please upload an image',
-                    'Поддерживаемые форматы: JPG, JPEG, PNG': 'Supported formats: JPG, JPEG, PNG',
-                    'Файл успешно обработан': 'File successfully processed'
+                    'Нет файла в запросе': 'No file in request.',
+                    'Файл не выбран': 'No file selected.',
+                    'Недопустимый тип файла': 'Invalid file type.',
+                    'Размер файла превышает 10 МБ': 'File size exceeds 10MB.',
+                    'Произошла ошибка при обработке файла': 'Error processing file.',
+                    'Произошла ошибка при загрузке файла': 'Error uploading file.',
+                    'Пожалуйста, загрузите изображение': 'Please upload an image.',
+                    'Поддерживаемые форматы: JPG, JPEG, PNG': 'Supported formats: JPG, JPEG, PNG.',
+                    'Файл успешно обработан': 'File successfully processed.',
+                    'Country and document type must be selected.': 'Country and document type must be selected.'
                 };
 
-                const translatedText = errorMessages[text] || text;
+                const translatedText = errorMessages[text] || text; // Use original text if no translation
                 
+                const messageTypeClass = type === 'success' ? 'bg-green-100 text-green-700' : 
+                                         type === 'error' ? 'bg-red-100 text-red-700' :
+                                         'bg-blue-100 text-blue-700'; // For 'info' type
+
                 const messageHTML = `
-                    <div class="py-3 px-4 mb-4 rounded-md ${type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                    <div class="py-3 px-4 mb-4 rounded-md ${messageTypeClass}">
                         ${translatedText}
                     </div>
                 `;
