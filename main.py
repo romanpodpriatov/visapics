@@ -14,6 +14,8 @@ from utils import allowed_file, is_allowed_file, clean_filename, ALLOWED_EXTENSI
 # Imports for Dependency Injection
 from gfpgan import GFPGANer
 import onnxruntime as ort
+# Imports for Document Specifications
+from photo_specs import DOCUMENT_SPECIFICATIONS, PhotoSpecification
 import mediapipe as mp
 import wget # For GFPGAN model download
 
@@ -98,12 +100,45 @@ except Exception as e:
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # Ограничение на 10 МБ
 
+# --- Country Display Names (can be moved to a config or photo_specs.py if it grows) ---
+COUNTRY_DISPLAY_NAMES = {
+    "US": "United States",
+    "GB": "United Kingdom",
+    "DE_schengen": "Germany (Schengen)", # Example, adapt as per actual country codes in photo_specs
+    # Add more mappings if country_code in PhotoSpecification is just 'DE' for Schengen
+}
+
+
 @app.route('/')
 def index():
     """
     Главная страница.
     """
-    return render_template('index.html')
+    # Prepare unique list of countries for the dropdown
+    # Each item in countries will be a tuple: (country_code, display_name)
+    seen_country_codes = set()
+    countries_for_dropdown = []
+    for spec in DOCUMENT_SPECIFICATIONS:
+        if spec.country_code not in seen_country_codes:
+            display_name = COUNTRY_DISPLAY_NAMES.get(spec.country_code, spec.country_code.replace("_", " ").title())
+            countries_for_dropdown.append((spec.country_code, display_name))
+            seen_country_codes.add(spec.country_code)
+    
+    countries_for_dropdown.sort(key=lambda x: x[1]) # Sort by display name
+
+    return render_template('index.html', countries=countries_for_dropdown)
+
+@app.route('/get_document_types/<country_code>')
+def get_document_types(country_code):
+    """
+    Returns a JSON list of document types for a given country code.
+    """
+    doc_types = sorted(list(set(
+        spec.document_name 
+        for spec in DOCUMENT_SPECIFICATIONS 
+        if spec.country_code.lower() == country_code.lower()
+    )))
+    return jsonify(doc_types)
 
 @app.route('/static/<path:path>')
 def send_static_files(path):
@@ -124,6 +159,16 @@ def upload_file():
     printable_preview_path = None
 
     try:
+        # Retrieve country and document selections
+        country_code = request.form.get('country_code')
+        document_name = request.form.get('document_name')
+        
+        logging.info(f"Received upload for Country: {country_code}, Document: {document_name}")
+
+        if not country_code or not document_name:
+            logging.warning("Country code or document name missing from upload request.")
+            return jsonify({'error': 'Country and document type must be selected.'}), 400
+
         if 'file' not in request.files:
             logging.warning("No file part in the request")
             return jsonify({'error': 'No file in request'}), 400
