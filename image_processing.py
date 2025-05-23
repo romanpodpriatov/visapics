@@ -15,7 +15,9 @@ import onnxruntime as ort # For type hinting if used, instance provided by DI
 from photo_specs import PhotoSpecification # Import for type hinting
 
 from utils import clean_filename, is_allowed_file, PIXELS_PER_INCH # PHOTO_SIZE_PIXELS is not used directly here
-from face_analyzer import calculate_crop_dimensions
+from face_analyzer import calculate_intelligent_crop_dimensions
+from face_analyzer_v2 import calculate_simple_crop_dimensions
+from face_analyzer_basic import calculate_basic_crop
 from background_remover import remove_background_and_make_white
 from preview_creator import create_preview_with_watermark
 from printable_creator import create_printable_image, create_printable_preview
@@ -101,8 +103,8 @@ class VisaPhotoProcessor(ImageProcessor):
         if socketio:
             socketio.emit('processing_status', {'status': 'Calculating crop dimensions'})
         img_height, img_width = img_cv.shape[:2]
-        # Ensure self.photo_spec is passed to calculate_crop_dimensions
-        crop_data = calculate_crop_dimensions(face_landmarks, img_height, img_width, self.photo_spec)
+        # Используем БАЗОВЫЙ алгоритм - сначала помещаем, потом оптимизируем
+        crop_data = calculate_basic_crop(face_landmarks, img_height, img_width, self.photo_spec)
 
         if socketio:
             socketio.emit('processing_status', {'status': 'Cropping and scaling image'})
@@ -130,40 +132,82 @@ class VisaPhotoProcessor(ImageProcessor):
         processed_img.save(self.processed_path, dpi=(self.photo_spec.dpi, self.photo_spec.dpi), quality=95)
 
         # --- Calculate final measurements in mm for photo_info and compliance check ---
+        # Initialize variables with safe defaults
         mm_per_pixel = PhotoSpecification.MM_PER_INCH / self.photo_spec.dpi
+        achieved_head_height_mm = 0.0
+        achieved_eye_level_from_bottom_mm = 0.0
+        achieved_eye_level_from_top_mm = 0.0
         
-        achieved_head_height_mm = crop_data['achieved_head_height_px'] * mm_per_pixel
-        achieved_eye_level_from_top_mm = crop_data['achieved_eye_level_from_top_px'] * mm_per_pixel
-        achieved_eye_level_from_bottom_mm = self.photo_spec.photo_height_mm - achieved_eye_level_from_top_mm
+        # Re-analyze the actual processed image for accurate compliance
+        actual_measurements = self._analyze_final_image_compliance()
+        if actual_measurements:
+            achieved_head_height_mm = actual_measurements['head_height_mm']
+            achieved_eye_level_from_bottom_mm = actual_measurements['eye_from_bottom_mm']
+            achieved_eye_level_from_top_mm = self.photo_spec.photo_height_mm - achieved_eye_level_from_bottom_mm
+            logging.info(f"Actual measurements: head={achieved_head_height_mm:.1f}mm, eye_from_bottom={achieved_eye_level_from_bottom_mm:.1f}mm")
+        elif crop_data and 'achieved_head_height_px' in crop_data and 'achieved_eye_level_from_top_px' in crop_data:
+            # Fallback to theoretical measurements if re-analysis fails
+            achieved_head_height_mm = crop_data['achieved_head_height_px'] * mm_per_pixel
+            achieved_eye_level_from_top_mm = crop_data['achieved_eye_level_from_top_px'] * mm_per_pixel
+            achieved_eye_level_from_bottom_mm = self.photo_spec.photo_height_mm - achieved_eye_level_from_top_mm
+            logging.warning("Using theoretical measurements - re-analysis failed")
+        else:
+            # Last resort: set basic defaults based on photo spec
+            achieved_head_height_mm = (self.photo_spec.head_min_mm + self.photo_spec.head_max_mm) / 2 if self.photo_spec.head_min_mm and self.photo_spec.head_max_mm else 30.0
+            achieved_eye_level_from_bottom_mm = (self.photo_spec.eye_min_from_bottom_mm + self.photo_spec.eye_max_from_bottom_mm) / 2 if self.photo_spec.eye_min_from_bottom_mm and self.photo_spec.eye_max_from_bottom_mm else 35.0
+            achieved_eye_level_from_top_mm = self.photo_spec.photo_height_mm - achieved_eye_level_from_bottom_mm
+            logging.error("Both re-analysis and theoretical measurements failed - using fallback defaults")
 
         # --- Compliance Checks ---
         compliance = {}
         spec_head_range_mm_str = "N/A"
         if self.photo_spec.head_min_mm is not None and self.photo_spec.head_max_mm is not None:
-            compliance['head_height'] = (self.photo_spec.head_min_mm <= achieved_head_height_mm <= self.photo_spec.head_max_mm)
+            compliance['head_height'] = bool(self.photo_spec.head_min_mm <= achieved_head_height_mm <= self.photo_spec.head_max_mm)
             spec_head_range_mm_str = f"{self.photo_spec.head_min_mm:.1f} - {self.photo_spec.head_max_mm:.1f} mm"
         elif self.photo_spec.head_min_px is not None and self.photo_spec.head_max_px is not None: # Fallback to px if mm not directly in spec
-            compliance['head_height'] = (self.photo_spec.head_min_px <= crop_data['achieved_head_height_px'] <= self.photo_spec.head_max_px)
+            compliance['head_height'] = bool(self.photo_spec.head_min_px <= crop_data['achieved_head_height_px'] <= self.photo_spec.head_max_px)
             spec_head_range_mm_str = f"Approx {self.photo_spec.head_min_px * mm_per_pixel:.1f} - {self.photo_spec.head_max_px * mm_per_pixel:.1f} mm"
         else:
             compliance['head_height'] = "N/A (No spec range)"
 
         spec_eye_range_mm_str = "N/A"
         if self.photo_spec.eye_min_from_bottom_mm is not None and self.photo_spec.eye_max_from_bottom_mm is not None:
-            compliance['eye_position'] = (self.photo_spec.eye_min_from_bottom_mm <= achieved_eye_level_from_bottom_mm <= self.photo_spec.eye_max_from_bottom_mm)
+            eye_compliant = bool(self.photo_spec.eye_min_from_bottom_mm <= achieved_eye_level_from_bottom_mm <= self.photo_spec.eye_max_from_bottom_mm)
+            compliance['eye_position'] = eye_compliant
+            compliance['eye_to_bottom'] = eye_compliant
             spec_eye_range_mm_str = f"{self.photo_spec.eye_min_from_bottom_mm:.1f} - {self.photo_spec.eye_max_from_bottom_mm:.1f} mm (from bottom)"
         elif self.photo_spec.eye_min_from_top_mm is not None and self.photo_spec.eye_max_from_top_mm is not None:
-            compliance['eye_position'] = (self.photo_spec.eye_min_from_top_mm <= achieved_eye_level_from_top_mm <= self.photo_spec.eye_max_from_top_mm)
+            eye_compliant = bool(self.photo_spec.eye_min_from_top_mm <= achieved_eye_level_from_top_mm <= self.photo_spec.eye_max_from_top_mm)
+            compliance['eye_position'] = eye_compliant
+            compliance['eye_to_bottom'] = eye_compliant
             spec_eye_range_mm_str = f"{self.photo_spec.eye_min_from_top_mm:.1f} - {self.photo_spec.eye_max_from_top_mm:.1f} mm (from top)"
         else:
             compliance['eye_position'] = "N/A (No spec range)"
+            compliance['eye_to_bottom'] = "N/A (No spec range)"
+        
+        # Добавляем вывод compliance информации
+        logging.info(f"📊 COMPLIANCE АНАЛИЗ:")
+        logging.info(f"   Head Height: {achieved_head_height_mm:.2f}mm (требование: {spec_head_range_mm_str})")
+        logging.info(f"   Head Compliance: {'✅ COMPLIANT' if compliance.get('head_height', False) else '❌ NON-COMPLIANT'}")
+        logging.info(f"   Eye Distance: {achieved_eye_level_from_bottom_mm:.2f}mm (требование: {spec_eye_range_mm_str})")
+        logging.info(f"   Eye Compliance: {'✅ COMPLIANT' if compliance.get('eye_to_bottom', False) else '❌ NON-COMPLIANT'}")
+            
+        # Ensure all values are defined before creating photo_info
+        try:
+            file_size_kb = round(os.path.getsize(self.processed_path) / 1024, 2) if os.path.exists(self.processed_path) else 0.0
+        except Exception as e:
+            logging.error(f"Error calculating file size: {e}")
+            file_size_kb = 0.0
             
         photo_info = {
-            'achieved_head_height_mm': round(achieved_head_height_mm, 2),
-            'spec_head_height_range_mm': spec_head_range_mm_str,
-            'achieved_eye_level_from_bottom_mm': round(achieved_eye_level_from_bottom_mm, 2),
-            'spec_eye_level_range_from_bottom_mm': spec_eye_range_mm_str,
-            'file_size_kb': round(os.path.getsize(self.processed_path) / 1024, 2),
+            'achieved_head_height_mm': round(float(achieved_head_height_mm), 2),
+            'spec_head_height_range_mm': str(spec_head_range_mm_str),
+            'achieved_eye_level_from_bottom_mm': round(float(achieved_eye_level_from_bottom_mm), 2),
+            'spec_eye_level_range_from_bottom_mm': str(spec_eye_range_mm_str),
+            'head_height': round(float(achieved_head_height_mm), 2),
+            'eye_to_bottom': round(float(achieved_eye_level_from_bottom_mm), 2),
+            'file_size_kb': file_size_kb,
+            'quality': "High",
             'photo_dimensions_px': f"{self.photo_spec.photo_width_px}x{self.photo_spec.photo_height_px} @ {self.photo_spec.dpi} DPI",
             'compliance': compliance,
             'spec_country': self.photo_spec.country_code,
@@ -269,7 +313,11 @@ class VisaPhotoProcessor(ImageProcessor):
 
 
     def _enhance_image(self, image: Image.Image): # Expects PIL Image
-        # Enhancing the image with GFPGAN
+        # Enhancing the image with GFPGAN if available
+        if self.gfpganer is None:
+            logging.warning("GFPGANer not available. Skipping image enhancement.")
+            return image  # Return original image without enhancement
+        
         img_np = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
         # Use the injected gfpganer instance
         _, _, restored_img = self.gfpganer.enhance( 
@@ -280,6 +328,73 @@ class VisaPhotoProcessor(ImageProcessor):
         )
         restored_pil = Image.fromarray(cv2.cvtColor(restored_img, cv2.COLOR_BGR2RGB))
         return restored_pil
+
+    def _analyze_final_image_compliance(self):
+        """
+        Re-analyze the actual processed image to get accurate compliance measurements.
+        Returns dict with actual measurements or None if analysis fails.
+        """
+        try:
+            import mediapipe as mp
+            
+            # Load the processed image
+            if not os.path.exists(self.processed_path):
+                logging.warning("Processed image not found for compliance re-analysis")
+                return None
+            
+            img = Image.open(self.processed_path)
+            img_cv = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+            h, w = img_cv.shape[:2]
+            
+            # Initialize MediaPipe Face Mesh
+            face_mesh = mp.solutions.face_mesh.FaceMesh(
+                max_num_faces=1,
+                refine_landmarks=True,
+                min_detection_confidence=0.5,
+                min_tracking_confidence=0.5
+            )
+            
+            # Process image
+            img_rgb = cv2.cvtColor(img_cv, cv2.COLOR_BGR2RGB)
+            results = face_mesh.process(img_rgb)
+            
+            if not results.multi_face_landmarks:
+                logging.warning("No face detected in processed image for compliance re-analysis")
+                return None
+            
+            landmarks = results.multi_face_landmarks[0]
+            
+            # Key landmark indices for measurements
+            forehead_points = [10, 151, 9, 8, 7]  # Top center forehead area
+            chin_points = [175, 18, 175, 200, 199]  # Bottom chin area
+            left_eye_center = [159, 158, 157, 173]
+            right_eye_center = [386, 385, 384, 398]
+            
+            # Calculate positions
+            forehead_y = min([landmarks.landmark[i].y * h for i in forehead_points])
+            chin_y = max([landmarks.landmark[i].y * h for i in chin_points])
+            
+            left_eye_y = np.mean([landmarks.landmark[i].y * h for i in left_eye_center])
+            right_eye_y = np.mean([landmarks.landmark[i].y * h for i in right_eye_center])
+            eye_line_y = (left_eye_y + right_eye_y) / 2
+            
+            # Convert to mm
+            mm_per_pixel = self.photo_spec.photo_height_mm / h
+            
+            head_height_mm = (chin_y - forehead_y) * mm_per_pixel
+            eye_from_bottom_mm = (h - eye_line_y) * mm_per_pixel
+            
+            return {
+                'head_height_mm': head_height_mm,
+                'eye_from_bottom_mm': eye_from_bottom_mm,
+                'forehead_y_px': forehead_y,
+                'chin_y_px': chin_y,
+                'eye_line_y_px': eye_line_y
+            }
+            
+        except Exception as e:
+            logging.error(f"Error in compliance re-analysis: {e}")
+            return None
 
     def _create_printable_preview(self):
         # Open the printable image

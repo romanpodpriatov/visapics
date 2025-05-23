@@ -27,9 +27,44 @@ def clean_filename(filename):
     """
     Очистка имени файла от нежелательных символов.
     """
-    cleaned = secure_filename(filename).strip().replace(' ', '_')
-    name, ext = os.path.splitext(cleaned)
-    return f"{name.replace('.', '_')}{ext}"
+    # Handle special cases first
+    if not filename:
+        return filename
+    
+    # Special case for files starting with dot (like .jpg)
+    if filename.startswith('.') and filename.count('.') == 1:
+        return filename  # Return as-is for extension-only files
+    
+    # Use secure_filename to handle basic sanitization
+    cleaned = secure_filename(filename)
+    
+    # If secure_filename stripped everything except extension, use original with basic cleaning
+    if cleaned and '.' in filename:
+        original_name, original_ext = os.path.splitext(filename)
+        if original_name and cleaned == original_ext.lstrip('.'):
+            # secure_filename removed the name part, use original with manual cleaning
+            cleaned = filename.replace(' ', '_')
+            # Remove dangerous characters but keep Unicode
+            dangerous_chars = '<>:"/\\|?*'
+            for char in dangerous_chars:
+                cleaned = cleaned.replace(char, '_')
+        else:
+            # secure_filename worked normally, just replace spaces
+            cleaned = cleaned.replace(' ', '_')
+    elif not cleaned:
+        # Empty result, use original with basic cleaning
+        cleaned = filename.replace(' ', '_')
+    else:
+        # Just replace spaces in the secure result
+        cleaned = cleaned.replace(' ', '_')
+    
+    # Additional cleaning: replace dots in filename (but not extension) with underscores
+    if '.' in cleaned:
+        name, ext = os.path.splitext(cleaned)
+        name = name.replace('.', '_')
+        cleaned = f"{name}{ext}"
+    
+    return cleaned
 
 def create_image_with_padding(image, target_size=(600, 600), padding_color=(255, 255, 255)):
     """

@@ -2,6 +2,7 @@
 
 import os
 import logging
+from typing import Optional
 from PIL import Image, ImageDraw, ImageFont
 
 from utils import PIXELS_PER_INCH # Used for fixed canvas size, ensure it's compatible with spec.dpi for print

@@ -161,6 +161,56 @@ DOCUMENT_SPECIFICATIONS.append(
     )
 )
 
+# US Visa Lottery (Green Card / Diversity Visa - DV)
+# Source: https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa/dv-photo.html
+# Digital photo requirements: minimum 600x600 pixels, maximum 1200x1200 pixels
+# Square format, JPEG, maximum file size 240KB
+# Head height: 50% to 69% of photo height (similar to passport but stricter digital requirements)
+# Eye line: between 56% and 69% from bottom of photo
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Visa Lottery",
+        photo_width_mm=50.8, # 2 inches equivalent for digital (square format)
+        photo_height_mm=50.8, # 2 inches equivalent for digital (square format)
+        dpi=300, # For digital: 600x600 to 1200x1200 pixels, we'll use 600x600 as base (300 DPI at 2")
+        head_min_percentage=0.50, # 50% of photo height minimum
+        head_max_percentage=0.69, # 69% of photo height maximum
+        head_min_mm=25.4, # Approximately 50% of 50.8mm
+        head_max_mm=35.1, # Approximately 69% of 50.8mm
+        eye_min_from_bottom_mm=28.4, # Approximately 56% from bottom (eye line position)
+        eye_max_from_bottom_mm=35.1, # Approximately 69% from bottom
+        background_color="white", # Plain white or off-white background
+        glasses_allowed="no", # Eyeglasses are not allowed in DV photos
+        neutral_expression_required=True,
+        other_requirements="Digital photo only. JPEG format. File size must be between 10KB and 240KB. Square format (same width and height). Natural facial expression with both eyes open. No head coverings except for religious purposes. Photo must be taken within last 6 months.",
+        source_url="https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa/dv-photo.html"
+    )
+)
+
+# US Green Card (Permanent Resident Card renewal/replacement)
+# Similar to DV Lottery requirements but for permanent residents
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Green Card",
+        photo_width_mm=50.8, # 2 inches equivalent
+        photo_height_mm=50.8, # 2 inches equivalent
+        dpi=300,
+        head_min_percentage=0.50, # 50% of photo height minimum
+        head_max_percentage=0.69, # 69% of photo height maximum
+        head_min_mm=25.4, # Approximately 50% of 50.8mm
+        head_max_mm=35.1, # Approximately 69% of 50.8mm
+        eye_min_from_bottom_mm=28.4, # Approximately 56% from bottom
+        eye_max_from_bottom_mm=35.1, # Approximately 69% from bottom
+        background_color="white",
+        glasses_allowed="no",
+        neutral_expression_required=True,
+        other_requirements="Square format photo. Natural facial expression with both eyes open. Photo must be taken within last 6 months. Plain white or off-white background.",
+        source_url="https://www.uscis.gov/green-card/after-we-grant-your-green-card/replace-green-card"
+    )
+)
+
 # Schengen Visa
 # Source: Based on typical ICAO standards and common Schengen requirements.
 # Often 35x45mm. Head height 32-36mm. Eye line from bottom 29-34mm (Finland example).

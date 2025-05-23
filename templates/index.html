@@ -1,160 +1,324 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <!-- Мета-теги и заголовок -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Загрузка фото для визы | Минималистичный загрузчик</title>
+    <title>Visa Photo Processor | Professional ID Photo Creator</title>
 
-    <!-- Подключение Tailwind CSS через CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#2563eb',
+                        'primary-dark': '#1d4ed8',
+                        'secondary': '#06b6d4',
+                        'accent': '#10b981'
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!-- Подключение Socket.IO через CDN -->
+    <!-- Socket.IO -->
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 
-    <!-- Подключение NProgress через CDN -->
+    <!-- NProgress -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
 
-    <!-- Дополнительные стили (опционально) -->
-    <style>
-        /* Кастомные стили при необходимости */
-        /* Анимация для индикатора неопределенного состояния */
-        @keyframes indeterminate {
-            0% {
-                left: -40%;
-                width: 40%;
-            }
-            50% {
-                left: 20%;
-                width: 60%;
-            }
-            100% {
-                left: 100%;
-                width: 0%;
-            }
-        }
-        .indeterminate-bar {
-            position: relative;
-            background-color: #3b82f6; /* Цвет полосы загрузки */
-            height: 100%;
-            animation: indeterminate 1.5s infinite;
-        }
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+        }
+        
+        .upload-area-active {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 2px dashed #2563eb;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area-active:hover {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
+        }
+        
+        .card-modern {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dropdown-modern {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-modern:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+        
         #nprogress {
             position: relative !important;
             z-index: 9999;
         }
         
         #nprogress .bar {
-            background: #3b82f6 !important;
+            background: linear-gradient(90deg, #2563eb, #06b6d4) !important;
             height: 4px !important;
+            border-radius: 2px !important;
         }
 
         #nprogress .peg {
-            box-shadow: 0 0 10px #3b82f6, 0 0 5px #3b82f6 !important;
+            box-shadow: 0 0 10px #2563eb, 0 0 5px #2563eb !important;
         }
 
         #nprogress .spinner {
             display: none !important;
         }
-
-        .progress-status {
-            text-align: center;
-            margin-top: 8px;
-            color: #4b5563;
+        
+        .progress-modern {
+            background: linear-gradient(90deg, #2563eb, #06b6d4);
+            border-radius: 6px;
+            transition: width 0.3s ease;
         }
     </style>
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+<body class="bg-gradient-to-br from-blue-50 via-white to-green-50 min-h-screen">
 
-    <!-- Контейнер -->
-    <div class="container mx-auto my-12 px-4">
-
-        <!-- Карточка -->
-        <div class="bg-white rounded-lg shadow-md p-8">
-
-            <!-- Заголовок -->
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-800">Visa Photo Upload</h1>
-                <p class="text-gray-600 mt-2">Upload your photo and we'll automatically process it to meet visa requirements.</p>
-            </div>
-
-            <!-- Document Selection Dropdowns -->
-            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="country_select" class="block text-sm font-medium text-gray-700 mb-1">Country:</label>
-                    <select id="country_select" name="country_code" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                        <option value="">Select Country</option>
-                        {% for country_code, display_name in countries %}
-                            <option value="{{ country_code }}">{{ display_name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    <label for="document_type_select" class="block text-sm font-medium text-gray-700 mb-1">Document Type:</label>
-                    <select id="document_type_select" name="document_name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" disabled>
-                        <option value="">Select Document Type</option>
-                    </select>
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <i data-lucide="camera" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                        Visa Photo Processor
+                    </h1>
                 </div>
             </div>
+        </div>
+    </header>
 
-            <!-- Область загрузки -->
-            <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-not-allowed bg-gray-100 opacity-50 transition-colors duration-200">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 01.88-2.528A4 4 0 019 9h.28a2 2 0 001.787-1.106l.025-.05A2 2 0 0114 6h2a4 4 0 010 8h-1m-6 2v1m0 4h.01M12 19h.01M12 15v4m0 0H9m3 0h3"/>
-                </svg>
-                <p class="text-gray-600">Drag and drop your photo here or click to select</p>
-                <p class="text-sm text-gray-500 mt-2">JPG, JPEG, PNG • Max size: 10MB</p>
+    <!-- Main Container -->
+    <div class="container mx-auto my-8 px-4 max-w-4xl">
+
+        <!-- Main Card -->
+        <div class="card-modern rounded-2xl p-8">
+
+            <!-- Hero Section -->
+            <div class="text-center mb-10">
+                <div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6 animate-pulse">
+                    <i data-lucide="image" class="w-8 h-8 text-white"></i>
+                </div>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                    Professional ID Photo Creator
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                    Transform your photos into professional visa and passport photos that meet international standards.
+                    AI-powered processing ensures perfect compliance.
+                </p>
+            </div>
+
+            <!-- Document Selection -->
+            <div class="mb-8">
+                <div class="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-6 mb-6">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="settings" class="w-5 h-5 text-primary mr-2"></i>
+                        <h3 class="text-lg font-semibold text-gray-900">Document Configuration</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-6">Select your destination country and document type to ensure perfect compliance.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label for="country_select" class="block text-sm font-semibold text-gray-800 flex items-center">
+                                <i data-lucide="globe" class="w-4 h-4 mr-2"></i>
+                                Country
+                            </label>
+                            <select id="country_select" name="country_code" class="dropdown-modern w-full py-3 px-4 rounded-lg text-gray-800 font-medium">
+                                <option value="">Choose your destination country</option>
+                                {% for country_code, display_name in countries %}
+                                    <option value="{{ country_code }}">{{ display_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label for="document_type_select" class="block text-sm font-semibold text-gray-800 flex items-center">
+                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i>
+                                Document Type
+                            </label>
+                            <select id="document_type_select" name="document_name" class="dropdown-modern w-full py-3 px-4 rounded-lg text-gray-800 font-medium" disabled>
+                                <option value="">Select document type</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Area -->
+            <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center cursor-not-allowed bg-gray-100 opacity-50 transition-all duration-300">
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-6">
+                        <i data-lucide="upload-cloud" class="w-10 h-10 text-gray-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Upload Your Photo</h3>
+                    <p class="text-gray-500 mb-4">Drag and drop your photo here or click to browse</p>
+                    <div class="flex items-center space-x-4 text-sm text-gray-400">
+                        <span class="flex items-center">
+                            <i data-lucide="image" class="w-4 h-4 mr-1"></i>
+                            JPG, JPEG, PNG
+                        </span>
+                        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                        <span class="flex items-center">
+                            <i data-lucide="hard-drive" class="w-4 h-4 mr-1"></i>
+                            Max 10MB
+                        </span>
+                    </div>
+                </div>
                 <input type="file" id="file-input" accept="image/*" class="hidden">
             </div>
 
-            <!-- Превью изображения -->
-            <div id="preview-container" class="mt-8 hidden">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Uploaded Photo:</h2>
-                <img id="preview-image" src="#" alt="Preview" class="w-full max-w-md mx-auto rounded-md shadow-md">
+            <!-- Preview Section -->
+            <div id="preview-container" class="mt-10 hidden">
+                <div class="bg-white rounded-xl border border-gray-200 p-6">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="eye" class="w-5 h-5 text-primary mr-2"></i>
+                        <h3 class="text-lg font-semibold text-gray-900">Original Photo</h3>
+                    </div>
+                    <div class="flex justify-center">
+                        <img id="preview-image" src="#" alt="Preview" class="max-w-md rounded-lg shadow-lg border border-gray-200">
+                    </div>
+                </div>
             </div>
 
-            <!-- Прогресс загрузки -->
-            <div id="progress-container" class="mt-4 mb-4 hidden">
-                <div class="text-sm font-medium text-gray-700 mb-2" id="progress-status">Processing...</div>
-                <div class="relative h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="absolute top-0 left-0 h-full bg-blue-500 transition-all duration-300" style="width: 0%"></div>
+            <!-- Progress Section -->
+            <div id="progress-container" class="mt-8 mb-8 hidden">
+                <div class="bg-white rounded-xl border border-gray-200 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <i data-lucide="zap" class="w-5 h-5 text-yellow-500 mr-2"></i>
+                            <h3 class="text-lg font-semibold text-gray-900">Processing Your Photo</h3>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                            <div class="w-2 h-2 bg-primary rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                            <div class="w-2 h-2 bg-primary rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+                        </div>
+                    </div>
+                    <div class="text-sm font-medium text-gray-600 mb-3" id="progress-status">Processing...</div>
+                    <div class="relative h-3 bg-gray-100 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="progress-modern absolute top-0 left-0 h-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
                 </div>
             </div>
 
             <!-- Сообщения -->
             <div id="message-container" class="mt-8"></div>
 
-            <!-- Обработанное фото и информация -->
-            <div id="processed-container" class="mt-8 hidden">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Processed Photo:</h2>
-                <img id="processed-image" src="#" alt="Processed photo" class="w-full max-w-md mx-auto rounded-md shadow-md mb-4">
-                <a href="#" id="download-link" class="block bg-blue-500 text-white text-center py-2 rounded-md hover:bg-blue-600 transition-colors duration-200">Download Photo for Digital Upload</a>
-                <a href="#" id="download-printable-link" class="block bg-green-500 text-white text-center py-2 rounded-md hover:bg-green-600 transition-colors duration-200 mt-4">Download Photo for Print (4x6")</a>
-
-                <!-- Превью изображения для печати -->
-                <div id="printable-preview-container" class="mt-8 hidden">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Print Preview:</h2>
-                    <img id="printable-preview-image" src="#" alt="Print preview" class="w-full max-w-md mx-auto rounded-md shadow-md">
+            <!-- Results Section -->
+            <div id="processed-container" class="mt-10 hidden">
+                <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center mb-6">
+                        <i data-lucide="check-circle" class="w-6 h-6 text-green-500 mr-2"></i>
+                        <h3 class="text-xl font-semibold text-gray-900">Your Professional Photo is Ready!</h3>
+                    </div>
+                    
+                    <div class="flex justify-center mb-8">
+                        <img id="processed-image" src="#" alt="Processed photo" class="max-w-md rounded-lg shadow-lg border border-gray-200">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <a href="#" id="download-link" class="btn-primary text-white text-center py-4 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2">
+                            <i data-lucide="download" class="w-5 h-5"></i>
+                            <span>Download Digital Version</span>
+                        </a>
+                        <a href="#" id="download-printable-link" class="btn-success text-white text-center py-4 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2">
+                            <i data-lucide="printer" class="w-5 h-5"></i>
+                            <span>Download Print Version (4×6")</span>
+                        </a>
+                    </div>
                 </div>
 
-                <!-- Таблица информации о фото -->
-                <div id="photo-info-container" class="mt-8">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Photo Information:</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white rounded-md shadow-md">
-                            <thead>
-                                <tr>
-                                    <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Parameter</th>
-                                    <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Value</th>
-                                    <th class="py-3 px-6 bg-gray-100 text-left text-gray-600 font-medium">Compliance</th>
-                                </tr>
-                            </thead>
-                            <tbody id="info-table-body">
-                                <!-- Динамически заполняемый контент -->
-                            </tbody>
-                        </table>
+                <!-- Print Preview -->
+                <div id="printable-preview-container" class="mt-6 hidden">
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="layout" class="w-5 h-5 text-gray-600 mr-2"></i>
+                            <h4 class="text-lg font-semibold text-gray-800">Print Layout Preview</h4>
+                        </div>
+                        <div class="flex justify-center">
+                            <img id="printable-preview-image" src="#" alt="Print preview" class="max-w-md rounded-lg shadow-md border border-gray-300">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo Analysis -->
+                <div id="photo-info-container" class="mt-6">
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="bar-chart-3" class="w-5 h-5 text-gray-600 mr-2"></i>
+                            <h4 class="text-lg font-semibold text-gray-800">Compliance Analysis</h4>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white rounded-lg shadow-sm border border-gray-200">
+                                <thead>
+                                    <tr class="bg-gradient-to-r from-gray-50 to-gray-100">
+                                        <th class="py-4 px-6 text-left text-gray-700 font-semibold">Parameter</th>
+                                        <th class="py-4 px-6 text-left text-gray-700 font-semibold">Value</th>
+                                        <th class="py-4 px-6 text-left text-gray-700 font-semibold">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="info-table-body" class="divide-y divide-gray-200">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -246,13 +410,24 @@
 
 
             function updateUploadAreaState() {
+                const uploadIcon = uploadArea.querySelector('[data-lucide="upload-cloud"]');
+                const iconContainer = uploadIcon.parentElement;
+                
                 if (countrySelect.value && documentTypeSelect.value && documentTypeSelect.value !== "") {
                     uploadArea.classList.remove('cursor-not-allowed', 'bg-gray-100', 'opacity-50');
-                    uploadArea.classList.add('cursor-pointer', 'hover:border-blue-500');
+                    uploadArea.classList.add('upload-area-active', 'cursor-pointer');
+                    iconContainer.classList.remove('bg-gray-200');
+                    iconContainer.classList.add('bg-gradient-to-br', 'from-primary', 'to-secondary');
+                    uploadIcon.classList.remove('text-gray-400');
+                    uploadIcon.classList.add('text-white');
                     uploadAreaActive = true;
                 } else {
                     uploadArea.classList.add('cursor-not-allowed', 'bg-gray-100', 'opacity-50');
-                    uploadArea.classList.remove('cursor-pointer', 'hover:border-blue-500');
+                    uploadArea.classList.remove('upload-area-active', 'cursor-pointer');
+                    iconContainer.classList.add('bg-gray-200');
+                    iconContainer.classList.remove('bg-gradient-to-br', 'from-primary', 'to-secondary');
+                    uploadIcon.classList.add('text-gray-400');
+                    uploadIcon.classList.remove('text-white');
                     uploadAreaActive = false;
                 }
             }
@@ -291,7 +466,7 @@
                 updateUploadAreaState(); // Re-check state after populating doc types
             });
 
-            documentTypeSelect.addEventListener('change', ()_ADD_CERT_TO_STORE_FAILED
+            documentTypeSelect.addEventListener('change', () => {
                 updateUploadAreaState();
             });
 
@@ -481,35 +656,57 @@
                 const photoInfo = response.photo_info;
                 const compliance = photoInfo.compliance;
 
+                function getComplianceIcon(isCompliant) {
+                    return isCompliant 
+                        ? '<i data-lucide="check-circle" class="w-4 h-4 text-green-500 inline mr-1"></i><span class="text-green-700 font-medium">Compliant</span>'
+                        : '<i data-lucide="x-circle" class="w-4 h-4 text-red-500 inline mr-1"></i><span class="text-red-700 font-medium">Non-compliant</span>';
+                }
+                
                 infoTableBody.innerHTML = `
-                    <tr class="border-b">
-                        <td class="py-3 px-6 text-gray-700">Head Height</td>
-                        <td class="py-3 px-6 text-gray-700">${photoInfo.head_height}"</td>
-                        <td class="py-3 px-6 text-gray-700">${compliance.head_height ? 'Compliant' : 'Non-compliant'}</td>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-4 px-6 text-gray-800 font-medium">Head Height</td>
+                        <td class="py-4 px-6 text-gray-700">${photoInfo.head_height}mm</td>
+                        <td class="py-4 px-6">${getComplianceIcon(compliance.head_height)}</td>
                     </tr>
-                    <tr class="border-b">
-                        <td class="py-3 px-6 text-gray-700">Eye to Bottom Distance</td>
-                        <td class="py-3 px-6 text-gray-700">${photoInfo.eye_to_bottom}"</td>
-                        <td class="py-3 px-6 text-gray-700">${compliance.eye_to_bottom ? 'Compliant' : 'Non-compliant'}</td>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-4 px-6 text-gray-800 font-medium">Eye to Bottom Distance</td>
+                        <td class="py-4 px-6 text-gray-700">${photoInfo.eye_to_bottom}mm</td>
+                        <td class="py-4 px-6">${getComplianceIcon(compliance.eye_to_bottom)}</td>
                     </tr>
-                    <tr class="border-b">
-                        <td class="py-3 px-6 text-gray-700">File Size</td>
-                        <td class="py-3 px-6 text-gray-700">${photoInfo.file_size_kb} KB</td>
-                        <td class="py-3 px-6 text-gray-700">-</td>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-4 px-6 text-gray-800 font-medium">File Size</td>
+                        <td class="py-4 px-6 text-gray-700">${photoInfo.file_size_kb} KB</td>
+                        <td class="py-4 px-6 text-gray-500">-</td>
                     </tr>
-                    <tr class="border-b">
-                        <td class="py-3 px-6 text-gray-700">Quality</td>
-                        <td class="py-3 px-6 text-gray-700">${photoInfo.quality}</td>
-                        <td class="py-3 px-6 text-gray-700">-</td>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-4 px-6 text-gray-800 font-medium">Quality</td>
+                        <td class="py-4 px-6 text-gray-700">${photoInfo.quality}</td>
+                        <td class="py-4 px-6 text-gray-500">-</td>
                     </tr>
-                    <tr>
-                        <td class="py-3 px-6 text-gray-700">Upload Date</td>
-                        <td class="py-3 px-6 text-gray-700">${new Date().toLocaleString()}</td>
-                        <td class="py-3 px-6 text-gray-700">-</td>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-4 px-6 text-gray-800 font-medium">Upload Date</td>
+                        <td class="py-4 px-6 text-gray-700">${new Date().toLocaleString()}</td>
+                        <td class="py-4 px-6 text-gray-500">-</td>
                     </tr>
                 `;
+                
+                // Re-initialize Lucide icons for the new content
+                lucide.createIcons();
             }
+            // Initialize Lucide icons
+            lucide.createIcons();
         });
     </script>
+    
+    <!-- Footer -->
+    <footer class="mt-16 bg-white/50 backdrop-blur-md border-t border-gray-200/50">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center text-gray-600">
+                <p class="text-sm">
+                    Powered by AI • Professional photo processing • International standards compliance
+                </p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
