@@ -18,6 +18,7 @@ from utils import clean_filename, is_allowed_file, PIXELS_PER_INCH # PHOTO_SIZE_
 from face_analyzer import calculate_intelligent_crop_dimensions
 from face_analyzer_v2 import calculate_simple_crop_dimensions
 from face_analyzer_basic import calculate_basic_crop
+from face_analyzer_mask import calculate_mask_based_crop_dimensions
 from background_remover import remove_background_and_make_white
 from preview_creator import create_preview_with_watermark
 from printable_creator import create_printable_image, create_printable_preview
@@ -76,7 +77,7 @@ class VisaPhotoProcessor(ImageProcessor):
     def process(self):
         # Call the process_with_updates method with a dummy socketio object
         # if you want to keep the process method for compatibility
-        self.process_with_updates(None)
+        return self.process_with_updates(None)
 
     def process_with_updates(self, socketio):
         if socketio:
@@ -101,26 +102,47 @@ class VisaPhotoProcessor(ImageProcessor):
             raise ValueError("Не удалось обнаружить лицо. Пожалуйста, убедитесь, что лицо хорошо видно")
 
         if socketio:
-            socketio.emit('processing_status', {'status': 'Calculating crop dimensions'})
-        img_height, img_width = img_cv.shape[:2]
-        # Используем БАЗОВЫЙ алгоритм - сначала помещаем, потом оптимизируем
-        crop_data = calculate_basic_crop(face_landmarks, img_height, img_width, self.photo_spec)
-
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Cropping and scaling image'})
-        processed_img = self._crop_and_scale_image(img_cv, crop_data) # crop_data is from the new calculate_crop_dimensions
-
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Removing background'})
+            socketio.emit('processing_status', {'status': 'Getting segmentation mask for hair detection'})
         
-        # Determine target background color from spec
+        # Step 1: Get segmentation mask from original image for hair detection
+        img_height, img_width = img_cv.shape[:2]
+        segmentation_mask = None
+        
+        # Determine target background color from spec (needed for both mask generation and final background removal)
         target_bg_color_name = self.photo_spec.background_color.lower()
         target_bg_rgb = BACKGROUND_COLOR_MAP.get(target_bg_color_name)
         if target_bg_rgb is None:
             logging.warning(f"Background color '{self.photo_spec.background_color}' not in BACKGROUND_COLOR_MAP. Defaulting to white.")
             target_bg_rgb = (255, 255, 255)
+        
+        if self.ort_session is not None:
+            # Convert CV2 to PIL for background removal
+            img_pil_temp = Image.fromarray(cv2.cvtColor(img_cv, cv2.COLOR_BGR2RGB))
             
-        processed_img = remove_background_and_make_white(processed_img, self.ort_session, target_bg_rgb)
+            # Get segmentation mask for hair detection
+            _, segmentation_mask = remove_background_and_make_white(img_pil_temp, self.ort_session, target_bg_rgb, return_mask=True)
+            logging.info(f"📏 Segmentation mask obtained: {segmentation_mask.shape}")
+        else:
+            logging.warning("No ONNX session available for segmentation mask. Using landmark-only hair detection.")
+
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Calculating crop dimensions with mask-based hair detection'})
+        
+        # Step 2: Calculate crop dimensions using mask-based hair detection
+        crop_data = calculate_mask_based_crop_dimensions(face_landmarks, img_height, img_width, self.photo_spec, segmentation_mask)
+
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Cropping and scaling image'})
+        processed_img = self._crop_and_scale_image(img_cv, crop_data)
+
+        if socketio:
+            socketio.emit('processing_status', {'status': 'Removing background'})
+        
+        # Step 3: Apply background removal to the cropped image (if ONNX session available)
+        if self.ort_session is not None:
+            processed_img = remove_background_and_make_white(processed_img, self.ort_session, target_bg_rgb)
+        else:
+            logging.warning("No ONNX session available. Skipping background removal.")
 
         if socketio:
             socketio.emit('processing_status', {'status': 'Enhancing image'})
@@ -138,19 +160,27 @@ class VisaPhotoProcessor(ImageProcessor):
         achieved_eye_level_from_bottom_mm = 0.0
         achieved_eye_level_from_top_mm = 0.0
         
-        # Re-analyze the actual processed image for accurate compliance
-        actual_measurements = self._analyze_final_image_compliance()
-        if actual_measurements:
-            achieved_head_height_mm = actual_measurements['head_height_mm']
-            achieved_eye_level_from_bottom_mm = actual_measurements['eye_from_bottom_mm']
-            achieved_eye_level_from_top_mm = self.photo_spec.photo_height_mm - achieved_eye_level_from_bottom_mm
-            logging.info(f"Actual measurements: head={achieved_head_height_mm:.1f}mm, eye_from_bottom={achieved_eye_level_from_bottom_mm:.1f}mm")
-        elif crop_data and 'achieved_head_height_px' in crop_data and 'achieved_eye_level_from_top_px' in crop_data:
-            # Fallback to theoretical measurements if re-analysis fails
+        # Use crop_data measurements which include BiRefNet mask-based hair detection
+        # This is more accurate than re-analyzing the final image with landmarks only
+        if crop_data and 'achieved_head_height_px' in crop_data:
             achieved_head_height_mm = crop_data['achieved_head_height_px'] * mm_per_pixel
-            achieved_eye_level_from_top_mm = crop_data['achieved_eye_level_from_top_px'] * mm_per_pixel
-            achieved_eye_level_from_bottom_mm = self.photo_spec.photo_height_mm - achieved_eye_level_from_top_mm
-            logging.warning("Using theoretical measurements - re-analysis failed")
+            
+            # Calculate eye positions from crop_data
+            if 'achieved_eye_level_from_bottom_px' in crop_data:
+                achieved_eye_level_from_bottom_mm = crop_data['achieved_eye_level_from_bottom_px'] * mm_per_pixel
+            elif 'achieved_eye_level_from_top_px' in crop_data:
+                achieved_eye_level_from_top_mm = crop_data['achieved_eye_level_from_top_px'] * mm_per_pixel
+                achieved_eye_level_from_bottom_mm = self.photo_spec.photo_height_mm - achieved_eye_level_from_top_mm
+            else:
+                # Fallback calculation
+                achieved_eye_level_from_bottom_mm = (self.photo_spec.eye_min_from_bottom_mm + self.photo_spec.eye_max_from_bottom_mm) / 2 if self.photo_spec.eye_min_from_bottom_mm and self.photo_spec.eye_max_from_bottom_mm else 35.0
+                
+            achieved_eye_level_from_top_mm = self.photo_spec.photo_height_mm - achieved_eye_level_from_bottom_mm
+            
+            logging.info(f"✅ Using mask-based measurements from crop_data:")
+            logging.info(f"   Head: {achieved_head_height_mm:.1f}mm (from {crop_data['achieved_head_height_px']}px)")
+            logging.info(f"   Eyes: {achieved_eye_level_from_bottom_mm:.1f}mm from bottom")
+            logging.info(f"   DPI: {self.photo_spec.dpi}, mm_per_pixel: {mm_per_pixel:.6f}")
         else:
             # Last resort: set basic defaults based on photo spec
             achieved_head_height_mm = (self.photo_spec.head_min_mm + self.photo_spec.head_max_mm) / 2 if self.photo_spec.head_min_mm and self.photo_spec.head_max_mm else 30.0

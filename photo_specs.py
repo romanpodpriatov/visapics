@@ -23,6 +23,13 @@ class PhotoSpecification:
     neutral_expression_required: bool = True
     other_requirements: Optional[str] = None
     source_url: Optional[str] = None # Optional: URL to the official specification
+    
+    # Enhanced positioning control fields
+    head_top_min_dist_from_photo_top_mm: Optional[float] = None  # Green Card style requirements
+    head_top_max_dist_from_photo_top_mm: Optional[float] = None  # Green Card style requirements
+    default_head_top_margin_percent: float = 0.12  # 12% default top margin
+    min_visual_head_margin_px: int = 5  # Absolute minimum head margin in pixels
+    min_visual_chin_margin_px: int = 5  # Absolute minimum chin margin in pixels
 
     MM_PER_INCH = 25.4
 
@@ -94,6 +101,19 @@ class PhotoSpecification:
     def distance_top_of_head_to_top_of_photo_max_px(self) -> Optional[int]:
         if self.distance_top_of_head_to_top_of_photo_max_mm is not None:
             return int(self.distance_top_of_head_to_top_of_photo_max_mm / self.MM_PER_INCH * self.dpi)
+        return None
+    
+    # New enhanced positioning control properties  
+    @property
+    def head_top_min_dist_from_photo_top_px(self) -> Optional[int]:
+        if self.head_top_min_dist_from_photo_top_mm is not None:
+            return int(self.head_top_min_dist_from_photo_top_mm / self.MM_PER_INCH * self.dpi)
+        return None
+    
+    @property
+    def head_top_max_dist_from_photo_top_px(self) -> Optional[int]:
+        if self.head_top_max_dist_from_photo_top_mm is not None:
+            return int(self.head_top_max_dist_from_photo_top_mm / self.MM_PER_INCH * self.dpi)
         return None
 
 
@@ -190,6 +210,7 @@ DOCUMENT_SPECIFICATIONS.append(
 
 # US Green Card (Permanent Resident Card renewal/replacement)
 # Similar to DV Lottery requirements but for permanent residents
+# Enhanced with head-top positioning requirements for testing
 DOCUMENT_SPECIFICATIONS.append(
     PhotoSpecification(
         country_code="US",
@@ -203,10 +224,16 @@ DOCUMENT_SPECIFICATIONS.append(
         head_max_mm=35.1, # Approximately 69% of 50.8mm
         eye_min_from_bottom_mm=28.4, # Approximately 56% from bottom
         eye_max_from_bottom_mm=35.1, # Approximately 69% from bottom
+        # Enhanced positioning control - head-top distance from photo top
+        head_top_min_dist_from_photo_top_mm=5.0,  # Minimum 5mm from top
+        head_top_max_dist_from_photo_top_mm=12.0, # Maximum 12mm from top
+        default_head_top_margin_percent=0.10,     # 10% default for Green Card
+        min_visual_head_margin_px=8,              # 8px minimum head margin
+        min_visual_chin_margin_px=8,              # 8px minimum chin margin
         background_color="white",
         glasses_allowed="no",
         neutral_expression_required=True,
-        other_requirements="Square format photo. Natural facial expression with both eyes open. Photo must be taken within last 6 months. Plain white or off-white background.",
+        other_requirements="Square format photo. Natural facial expression with both eyes open. Photo must be taken within last 6 months. Plain white or off-white background. Strict head positioning requirements.",
         source_url="https://www.uscis.gov/green-card/after-we-grant-your-green-card/replace-green-card"
     )
 )
