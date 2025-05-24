@@ -5,7 +5,7 @@ from PIL import Image
 import logging
 from typing import Tuple # For type hinting
 
-def remove_background_and_make_white(image, ort_session, target_color_rgb: Tuple[int, int, int] = (255, 255, 255)):
+def remove_background_and_make_white(image, ort_session, target_color_rgb: Tuple[int, int, int] = (255, 255, 255), return_mask: bool = False):
     """
     Удаление фона изображения и замена его на target_color_rgb с использованием модели сегментации.
     """
@@ -53,4 +53,10 @@ def remove_background_and_make_white(image, ort_session, target_color_rgb: Tuple
     # Наложение на фон
     result_image = Image.alpha_composite(background_img.convert('RGBA'), image)
 
-    return result_image.convert('RGB')
+    # Return mask if requested for hair detection
+    if return_mask:
+        # Convert mask to numpy array for face analyzer
+        mask_array = np.array(mask)
+        return result_image.convert('RGB'), mask_array
+    else:
+        return result_image.convert('RGB')
