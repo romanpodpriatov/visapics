@@ -501,5 +501,72 @@ def download_printable(filename):
         logging.error(f"Download printable error: {str(e)}")
         return jsonify({'error': 'Произошла ошибка при загрузке файла для печати'}), 500
 
+@app.route('/debug_preview')
+def debug_preview_page():
+    """Debug page for testing preview generation."""
+    return render_template('debug_preview.html')
+
+@app.route('/debug_preview/<filename>')
+def debug_preview_image(filename):
+    """Generate debug preview for a specific processed image."""
+    try:
+        processed_path = os.path.join(PROCESSED_FOLDER, filename)
+        if not os.path.exists(processed_path):
+            return jsonify({'error': 'Processed file not found'}), 404
+            
+        # Create preview filename
+        preview_filename = f"debug_preview_{filename}"
+        preview_path = os.path.join(PREVIEW_FOLDER, preview_filename)
+        
+        # Get image dimensions for calculations
+        from PIL import Image
+        img = Image.open(processed_path)
+        img_width, img_height = img.size
+        
+        # Import for mock data generation
+        from photo_specs import get_photo_specification
+        
+        # Mock preview drawing data (use US Passport as default)
+        spec = get_photo_specification("US", "Passport")
+        if not spec:
+            return jsonify({'error': 'Default specification not found'}), 500
+            
+        # Calculate mock measurements based on image size
+        photo_height_px = int(spec.photo_height_inches * spec.dpi)
+        photo_width_px = int(spec.photo_width_inches * spec.dpi)
+        
+        # Mock face detection data
+        mock_head_top_y = int(photo_height_px * 0.15)  # 15% from top
+        mock_eye_level_y = int(photo_height_px * 0.45)  # 45% from top  
+        mock_head_height = int(photo_height_px * 0.6)   # 60% of photo height
+        
+        preview_drawing_data = {
+            'photo_spec': spec,
+            'photo_width_px': photo_width_px,
+            'photo_height_px': photo_height_px,
+            'achieved_head_top_y_on_photo_px': mock_head_top_y,
+            'achieved_eye_level_y_on_photo_px': mock_eye_level_y,
+            'achieved_head_height_px': mock_head_height
+        }
+        
+        # Import and use preview creator
+        from preview_creator import create_preview_with_watermark
+        create_preview_with_watermark(processed_path, preview_path, preview_drawing_data, FONTS_FOLDER)
+        
+        return jsonify({
+            'success': True,
+            'preview_filename': preview_filename,
+            'original_filename': filename,
+            'mock_data': {
+                'head_top_y': mock_head_top_y,
+                'eye_level_y': mock_eye_level_y,
+                'head_height': mock_head_height
+            }
+        })
+        
+    except Exception as e:
+        logging.error(f"Debug preview error: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=8000, allow_unsafe_werkzeug=True)
