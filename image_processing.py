@@ -15,9 +15,6 @@ import onnxruntime as ort # For type hinting if used, instance provided by DI
 from photo_specs import PhotoSpecification # Import for type hinting
 
 from utils import clean_filename, is_allowed_file, PIXELS_PER_INCH # PHOTO_SIZE_PIXELS is not used directly here
-from face_analyzer import calculate_intelligent_crop_dimensions
-from face_analyzer_v2 import calculate_simple_crop_dimensions
-from face_analyzer_basic import calculate_basic_crop
 from face_analyzer_mask import calculate_mask_based_crop_dimensions
 from background_remover import remove_background_and_make_white
 from preview_creator import create_preview_with_watermark
