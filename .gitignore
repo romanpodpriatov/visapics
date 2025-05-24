@@ -1,0 +1,84 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Logs
+*.log
+app.log
+server.log
+
+# Application-specific runtime files
+uploads/*.jpg
+uploads/*.jpeg
+uploads/*.png
+uploads/*.JPG
+uploads/*.JPEG
+uploads/*.PNG
+processed/*.jpg
+processed/*.jpeg  
+processed/*.png
+processed/*.JPG
+processed/*.JPEG
+processed/*.PNG
+previews/*.jpg
+previews/*.jpeg
+previews/*.png
+previews/*.JPG
+previews/*.JPEG
+previews/*.PNG
+
+# Keep directories but ignore contents (except .gitkeep if present)
+uploads/*
+!uploads/.gitkeep
+processed/*
+!processed/.gitkeep
+previews/*
+!previews/.gitkeep
+
+# Temporary test files
+test_*.py
+*_test.py
+head_positioning_test.py
+test_full_pipeline.py
+test_improved_algorithm.py
+
+# Model weights (large files, should be downloaded separately)
+# Uncomment if you want to exclude models from git
+# gfpgan/weights/*.pth
+# models/*.onnx
