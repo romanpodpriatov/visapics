@@ -166,9 +166,7 @@
                 resultMainMessage: document.getElementById('result-main-message'),
                 resultSubMessage: document.getElementById('result-sub-message'),
                 processedImagePreview: document.getElementById('processed-image-preview'),
-                downloadLink: document.getElementById('download-link'),
                 printablePreviewImage: document.getElementById('printable-preview-image'),
-                downloadPrintableLink: document.getElementById('download-printable-link'),
                 infoTableBody: document.getElementById('info-table-body'),
                 complianceWarningsContainer: document.getElementById('compliance-warnings-container'),
                 countrySelect: document.getElementById('country_select'),
@@ -288,10 +286,17 @@
                             showMessage('success', data.message || 'Photo processed!');
                             elements.processedImagePreview.src = `/previews/${encodeURIComponent(data.preview_filename)}`;
                             elements.printablePreviewImage.src = `/previews/printable/${encodeURIComponent(data.printable_preview_filename)}`;
-                            elements.downloadLink.href = `/download/${encodeURIComponent(data.download_filename)}`;
-                            elements.downloadPrintableLink.href = `/download_printable/${encodeURIComponent(data.printable_filename)}`;
                             elements.processedContainer.classList.remove('hidden');
                             updateResultDisplay(data.photo_info);
+                            
+                            // Store processed data for payment system
+                            lastProcessedData = {
+                                processed_filename: data.download_filename,
+                                printable_filename: data.printable_filename,
+                                preview_filename: data.preview_filename,
+                                photo_info: data.photo_info
+                            };
+                            setupPaymentButtons();
                         } else {
                             showMessage('error', data.error || 'Processing failed.');
                         }
@@ -379,11 +384,7 @@
             // Payment functionality
             let lastProcessedData = null;
             
-            // Store processed data when file processing completes
-            socket.on('file_processed', function(data) {
-                lastProcessedData = data;
-                setupPaymentButtons();
-            });
+            // Payment buttons are now set up in the main upload handler
             
             function setupPaymentButtons() {
                 const singleBtn = document.getElementById('purchase-single-btn');
