@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Tuple
 
 @dataclass
 class PhotoSpecification:
@@ -22,14 +22,19 @@ class PhotoSpecification:
     glasses_allowed: str = "no" # Controlled vocabulary: "yes", "no", "if_no_glare"
     neutral_expression_required: bool = True
     other_requirements: Optional[str] = None
-    source_url: Optional[str] = None # Optional: URL to the official specification
+    source_url: Optional[str] = None # Optional: URL to the official specification, can be list now
     
     # Enhanced positioning control fields
-    head_top_min_dist_from_photo_top_mm: Optional[float] = None  # Green Card style requirements
-    head_top_max_dist_from_photo_top_mm: Optional[float] = None  # Green Card style requirements
-    default_head_top_margin_percent: float = 0.12  # 12% default top margin
-    min_visual_head_margin_px: int = 5  # Absolute minimum head margin in pixels
-    min_visual_chin_margin_px: int = 5  # Absolute minimum chin margin in pixels
+    head_top_min_dist_from_photo_top_mm: Optional[float] = None
+    head_top_max_dist_from_photo_top_mm: Optional[float] = None
+    default_head_top_margin_percent: float = 0.12
+    min_visual_head_margin_px: int = 5
+    min_visual_chin_margin_px: int = 5
+
+    # New fields for visafoto style info
+    file_size_min_kb: Optional[int] = None
+    file_size_max_kb: Optional[int] = None
+    source_urls: Optional[List[str]] = field(default_factory=list)
 
     MM_PER_INCH = 25.4
 
@@ -116,6 +121,62 @@ class PhotoSpecification:
             return int(self.head_top_max_dist_from_photo_top_mm / self.MM_PER_INCH * self.dpi)
         return None
 
+    @property
+    def photo_width_inches(self) -> float:
+        return self.photo_width_mm / self.MM_PER_INCH
+
+    @property
+    def photo_height_inches(self) -> float:
+        return self.photo_height_mm / self.MM_PER_INCH
+
+    @property
+    def head_min_inches(self) -> Optional[float]:
+        if self.head_min_mm is not None:
+            return self.head_min_mm / self.MM_PER_INCH
+        if self.head_min_percentage is not None:
+            return self.photo_height_inches * self.head_min_percentage
+        return None
+
+    @property
+    def head_max_inches(self) -> Optional[float]:
+        if self.head_max_mm is not None:
+            return self.head_max_mm / self.MM_PER_INCH
+        if self.head_max_percentage is not None:
+            return self.photo_height_inches * self.head_max_percentage
+        return None
+
+    @property
+    def eye_min_from_bottom_inches(self) -> Optional[float]:
+        return self.eye_min_from_bottom_mm / self.MM_PER_INCH if self.eye_min_from_bottom_mm is not None else None
+
+    @property
+    def eye_max_from_bottom_inches(self) -> Optional[float]:
+        return self.eye_max_from_bottom_mm / self.MM_PER_INCH if self.eye_max_from_bottom_mm is not None else None
+    
+    @property
+    def eye_min_from_top_inches(self) -> Optional[float]:
+        if self.eye_min_from_top_mm is not None:
+            return self.eye_min_from_top_mm / self.MM_PER_INCH
+        if self.eye_max_from_bottom_inches is not None:
+             return self.photo_height_inches - self.eye_max_from_bottom_inches
+        return None
+
+    @property
+    def eye_max_from_top_inches(self) -> Optional[float]:
+        if self.eye_max_from_top_mm is not None:
+            return self.eye_max_from_top_mm / self.MM_PER_INCH
+        if self.eye_min_from_bottom_inches is not None:
+            return self.photo_height_inches - self.eye_min_from_bottom_inches
+        return None
+    
+    @property
+    def required_size_kb_str(self) -> str:
+        if self.file_size_min_kb is not None and self.file_size_max_kb is not None:
+            return f"From: {self.file_size_min_kb} to: {self.file_size_max_kb} KB"
+        elif self.file_size_max_kb is not None:
+            return f"Up to: {self.file_size_max_kb} KB"
+        return "N/A"
+
 
 DOCUMENT_SPECIFICATIONS: List[PhotoSpecification] = []
 
@@ -139,20 +200,11 @@ DOCUMENT_SPECIFICATIONS.append(
     PhotoSpecification(
         country_code="US",
         document_name="Passport",
-        photo_width_mm=50.8, # 2 inches
-        photo_height_mm=50.8, # 2 inches
-        dpi=300,
-        head_min_mm=25.0, # 1 inch
-        head_max_mm=35.0, # 1 3/8 inches
-        # head_min_percentage=25.0/50.8, # Approx 0.49
-        # head_max_percentage=35.0/50.8, # Approx 0.69
-        eye_min_from_bottom_mm=28.0, # 1 1/8 inches
-        eye_max_from_bottom_mm=35.0, # 1 3/8 inches
-        background_color="white", # "white or off-white" officially
-        glasses_allowed="no",
-        neutral_expression_required=True,
-        other_requirements="Ensure photo is taken in last 6 months. Full face, front view, eyes open.",
-        source_url="https://travel.state.gov/content/travel/en/passports/how-apply/photos.html"
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://travel.state.gov/content/travel/en/passports/how-apply/photos.html"]
     )
 )
 
@@ -164,20 +216,13 @@ DOCUMENT_SPECIFICATIONS.append(
     PhotoSpecification(
         country_code="US",
         document_name="Visa",
-        photo_width_mm=50.8, # 2 inches
-        photo_height_mm=50.8, # 2 inches
-        dpi=300,
-        head_min_mm=25.0, # 1 inch
-        head_max_mm=35.0, # 1 3/8 inches
-        # head_min_percentage=25.0/50.8,
-        # head_max_percentage=35.0/50.8,
-        eye_min_from_bottom_mm=28.0,
-        eye_max_from_bottom_mm=35.0,
-        background_color="white",
-        glasses_allowed="no", # As of Nov 2016, eyeglasses are no longer allowed in visa photos.
-        neutral_expression_required=True,
-        other_requirements="Ensure photo is taken in last 6 months. Digital image may have specific pixel requirements (e.g. 600x600 to 1200x1200px).",
-        source_url="https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos.html"
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        file_size_max_kb=240, # Typical for digital visa photos
+        source_urls=["https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos.html",
+                     "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos/photo-composition-template.html"]
     )
 )
 
@@ -191,20 +236,12 @@ DOCUMENT_SPECIFICATIONS.append(
     PhotoSpecification(
         country_code="US",
         document_name="Visa Lottery",
-        photo_width_mm=50.8, # 2 inches equivalent for digital (square format)
-        photo_height_mm=50.8, # 2 inches equivalent for digital (square format)
-        dpi=300, # For digital: 600x600 to 1200x1200 pixels, we'll use 600x600 as base (300 DPI at 2")
-        head_min_percentage=0.50, # 50% of photo height minimum
-        head_max_percentage=0.69, # 69% of photo height maximum
-        head_min_mm=25.4, # Approximately 50% of 50.8mm
-        head_max_mm=35.1, # Approximately 69% of 50.8mm
-        eye_min_from_bottom_mm=28.4, # Approximately 56% from bottom (eye line position)
-        eye_max_from_bottom_mm=35.1, # Approximately 69% from bottom
-        background_color="white", # Plain white or off-white background
-        glasses_allowed="no", # Eyeglasses are not allowed in DV photos
-        neutral_expression_required=True,
-        other_requirements="Digital photo only. JPEG format. File size must be between 10KB and 240KB. Square format (same width and height). Natural facial expression with both eyes open. No head coverings except for religious purposes. Photo must be taken within last 6 months.",
-        source_url="https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa/dv-photo.html"
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_percentage=0.50, head_max_percentage=0.69,
+        eye_min_from_bottom_mm=28.4, eye_max_from_bottom_mm=35.1,
+        background_color="white", glasses_allowed="no",
+        file_size_min_kb=10, file_size_max_kb=240, # Official DV spec
+        source_urls=["https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa/dv-photo.html"]
     )
 )
 
@@ -215,26 +252,13 @@ DOCUMENT_SPECIFICATIONS.append(
     PhotoSpecification(
         country_code="US",
         document_name="Green Card",
-        photo_width_mm=50.8, # 2 inches equivalent
-        photo_height_mm=50.8, # 2 inches equivalent
-        dpi=300,
-        head_min_percentage=0.50, # 50% of photo height minimum
-        head_max_percentage=0.69, # 69% of photo height maximum
-        head_min_mm=25.4, # Approximately 50% of 50.8mm
-        head_max_mm=35.1, # Approximately 69% of 50.8mm
-        eye_min_from_bottom_mm=28.4, # Approximately 56% from bottom
-        eye_max_from_bottom_mm=35.1, # Approximately 69% from bottom
-        # Enhanced positioning control - head-top distance from photo top
-        head_top_min_dist_from_photo_top_mm=5.0,  # Minimum 5mm from top
-        head_top_max_dist_from_photo_top_mm=12.0, # Maximum 12mm from top
-        default_head_top_margin_percent=0.10,     # 10% default for Green Card
-        min_visual_head_margin_px=8,              # 8px minimum head margin
-        min_visual_chin_margin_px=8,              # 8px minimum chin margin
-        background_color="white",
-        glasses_allowed="no",
-        neutral_expression_required=True,
-        other_requirements="Square format photo. Natural facial expression with both eyes open. Photo must be taken within last 6 months. Plain white or off-white background. Strict head positioning requirements.",
-        source_url="https://www.uscis.gov/green-card/after-we-grant-your-green-card/replace-green-card"
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_percentage=0.50, head_max_percentage=0.69,
+        eye_min_from_bottom_mm=28.4, eye_max_from_bottom_mm=35.1,
+        head_top_min_dist_from_photo_top_mm=5.0, head_top_max_dist_from_photo_top_mm=12.0,
+        background_color="white", glasses_allowed="no",
+        file_size_max_kb=240,
+        source_urls=["https://www.uscis.gov/green-card/after-we-grant-your-green-card/replace-green-card"]
     )
 )
 
@@ -265,7 +289,8 @@ DOCUMENT_SPECIFICATIONS.append(
         glasses_allowed="yes", # Generally yes, if no reflections and eyes clearly visible. "no" is safest if unsure.
         neutral_expression_required=True,
         other_requirements="Mouth closed. No shadows on face or background. Good contrast and sharpness.",
-        source_url="General ICAO recommendations / specific Schengen country guidelines"
+        source_url="General ICAO recommendations / specific Schengen country guidelines",
+        min_visual_head_margin_px=0  # Allow zero head margin to prioritize eye positioning
     )
 )
 

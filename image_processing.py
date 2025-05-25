@@ -226,25 +226,63 @@ class VisaPhotoProcessor(ImageProcessor):
             logging.error(f"Error calculating file size: {e}")
             file_size_kb = 0.0
             
+        # Calculate values in inches for visafoto-style display
+        achieved_head_height_inches = achieved_head_height_mm / PhotoSpecification.MM_PER_INCH
+        achieved_eye_level_from_bottom_inches = achieved_eye_level_from_bottom_mm / PhotoSpecification.MM_PER_INCH
+        achieved_eye_level_from_top_inches = (self.photo_spec.photo_height_mm - achieved_eye_level_from_bottom_mm) / PhotoSpecification.MM_PER_INCH
+
+        # Image definition parameters string for visafoto style
+        img_def_params = (
+            f"Head height (up to the top of the hair): {achieved_head_height_inches:.2f}in; "
+            f"Distance from the bottom of the photo to the eye line: {achieved_eye_level_from_bottom_inches:.2f}in"
+        )
+        
+        compliance_overall_success = crop_data.get('positioning_success', False)
+        compliance_warnings = crop_data.get('warnings', [])
+        
+        head_height_compliant = False
+        achieved_head_height_px = crop_data.get('achieved_head_height_px', 0)
+        if self.photo_spec.head_min_px is not None and self.photo_spec.head_max_px is not None:
+            head_height_compliant = self.photo_spec.head_min_px <= achieved_head_height_px <= self.photo_spec.head_max_px
+        
+        eye_position_compliant = False
+        achieved_eye_level_from_bottom_px = crop_data.get('achieved_eye_level_from_bottom_px', 0)
+        achieved_eye_level_from_top_px = self.photo_spec.photo_height_px - achieved_eye_level_from_bottom_px
+        
+        if self.photo_spec.eye_min_from_bottom_px is not None and self.photo_spec.eye_max_from_bottom_px is not None:
+            eye_position_compliant = self.photo_spec.eye_min_from_bottom_px <= achieved_eye_level_from_bottom_px <= self.photo_spec.eye_max_from_bottom_px
+        elif self.photo_spec.eye_min_from_top_px is not None and self.photo_spec.eye_max_from_top_px is not None:
+            eye_position_compliant = self.photo_spec.eye_min_from_top_px <= achieved_eye_level_from_top_px <= self.photo_spec.eye_max_from_top_px
+
         photo_info = {
-            'achieved_head_height_mm': round(float(achieved_head_height_mm), 2),
-            'spec_head_height_range_mm': str(spec_head_range_mm_str),
-            'achieved_eye_level_from_bottom_mm': round(float(achieved_eye_level_from_bottom_mm), 2),
-            'spec_eye_level_range_from_bottom_mm': str(spec_eye_range_mm_str),
-            'head_height': round(float(achieved_head_height_mm), 2),
-            'eye_to_bottom': round(float(achieved_eye_level_from_bottom_mm), 2),
-            'file_size_kb': file_size_kb,
-            'quality': "High",
-            'photo_dimensions_px': f"{self.photo_spec.photo_width_px}x{self.photo_spec.photo_height_px} @ {self.photo_spec.dpi} DPI",
-            'compliance': compliance,
             'spec_country': self.photo_spec.country_code,
             'spec_document_name': self.photo_spec.document_name,
+            'photo_size_str': f"Width: {self.photo_spec.photo_width_inches:.2f}in, Height: {self.photo_spec.photo_height_inches:.2f}in ({self.photo_spec.photo_width_px}x{self.photo_spec.photo_height_px}px, {self.photo_spec.photo_width_mm:.0f}x{self.photo_spec.photo_height_mm:.0f}mm)",
+            'image_definition_parameters': img_def_params,
+            'required_size_kb_str': self.photo_spec.required_size_kb_str,
+            'result_size_kb': f"{file_size_kb:.0f} KB",
+            'background_color_name': self.photo_spec.background_color.replace("_", " ").title(),
+            'background_color_rgb': target_bg_rgb, # For UI color swatch
+            'resolution_dpi': self.photo_spec.dpi,
+            'printable': "Yes",
+            'suitable_for_online_submission': "Yes",
+            'source_urls': self.photo_spec.source_urls or ([self.photo_spec.source_url] if self.photo_spec.source_url else []),
+            'compliance_overall': compliance_overall_success,
+            'compliance_warnings': compliance_warnings,
+            # For preview drawing, pass necessary pixel values relative to the *final processed photo*
+            'achieved_head_height_inches': achieved_head_height_inches, # For label text
+            'achieved_eye_level_from_bottom_inches': achieved_eye_level_from_bottom_inches, # For label text
+            'head_height_compliant': head_height_compliant, # For potential conditional styling (not used by drawing directly)
+            'eye_position_compliant': eye_position_compliant # For potential conditional styling
         }
-
-        # Prepare data for preview_creator (expects inches for head_height and eye_to_bottom)
-        preview_crop_data_for_drawing = {
-            'head_height': achieved_head_height_mm / PhotoSpecification.MM_PER_INCH, 
-            'eye_to_bottom': achieved_eye_level_from_bottom_mm / PhotoSpecification.MM_PER_INCH,
+        
+        preview_drawing_data = {
+            'photo_spec': self.photo_spec, # Full spec object
+            'achieved_head_top_y_on_photo_px': crop_data['achieved_head_top_from_crop_top_px'],
+            'achieved_eye_level_y_on_photo_px': achieved_eye_level_from_top_px, 
+            'achieved_head_height_px': achieved_head_height_px,
+            'photo_width_px': self.photo_spec.photo_width_px,
+            'photo_height_px': self.photo_spec.photo_height_px,
         }
         
         if socketio:
@@ -252,8 +290,7 @@ class VisaPhotoProcessor(ImageProcessor):
         create_preview_with_watermark(
             self.processed_path,
             self.preview_path,
-            preview_crop_data_for_drawing, # Use the adapted crop_data for preview
-            face_landmarks,    # face_landmarks might be needed by preview_creator if it uses FaceAnalyzer
+            preview_drawing_data,
             self.fonts_folder
         )
 
@@ -264,19 +301,16 @@ class VisaPhotoProcessor(ImageProcessor):
             self.processed_path,
             self.printable_path,
             self.fonts_folder, # Fonts folder for any text on printable
-            rows=2, # Example, could be dynamic based on paper size / photo size
-            cols=2, # Example
             photo_spec=self.photo_spec # Pass spec for DPI, dimensions
         )
 
         if socketio:
             socketio.emit('processing_status', {'status': 'Creating printable preview'})
+        logging.info("About to call create_printable_preview with new signature")
         create_printable_preview(
             self.processed_path, # Source image for the small photos in preview
             self.printable_preview_path,
             self.fonts_folder, # For watermarks or text on preview
-            rows=2, # Match create_printable_image
-            cols=2, # Match create_printable_image
             photo_spec=self.photo_spec # Pass spec for DPI, dimensions
         )
 

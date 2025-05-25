@@ -3,710 +3,398 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visa Photo Processor | Professional ID Photo Creator</title>
+    <title>Visa Photo Creator | visapicture</title>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'primary': '#2563eb',
-                        'primary-dark': '#1d4ed8',
-                        'secondary': '#06b6d4',
-                        'accent': '#10b981'
+                        'primary': '#2563eb', 'primary-dark': '#1d4ed8',
+                        'secondary': '#06b6d4', 'accent': '#10b981',
+                        'brand-green': '#3CB371' // For visafoto style green
                     }
                 }
             }
         }
     </script>
-
-    <!-- Socket.IO -->
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
-
-    <!-- NProgress -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
-
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
-            50% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
-        }
-        
-        .upload-area-active {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
-            border: 2px dashed #2563eb;
-            transition: all 0.3s ease;
-        }
-        
-        .upload-area-active:hover {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
-        }
-        
-        .card-modern {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-        }
-        
-        .dropdown-modern {
-            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s ease;
-        }
-        
-        .dropdown-modern:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-            outline: none;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
-        }
-        
-        .btn-success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-success:hover {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
-        }
-        
-        #nprogress {
-            position: relative !important;
-            z-index: 9999;
-        }
-        
-        #nprogress .bar {
-            background: linear-gradient(90deg, #2563eb, #06b6d4) !important;
-            height: 4px !important;
-            border-radius: 2px !important;
-        }
-
-        #nprogress .peg {
-            box-shadow: 0 0 10px #2563eb, 0 0 5px #2563eb !important;
-        }
-
-        #nprogress .spinner {
-            display: none !important;
-        }
-        
-        .progress-modern {
-            background: linear-gradient(90deg, #2563eb, #06b6d4);
-            border-radius: 6px;
-            transition: width 0.3s ease;
-        }
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .upload-area-active { background: linear-gradient(135deg, rgba(37,99,235,0.05) 0%, rgba(16,185,129,0.05) 100%); border: 2px dashed #2563eb; }
+        .upload-area-active:hover { background: linear-gradient(135deg, rgba(37,99,235,0.1) 0%, rgba(16,185,129,0.1) 100%); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37,99,235,0.2); }
+        .card-modern { background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border-radius: 12px; }
+        .dropdown-modern { background: #f8fafc; border: 1px solid #e2e8f0; }
+        .dropdown-modern:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); outline: none; }
+        .btn-brand-green { background-color: #3CB371; color: white; }
+        .btn-brand-green:hover { background-color: #34a065; }
+        #nprogress .bar { background: linear-gradient(90deg, #2563eb, #06b6d4) !important; height: 3px !important; }
+        #nprogress .peg { box-shadow: 0 0 10px #2563eb, 0 0 5px #2563eb !important; }
+        .info-table td, .info-table th { padding: 0.75rem 1rem; vertical-align: top; }
+        .info-table tr:not(:last-child) td { border-bottom: 1px solid #e5e7eb; }
+        .info-table th { text-align: left; font-weight: 600; color: #4b5563; width: 40%;}
+        .info-table td { color: #374151; }
+        .result-header-text { font-size: 1.125rem; line-height: 1.75rem; color: #111827; margin-bottom: 0.25rem;}
+        .result-subheader-text { font-size: 0.875rem; line-height: 1.25rem; color: #4b5563; margin-bottom: 1.5rem;}
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 via-white to-green-50 min-h-screen">
+<body class="bg-gray-50 min-h-screen">
 
-    <!-- Header -->
-    <header class="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4">
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
             <div class="flex items-center justify-center">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
-                        <i data-lucide="camera" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <h1 class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                        Visa Photo Processor
-                    </h1>
-                </div>
+                <i data-lucide="camera" class="w-7 h-7 text-brand-green mr-2"></i>
+                <h1 class="text-xl font-semibold text-gray-800">visapicture Photo Creator</h1>
             </div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <div class="container mx-auto my-8 px-4 max-w-4xl">
-
-        <!-- Main Card -->
-        <div class="card-modern rounded-2xl p-8">
-
-            <!-- Hero Section -->
-            <div class="text-center mb-10">
-                <div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6 animate-pulse">
-                    <i data-lucide="image" class="w-8 h-8 text-white"></i>
-                </div>
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">
-                    Professional ID Photo Creator
-                </h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                    Transform your photos into professional visa and passport photos that meet international standards.
-                    AI-powered processing ensures perfect compliance.
-                </p>
+    <div class="container mx-auto my-8 px-4 max-w-6xl">
+        <div class="card-modern p-6 md:p-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-3">Get Your Compliant ID Photo</h2>
+                <p class="text-lg text-gray-600 max-w-xl mx-auto">Upload your photo and let our AI ensure it meets official requirements.</p>
             </div>
 
-            <!-- Document Selection -->
-            <div class="mb-8">
-                <div class="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-6 mb-6">
-                    <div class="flex items-center mb-4">
-                        <i data-lucide="settings" class="w-5 h-5 text-primary mr-2"></i>
-                        <h3 class="text-lg font-semibold text-gray-900">Document Configuration</h3>
+            <div class="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
+                 <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                    <i data-lucide="settings-2" class="w-5 h-5 text-primary mr-2"></i>Photo Requirements
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="country_select" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                        <select id="country_select" name="country_code" class="dropdown-modern w-full py-2.5 px-3 rounded-md text-gray-800">
+                            <option value="">Select country</option>
+                            {% for country_code, display_name in countries %}
+                                <option value="{{ country_code }}">{{ display_name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <p class="text-gray-600 text-sm mb-6">Select your destination country and document type to ensure perfect compliance.</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label for="country_select" class="block text-sm font-semibold text-gray-800 flex items-center">
-                                <i data-lucide="globe" class="w-4 h-4 mr-2"></i>
-                                Country
-                            </label>
-                            <select id="country_select" name="country_code" class="dropdown-modern w-full py-3 px-4 rounded-lg text-gray-800 font-medium">
-                                <option value="">Choose your destination country</option>
-                                {% for country_code, display_name in countries %}
-                                    <option value="{{ country_code }}">{{ display_name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="space-y-2">
-                            <label for="document_type_select" class="block text-sm font-semibold text-gray-800 flex items-center">
-                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i>
-                                Document Type
-                            </label>
-                            <select id="document_type_select" name="document_name" class="dropdown-modern w-full py-3 px-4 rounded-lg text-gray-800 font-medium" disabled>
-                                <option value="">Select document type</option>
-                            </select>
-                        </div>
+                    <div>
+                        <label for="document_type_select" class="block text-sm font-medium text-gray-700 mb-1">Document Type</label>
+                        <select id="document_type_select" name="document_name" class="dropdown-modern w-full py-2.5 px-3 rounded-md text-gray-800" disabled>
+                            <option value="">Select document type</option>
+                        </select>
                     </div>
                 </div>
             </div>
 
-            <!-- Upload Area -->
-            <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center cursor-not-allowed bg-gray-100 opacity-50 transition-all duration-300">
-                <div class="flex flex-col items-center">
-                    <div class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-6">
-                        <i data-lucide="upload-cloud" class="w-10 h-10 text-gray-400"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Upload Your Photo</h3>
-                    <p class="text-gray-500 mb-4">Drag and drop your photo here or click to browse</p>
-                    <div class="flex items-center space-x-4 text-sm text-gray-400">
-                        <span class="flex items-center">
-                            <i data-lucide="image" class="w-4 h-4 mr-1"></i>
-                            JPG, JPEG, PNG
-                        </span>
-                        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
-                        <span class="flex items-center">
-                            <i data-lucide="hard-drive" class="w-4 h-4 mr-1"></i>
-                            Max 10MB
-                        </span>
-                    </div>
-                </div>
+            <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-10 text-center cursor-not-allowed bg-gray-100 opacity-60 transition-all">
+                <i data-lucide="image-up" class="w-12 h-12 text-gray-400 mx-auto mb-3"></i>
+                <h3 class="text-lg font-semibold text-gray-600 mb-1">Click or Drag & Drop Photo Here</h3>
+                <p class="text-sm text-gray-500">Supports JPG, JPEG, PNG. Max 10MB.</p>
                 <input type="file" id="file-input" accept="image/*" class="hidden">
             </div>
-
-            <!-- Preview Section -->
-            <div id="preview-container" class="mt-10 hidden">
-                <div class="bg-white rounded-xl border border-gray-200 p-6">
-                    <div class="flex items-center mb-4">
-                        <i data-lucide="eye" class="w-5 h-5 text-primary mr-2"></i>
-                        <h3 class="text-lg font-semibold text-gray-900">Original Photo</h3>
-                    </div>
-                    <div class="flex justify-center">
-                        <img id="preview-image" src="#" alt="Preview" class="max-w-md rounded-lg shadow-lg border border-gray-200">
-                    </div>
+            
+            <div id="original-preview-container" class="mt-6 hidden">
+                <h4 class="text-md font-semibold text-gray-700 mb-2 text-center">Original Uploaded Photo:</h4>
+                <div class="flex justify-center border border-gray-200 p-2 rounded-md bg-gray-50">
+                    <img id="original-preview-image" src="#" alt="Original Preview" class="max-h-60 rounded shadow">
                 </div>
             </div>
 
-            <!-- Progress Section -->
-            <div id="progress-container" class="mt-8 mb-8 hidden">
-                <div class="bg-white rounded-xl border border-gray-200 p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center">
-                            <i data-lucide="zap" class="w-5 h-5 text-yellow-500 mr-2"></i>
-                            <h3 class="text-lg font-semibold text-gray-900">Processing Your Photo</h3>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                            <div class="w-2 h-2 bg-primary rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
-                            <div class="w-2 h-2 bg-primary rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
-                        </div>
-                    </div>
-                    <div class="text-sm font-medium text-gray-600 mb-3" id="progress-status">Processing...</div>
-                    <div class="relative h-3 bg-gray-100 rounded-full overflow-hidden">
-                        <div id="progress-bar" class="progress-modern absolute top-0 left-0 h-full transition-all duration-500" style="width: 0%"></div>
-                    </div>
+            <div id="progress-container" class="mt-6 hidden">
+                <div class="text-sm font-medium text-gray-600 mb-1" id="progress-status">Processing...</div>
+                <div class="relative h-2.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-primary absolute top-0 left-0 h-full transition-all duration-300" style="width: 0%"></div>
                 </div>
             </div>
 
-            <!-- Сообщения -->
-            <div id="message-container" class="mt-8"></div>
+            <div id="message-container" class="mt-4"></div>
 
-            <!-- Results Section -->
-            <div id="processed-container" class="mt-10 hidden">
-                <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-                    <div class="flex items-center mb-6">
-                        <i data-lucide="check-circle" class="w-6 h-6 text-green-500 mr-2"></i>
-                        <h3 class="text-xl font-semibold text-gray-900">Your Professional Photo is Ready!</h3>
-                    </div>
-                    
-                    <div class="flex justify-center mb-8">
-                        <img id="processed-image" src="#" alt="Processed photo" class="max-w-md rounded-lg shadow-lg border border-gray-200">
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <a href="#" id="download-link" class="btn-primary text-white text-center py-4 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2">
-                            <i data-lucide="download" class="w-5 h-5"></i>
-                            <span>Download Digital Version</span>
-                        </a>
-                        <a href="#" id="download-printable-link" class="btn-success text-white text-center py-4 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2">
-                            <i data-lucide="printer" class="w-5 h-5"></i>
-                            <span>Download Print Version (4×6")</span>
-                        </a>
-                    </div>
+            <div id="processed-container" class="mt-8 hidden">
+                <div id="result-header" class="mb-6">
+                    <p id="result-main-message" class="result-header-text"></p>
+                    <p id="result-sub-message" class="result-subheader-text"></p>
                 </div>
 
-                <!-- Print Preview -->
-                <div id="printable-preview-container" class="mt-6 hidden">
-                    <div class="bg-gray-50 rounded-xl p-6">
-                        <div class="flex items-center mb-4">
-                            <i data-lucide="layout" class="w-5 h-5 text-gray-600 mr-2"></i>
-                            <h4 class="text-lg font-semibold text-gray-800">Print Layout Preview</h4>
-                        </div>
-                        <div class="flex justify-center">
-                            <img id="printable-preview-image" src="#" alt="Print preview" class="max-w-md rounded-lg shadow-md border border-gray-300">
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-7 gap-6 md:gap-8 items-start">
+                    <div class="md:col-span-3 flex flex-col items-center">
+                        <img id="processed-image-preview" src="#" alt="Processed photo preview" class="w-full max-w-xs md:max-w-sm rounded border border-gray-300 shadow-md mb-4">
+                        <a href="#" id="download-link" class="btn-brand-green text-center py-2.5 px-6 rounded-md font-semibold flex items-center justify-center space-x-2 w-full max-w-xs">
+                            <i data-lucide="download-cloud" class="w-5 h-5"></i>
+                            <span>Continue to Download</span>
+                        </a>
+                        <p class="text-xs text-gray-500 mt-1.5 text-center">Watermarks are for preview only.</p>
                     </div>
-                </div>
 
-                <!-- Photo Analysis -->
-                <div id="photo-info-container" class="mt-6">
-                    <div class="bg-gray-50 rounded-xl p-6">
-                        <div class="flex items-center mb-4">
-                            <i data-lucide="bar-chart-3" class="w-5 h-5 text-gray-600 mr-2"></i>
-                            <h4 class="text-lg font-semibold text-gray-800">Compliance Analysis</h4>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full bg-white rounded-lg shadow-sm border border-gray-200">
-                                <thead>
-                                    <tr class="bg-gradient-to-r from-gray-50 to-gray-100">
-                                        <th class="py-4 px-6 text-left text-gray-700 font-semibold">Parameter</th>
-                                        <th class="py-4 px-6 text-left text-gray-700 font-semibold">Value</th>
-                                        <th class="py-4 px-6 text-left text-gray-700 font-semibold">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="info-table-body" class="divide-y divide-gray-200">
-                                    <!-- Dynamic content -->
-                                </tbody>
+                    <div class="md:col-span-4">
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+                            <table class="w-full info-table">
+                                <tbody id="info-table-body"></tbody>
                             </table>
                         </div>
+                         <div id="compliance-warnings-container" class="mt-4"></div>
                     </div>
                 </div>
-
+                
+                <div class="mt-10 pt-6 border-t border-gray-200 text-center">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Printable Version (4x6" Sheet)</h4>
+                    <div class="flex justify-center">
+                         <img id="printable-preview-image" src="#" alt="Print preview" class="max-w-md rounded border border-gray-300 shadow-md mb-4">
+                    </div>
+                    <a href="#" id="download-printable-link" class="btn-brand-green text-center py-2.5 px-6 rounded-md font-semibold flex items-center justify-center space-x-2 mx-auto max-w-xs">
+                        <i data-lucide="printer" class="w-5 h-5"></i>
+                        <span>Download for Printing</span>
+                    </a>
+                     <p class="text-xs text-gray-500 mt-1.5 text-center">Watermarks are for preview only.</p>
+                </div>
             </div>
-
         </div>
     </div>
 
-    <!-- JavaScript код -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const uploadArea = document.getElementById('upload-area');
-            const fileInput = document.getElementById('file-input');
-            const previewContainer = document.getElementById('preview-container');
-            const previewImage = document.getElementById('preview-image');
-            const messageContainer = document.getElementById('message-container');
-            const processedContainer = document.getElementById('processed-container');
-            const processedImage = document.getElementById('processed-image');
-            const downloadLink = document.getElementById('download-link');
-            const downloadPrintableLink = document.getElementById('download-printable-link');
-            const printablePreviewContainer = document.getElementById('printable-preview-container');
-            const printablePreviewImage = document.getElementById('printable-preview-image');
-            const infoTableBody = document.getElementById('info-table-body');
-            
-            const countrySelect = document.getElementById('country_select');
-            const documentTypeSelect = document.getElementById('document_type_select');
-            // For now, upload is triggered by file selection. We'll enable upload-area when selections are made.
-
             const socket = io();
+            const elements = {
+                uploadArea: document.getElementById('upload-area'),
+                fileInput: document.getElementById('file-input'),
+                originalPreviewContainer: document.getElementById('original-preview-container'),
+                originalPreviewImage: document.getElementById('original-preview-image'),
+                messageContainer: document.getElementById('message-container'),
+                progressContainer: document.getElementById('progress-container'),
+                progressStatus: document.getElementById('progress-status'),
+                progressBar: document.getElementById('progress-bar'),
+                processedContainer: document.getElementById('processed-container'),
+                resultHeader: document.getElementById('result-header'),
+                resultMainMessage: document.getElementById('result-main-message'),
+                resultSubMessage: document.getElementById('result-sub-message'),
+                processedImagePreview: document.getElementById('processed-image-preview'),
+                downloadLink: document.getElementById('download-link'),
+                printablePreviewImage: document.getElementById('printable-preview-image'),
+                downloadPrintableLink: document.getElementById('download-printable-link'),
+                infoTableBody: document.getElementById('info-table-body'),
+                complianceWarningsContainer: document.getElementById('compliance-warnings-container'),
+                countrySelect: document.getElementById('country_select'),
+                documentTypeSelect: document.getElementById('document_type_select')
+            };
 
-            // Listen for processing status updates
-            socket.on('processing_status', (data) => {
-                const status = data.status;
-                updateProgressBar(status);
-            });
+            let uploadAreaActive = false;
 
             function updateProgressBar(status) {
-                const progressSteps = {
-                    'Processing started': 0.1,
-                    'Loading image': 0.2,
-                    'Detecting face landmarks': 0.3,
-                    'Calculating crop dimensions': 0.4,
-                    'Cropping and scaling image': 0.5,
-                    'Removing background': 0.6,
-                    'Enhancing image': 0.7,
-                    'Saving processed image': 0.8,
-                    'Creating preview': 0.9,
-                    'Creating printable image': 0.95,
-                    'Creating printable preview': 1.0,
-                    'Processing complete': 1.0
-                };
-                
-                const statusMessages = {
-                    'Processing started': 'Starting process...',
-                    'Loading image': 'Loading image...',
-                    'Detecting face landmarks': 'Detecting face...',
-                    'Calculating crop dimensions': 'Calculating dimensions...',
-                    'Cropping and scaling image': 'Adjusting image size...',
-                    'Removing background': 'Removing background...',
-                    'Enhancing image': 'Enhancing image quality...',
-                    'Saving processed image': 'Saving processed image...',
-                    'Creating preview': 'Creating preview...',
-                    'Creating printable image': 'Preparing printable version...',
-                    'Creating printable preview': 'Finalizing...',
-                    'Processing complete': 'Processing complete!'
-                };
-
-                const progress = progressSteps[status] || 0;
-                const statusText = statusMessages[status] || status;
-                const progressPercent = progress * 100;
-                
-                // Update both NProgress and custom progress bar
+                const progressMap = { 'Processing started':0.05, 'Loading image':0.1, 'Detecting face landmarks':0.2, 'Getting segmentation mask for hair detection':0.3, 'Calculating crop dimensions with mask-based hair detection':0.4, 'Cropping and scaling image':0.55, 'Removing background':0.7, 'Enhancing image':0.8, 'Saving processed image':0.85, 'Creating preview':0.9, 'Creating printable image':0.95, 'Creating printable preview':0.98, 'Processing complete':1.0 };
+                const messageMap = { 'Processing started':'Starting...', 'Loading image':'Loading...', 'Detecting face landmarks':'Detecting face...', 'Getting segmentation mask for hair detection':'AI Hair Analysis...', 'Calculating crop dimensions with mask-based hair detection':'Calculating (AI Hair)...', 'Cropping and scaling image':'Resizing...', 'Removing background':'BG Removal...', 'Enhancing image':'Enhancing...', 'Saving processed image':'Saving...', 'Creating preview':'Previewing...', 'Creating printable image':'Print Version...', 'Creating printable preview':'Print Preview...', 'Processing complete':'Done!' };
+                const progress = progressMap[status] || 0;
+                elements.progressStatus.textContent = messageMap[status] || status;
+                elements.progressBar.style.width = `${progress * 100}%`;
+                elements.progressContainer.classList.toggle('hidden', progress === 0 || progress === 1);
                 NProgress.set(progress);
-                
-                // Show progress container
-                const progressContainer = document.getElementById('progress-container');
-                progressContainer.classList.remove('hidden');
-                
-                // Update status text and progress bar
-                document.getElementById('progress-status').textContent = statusText;
-                document.getElementById('progress-bar').style.width = `${progressPercent}%`;
             }
+            socket.on('processing_status', data => updateProgressBar(data.status));
 
-            // Initial state: disable document type and upload area
-            documentTypeSelect.disabled = true;
-            // To disable upload area interaction:
-            let uploadAreaActive = false;
-            updateUploadAreaState();
-
-
-            function updateUploadAreaState() {
-                const uploadIcon = uploadArea.querySelector('[data-lucide="upload-cloud"]');
-                const iconContainer = uploadIcon.parentElement;
+            function updateUploadAreaUI() {
+                const icon = elements.uploadArea.querySelector('i');
                 
-                if (countrySelect.value && documentTypeSelect.value && documentTypeSelect.value !== "") {
-                    uploadArea.classList.remove('cursor-not-allowed', 'bg-gray-100', 'opacity-50');
-                    uploadArea.classList.add('upload-area-active', 'cursor-pointer');
-                    iconContainer.classList.remove('bg-gray-200');
-                    iconContainer.classList.add('bg-gradient-to-br', 'from-primary', 'to-secondary');
-                    uploadIcon.classList.remove('text-gray-400');
-                    uploadIcon.classList.add('text-white');
-                    uploadAreaActive = true;
-                } else {
-                    uploadArea.classList.add('cursor-not-allowed', 'bg-gray-100', 'opacity-50');
-                    uploadArea.classList.remove('upload-area-active', 'cursor-pointer');
-                    iconContainer.classList.add('bg-gray-200');
-                    iconContainer.classList.remove('bg-gradient-to-br', 'from-primary', 'to-secondary');
-                    uploadIcon.classList.add('text-gray-400');
-                    uploadIcon.classList.remove('text-white');
-                    uploadAreaActive = false;
+                // Безопасная проверка существования иконки
+                if (!icon) {
+                    console.warn('Upload area icon not found');
+                    return;
                 }
-            }
-
-            countrySelect.addEventListener('change', async () => {
-                const selectedCountryCode = countrySelect.value;
-                documentTypeSelect.innerHTML = '<option value="">Select Document Type</option>'; // Reset
-                documentTypeSelect.disabled = true;
-                updateUploadAreaState();
-
-
-                if (selectedCountryCode) {
-                    try {
-                        const response = await fetch(`/get_document_types/${selectedCountryCode}`);
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        const docTypes = await response.json();
-                        if (docTypes.length > 0) {
-                            docTypes.forEach(docName => {
-                                const option = document.createElement('option');
-                                option.value = docName;
-                                option.textContent = docName;
-                                documentTypeSelect.appendChild(option);
-                            });
-                            documentTypeSelect.disabled = false;
-                        } else {
-                             documentTypeSelect.innerHTML = '<option value="">No document types found</option>';
-                        }
-                    } catch (error) {
-                        console.error('Error fetching document types:', error);
-                        showMessage('error', 'Could not load document types.');
-                        documentTypeSelect.innerHTML = '<option value="">Error loading types</option>';
+                
+                if (uploadAreaActive) {
+                    elements.uploadArea.classList.add('upload-area-active');
+                    elements.uploadArea.classList.remove('cursor-not-allowed', 'bg-gray-100', 'opacity-60');
+                    // Безопасная замена классов иконки
+                    if (icon.classList.contains('text-gray-400')) {
+                        icon.classList.replace('text-gray-400', 'text-primary');
+                    } else {
+                        icon.classList.add('text-primary');
+                        icon.classList.remove('text-gray-400');
+                    }
+                } else {
+                    elements.uploadArea.classList.remove('upload-area-active');
+                    elements.uploadArea.classList.add('cursor-not-allowed', 'bg-gray-100', 'opacity-60');
+                    // Безопасная замена классов иконки
+                    if (icon.classList.contains('text-primary')) {
+                        icon.classList.replace('text-primary', 'text-gray-400');
+                    } else {
+                        icon.classList.add('text-gray-400');
+                        icon.classList.remove('text-primary');
                     }
                 }
-                updateUploadAreaState(); // Re-check state after populating doc types
-            });
-
-            documentTypeSelect.addEventListener('change', () => {
-                updateUploadAreaState();
-            });
-
-
-            // Клик по области загрузки
-            uploadArea.addEventListener('click', () => {
-                if (uploadAreaActive) {
-                    fileInput.click();
-                } else {
-                    showMessage('info', 'Please select a country and document type first.');
-                }
-            });
-
-            // Обработка перетаскивания файлов
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, preventDefaults, false);
-            });
-
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
             }
 
-            // Подсветка при перетаскивании
-            ['dragenter', 'dragover'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, () => {
-                    uploadArea.classList.add('border-blue-500');
-                }, false);
-            });
+            function toggleUploadActiveState() {
+                uploadAreaActive = !!(elements.countrySelect.value && elements.documentTypeSelect.value);
+                updateUploadAreaUI();
+            }
 
-            ['dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, () => {
-                    uploadArea.classList.remove('border-blue-500');
-                }, false);
-            });
-
-            // Обработка сброшенных файлов
-            uploadArea.addEventListener('drop', (e) => {
-                preventDefaults(e); // Important to call this here too
-                if (uploadAreaActive) {
-                    const dt = e.dataTransfer;
-                    const files = dt.files;
-                    handleFiles(files);
-                } else {
-                     showMessage('info', 'Please select a country and document type first to enable drag and drop.');
+            elements.countrySelect.addEventListener('change', async () => {
+                elements.documentTypeSelect.innerHTML = '<option value="">Loading types...</option>';
+                elements.documentTypeSelect.disabled = true;
+                toggleUploadActiveState();
+                if (!elements.countrySelect.value) {
+                    elements.documentTypeSelect.innerHTML = '<option value="">Select document type</option>';
+                    return;
                 }
+                try {
+                    const response = await fetch(`/get_document_types/${elements.countrySelect.value}`);
+                    if (!response.ok) throw new Error('Network response was not ok.');
+                    const docTypes = await response.json();
+                    elements.documentTypeSelect.innerHTML = '<option value="">Select document type</option>';
+                    docTypes.forEach(name => elements.documentTypeSelect.add(new Option(name, name)));
+                    elements.documentTypeSelect.disabled = docTypes.length === 0;
+                    if (docTypes.length === 0) elements.documentTypeSelect.innerHTML = '<option value="">No types found</option>';
+                } catch (err) {
+                    showMessage('error', 'Could not load document types.');
+                    elements.documentTypeSelect.innerHTML = '<option value="">Error loading</option>';
+                }
+                toggleUploadActiveState();
             });
+            elements.documentTypeSelect.addEventListener('change', toggleUploadActiveState);
 
-            // Обработка выбранных файлов
-            fileInput.addEventListener('change', () => {
-                handleFiles(fileInput.files);
-            });
+            elements.uploadArea.addEventListener('click', () => uploadAreaActive && elements.fileInput.click());
+            elements.fileInput.addEventListener('change', () => handleFiles(elements.fileInput.files));
+            ['dragenter','dragover','dragleave','drop'].forEach(e => elements.uploadArea.addEventListener(e, pD, false));
+            function pD(e) { e.preventDefault(); e.stopPropagation(); }
+            ['dragenter','dragover'].forEach(e => elements.uploadArea.addEventListener(e, () => uploadAreaActive && elements.uploadArea.classList.add('border-primary'), false));
+            ['dragleave','drop'].forEach(e => elements.uploadArea.addEventListener(e, () => elements.uploadArea.classList.remove('border-primary'), false));
+            elements.uploadArea.addEventListener('drop', e => uploadAreaActive && handleFiles(e.dataTransfer.files));
 
             function handleFiles(files) {
-                if (files.length === 0) return;
+                if (!files.length) return;
                 const file = files[0];
-
-                if (!file.type.startsWith('image/')) {
-                    showMessage('error', 'Пожалуйста, загрузите изображение.');
-                    return;
-                }
-
-                // Проверка размера файла
-                if (file.size > 10 * 1024 * 1024) {
-                    showMessage('error', 'Размер файла превышает 10 МБ.');
-                    return;
-                }
-
-                // Отображение превью
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    previewImage.src = e.target.result;
-                    previewContainer.classList.remove('hidden');
-                };
-                reader.readAsDataURL(file);
-
-                // Загрузка файла
+                if (!file.type.startsWith('image/')) { showMessage('error', 'Please upload an image.'); return; }
+                if (file.size > 10*1024*1024) { showMessage('error', 'File exceeds 10MB.'); return; }
+                
+                elements.originalPreviewImage.src = URL.createObjectURL(file);
+                elements.originalPreviewContainer.classList.remove('hidden');
                 uploadFile(file);
             }
 
             function uploadFile(file) {
-                const url = '/upload';
                 const formData = new FormData();
                 formData.append('file', file);
-                formData.append('country_code', countrySelect.value);
-                formData.append('document_name', documentTypeSelect.value);
+                formData.append('country_code', elements.countrySelect.value);
+                formData.append('document_name', elements.documentTypeSelect.value);
 
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', url, true);
+                NProgress.start();
+                updateProgressBar('Processing started');
+                elements.messageContainer.innerHTML = '';
+                elements.processedContainer.classList.add('hidden');
+                elements.infoTableBody.innerHTML = '';
+                elements.complianceWarningsContainer.innerHTML = '';
 
-                xhr.upload.onprogress = function(e) {
-                    if (e.lengthComputable) {
-                        const percentComplete = (e.loaded / e.total) * 0.1; // Only 10% for upload
-                        updateProgressBar('Uploading file...');
-                        NProgress.set(percentComplete);
-                    }
-                };
-
-                xhr.onloadstart = function() {
-                    NProgress.start();
-                    document.getElementById('progress-container').classList.remove('hidden');
-                    messageContainer.innerHTML = '';
-                    processedContainer.classList.add('hidden');
-                    printablePreviewContainer.classList.add('hidden');
-                    infoTableBody.innerHTML = '';
-                };
-
-                xhr.onloadend = function() {
-                    if (xhr.status === 0) {
-                        NProgress.done();
-                        document.getElementById('progress-container').classList.add('hidden');
-                    }
-                };
-
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        NProgress.done();
-                        document.getElementById('progress-container').classList.add('hidden'); // Ensure it's hidden on completion
-
-                        if (xhr.status === 200) {
-                            const response = JSON.parse(xhr.responseText);
-                            if (response.success) {
-                                showMessage('success', response.message);
-                                if (response.preview_filename && response.download_filename && response.printable_filename && response.printable_preview_filename) {
-                                    processedImage.src = `/previews/${encodeURIComponent(response.preview_filename)}`;
-                                    downloadLink.href = `/download/${encodeURIComponent(response.download_filename)}`;
-                                    downloadPrintableLink.href = `/download_printable/${encodeURIComponent(response.printable_filename)}`;
-                                    processedContainer.classList.remove('hidden');
-                                    updateInfoTable(response);
-
-                                    // Отображение превью печатного изображения
-                                    printablePreviewImage.src = `/previews/printable/${encodeURIComponent(response.printable_preview_filename)}`;
-                                    printablePreviewContainer.classList.remove('hidden');
-                                }
-                            } else {
-                                showMessage('error', response.error || 'Error processing file.'); // Default English error
-                            }
-                        } else if (xhr.status === 400) { // Specific handling for 400 errors from server
-                             const response = JSON.parse(xhr.responseText);
-                             showMessage('error', response.error || 'Bad request during upload.');
+                fetch('/upload', { method: 'POST', body: formData })
+                    .then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)))
+                    .then(data => {
+                        if (data.success) {
+                            showMessage('success', data.message || 'Photo processed!');
+                            elements.processedImagePreview.src = `/previews/${encodeURIComponent(data.preview_filename)}`;
+                            elements.printablePreviewImage.src = `/previews/printable/${encodeURIComponent(data.printable_preview_filename)}`;
+                            elements.downloadLink.href = `/download/${encodeURIComponent(data.download_filename)}`;
+                            elements.downloadPrintableLink.href = `/download_printable/${encodeURIComponent(data.printable_filename)}`;
+                            elements.processedContainer.classList.remove('hidden');
+                            updateResultDisplay(data.photo_info);
+                        } else {
+                            showMessage('error', data.error || 'Processing failed.');
                         }
-                        else {
-                            showMessage('error', 'Error uploading file.'); // Default English error
-                        }
-                    }
-                };
-
-                xhr.onerror = function() {
-                    NProgress.done();
-                    document.getElementById('progress-container').classList.add('hidden');
-                    showMessage('error', 'Error uploading file.');
-                };
-
-                xhr.send(formData);
+                    })
+                    .catch(err => showMessage('error', err.error || err.message || 'Upload error.'))
+                    .finally(() => { NProgress.done(); updateProgressBar('Processing complete'); });
             }
 
             function showMessage(type, text) {
-                // Basic translation for known server messages, can be expanded
-                const errorMessages = {
-                    'Нет файла в запросе': 'No file in request.',
-                    'Файл не выбран': 'No file selected.',
-                    'Недопустимый тип файла': 'Invalid file type.',
-                    'Размер файла превышает 10 МБ': 'File size exceeds 10MB.',
-                    'Произошла ошибка при обработке файла': 'Error processing file.',
-                    'Произошла ошибка при загрузке файла': 'Error uploading file.',
-                    'Пожалуйста, загрузите изображение': 'Please upload an image.',
-                    'Поддерживаемые форматы: JPG, JPEG, PNG': 'Supported formats: JPG, JPEG, PNG.',
-                    'Файл успешно обработан': 'File successfully processed.',
-                    'Country and document type must be selected.': 'Country and document type must be selected.'
-                };
-
-                const translatedText = errorMessages[text] || text; // Use original text if no translation
-                
-                const messageTypeClass = type === 'success' ? 'bg-green-100 text-green-700' : 
-                                         type === 'error' ? 'bg-red-100 text-red-700' :
-                                         'bg-blue-100 text-blue-700'; // For 'info' type
-
-                const messageHTML = `
-                    <div class="py-3 px-4 mb-4 rounded-md ${messageTypeClass}">
-                        ${translatedText}
-                    </div>
-                `;
-                messageContainer.innerHTML = messageHTML;
+                const colors = { success: 'green', error: 'red', info: 'blue' };
+                elements.messageContainer.innerHTML = `<div class="p-3 mb-3 rounded-md bg-${colors[type]}-100 text-${colors[type]}-700 border border-${colors[type]}-300">${text}</div>`;
             }
+            
+            function updateResultDisplay(info) {
+                // Безопасное извлечение заголовка документа
+                let docTitle = info.spec_document_name || 'Document';
+                
+                try {
+                    if (info.photo_size_str) {
+                        const match = info.photo_size_str.match(/\(([^)]+)\)/);
+                        if (match && match[1]) {
+                            const parts = match[1].split(', ');
+                            if (parts.length > 1) {
+                                docTitle = `${info.spec_document_name} ${parts[1]}`;
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Error parsing photo size string:', error);
+                }
+                if (info.compliance_overall) {
+                    elements.resultMainMessage.textContent = `We have formatted the photo according to the requirements of ${docTitle}.`;
+                    elements.resultSubMessage.textContent = "Your result photo fully meets the following official requirements.";
+                    elements.resultMainMessage.className = "result-header-text text-gray-800";
+                } else {
+                    elements.resultMainMessage.textContent = `Photo processing for ${docTitle} complete with issues.`;
+                    elements.resultSubMessage.textContent = "Please review the details below. Some requirements may not be met.";
+                     elements.resultMainMessage.className = "result-header-text text-red-600";
+                }
 
-            function updateInfoTable(response) {
-                const photoInfo = response.photo_info;
-                const compliance = photoInfo.compliance;
-
-                function getComplianceIcon(isCompliant) {
-                    return isCompliant 
-                        ? '<i data-lucide="check-circle" class="w-4 h-4 text-green-500 inline mr-1"></i><span class="text-green-700 font-medium">Compliant</span>'
-                        : '<i data-lucide="x-circle" class="w-4 h-4 text-red-500 inline mr-1"></i><span class="text-red-700 font-medium">Non-compliant</span>';
+                // Проверка обязательных полей
+                if (!info.spec_country || !info.spec_document_name) {
+                    console.error('Missing required fields in photo_info');
+                    showMessage('error', 'Incomplete data received from server');
+                    return;
                 }
                 
-                infoTableBody.innerHTML = `
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-4 px-6 text-gray-800 font-medium">Head Height</td>
-                        <td class="py-4 px-6 text-gray-700">${photoInfo.head_height}mm</td>
-                        <td class="py-4 px-6">${getComplianceIcon(compliance.head_height)}</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-4 px-6 text-gray-800 font-medium">Eye to Bottom Distance</td>
-                        <td class="py-4 px-6 text-gray-700">${photoInfo.eye_to_bottom}mm</td>
-                        <td class="py-4 px-6">${getComplianceIcon(compliance.eye_to_bottom)}</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-4 px-6 text-gray-800 font-medium">File Size</td>
-                        <td class="py-4 px-6 text-gray-700">${photoInfo.file_size_kb} KB</td>
-                        <td class="py-4 px-6 text-gray-500">-</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-4 px-6 text-gray-800 font-medium">Quality</td>
-                        <td class="py-4 px-6 text-gray-700">${photoInfo.quality}</td>
-                        <td class="py-4 px-6 text-gray-500">-</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-4 px-6 text-gray-800 font-medium">Upload Date</td>
-                        <td class="py-4 px-6 text-gray-700">${new Date().toLocaleString()}</td>
-                        <td class="py-4 px-6 text-gray-500">-</td>
-                    </tr>
-                `;
+                // Безопасные значения по умолчанию
+                const safeBackgroundRgb = info.background_color_rgb || [255, 255, 255];
+                const safeSourceUrls = info.source_urls || [];
+                const safePhotoSizeStr = info.photo_size_str || '';
                 
-                // Re-initialize Lucide icons for the new content
+                let tableHTML = `
+                    <tr><th>Country</th><td>${info.spec_country}</td></tr>
+                    <tr><th>Document Type</th><td>${info.spec_document_name}</td></tr>
+                    <tr><th>Size</th><td>${safePhotoSizeStr.replace(/\(.*?\)/, '').trim()}</td></tr>
+                    <tr><th>Image definition parameters</th><td>${info.image_definition_parameters || 'N/A'}</td></tr>
+                    <tr><th>Required Size in Kilobytes</th><td>${info.required_size_kb_str || 'N/A'}</td></tr>
+                    <tr><th>Result Size in Kilobytes</th><td>${info.result_size_kb || 'N/A'}</td></tr>
+                    <tr>
+                        <th>Background color</th>
+                        <td class="flex items-center">
+                            <span style="width:20px; height:20px; background-color:rgb(${safeBackgroundRgb.join(',')}); border:1px solid #ccc; display:inline-block; margin-right:8px;"></span>
+                            ${info.background_color_name || 'White'}
+                        </td>
+                    </tr>
+                    <tr><th>Resolution (dpi)</th><td>${info.resolution_dpi || '300'}</td></tr>
+                    <tr><th>Printable?</th><td>${info.printable || 'Yes'}</td></tr>
+                    <tr><th>Suitable for online submission?</th><td>${info.suitable_for_online_submission || 'Yes'}</td></tr>
+                `;
+                if(safeSourceUrls && safeSourceUrls.length > 0) {
+                    const linksHTML = safeSourceUrls.map(url => `<a href="${url}" target="_blank" class="text-blue-600 hover:underline block">${url.length > 50 ? url.substring(0,47) + '...' : url}</a>`).join('');
+                    tableHTML += `<tr><th>Web links to official documents</th><td>${linksHTML}</td></tr>`;
+                }
+                elements.infoTableBody.innerHTML = tableHTML;
+
+                elements.complianceWarningsContainer.innerHTML = '';
+                if (info.compliance_warnings && info.compliance_warnings.length > 0) {
+                    const warningsList = info.compliance_warnings.map(w => `<li class="flex items-start"><i data-lucide="alert-triangle" class="w-4 h-4 text-yellow-500 mr-2 mt-0.5 shrink-0"></i><span class="text-yellow-700">${w}</span></li>`).join('');
+                    elements.complianceWarningsContainer.innerHTML = `<div class="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-md"><ul class="list-none space-y-1 text-sm">${warningsList}</ul></div>`;
+                }
                 lucide.createIcons();
             }
-            // Initialize Lucide icons
+            toggleUploadActiveState(); // Initial UI setup for upload area
             lucide.createIcons();
         });
     </script>
     
-    <!-- Footer -->
-    <footer class="mt-16 bg-white/50 backdrop-blur-md border-t border-gray-200/50">
-        <div class="container mx-auto px-4 py-8">
-            <div class="text-center text-gray-600">
-                <p class="text-sm">
-                    Powered by AI • Professional photo processing • International standards compliance
-                </p>
-            </div>
+    <footer class="mt-12 bg-gray-100 border-t border-gray-200">
+        <div class="container mx-auto px-4 py-6 text-center text-gray-600 text-sm">
+            <p id="copyright-text">© 2025 visapicture. All rights reserved.</p>
+            <p class="text-xs mt-1">This tool is for demonstration purposes. Always verify with official sources.</p>
         </div>
     </footer>
+    
+    <script>
+        // Set copyright year safely
+        document.addEventListener('DOMContentLoaded', function() {
+            const copyrightElement = document.getElementById('copyright-text');
+            if (copyrightElement) {
+                copyrightElement.textContent = `© ${new Date().getFullYear()} visapicture. All rights reserved.`;
+            }
+        });
+    </script>
 </body>
 </html>

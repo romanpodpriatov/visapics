@@ -2,198 +2,250 @@
 
 import os
 import logging
-from typing import Optional
+import math 
+from typing import Optional, Tuple, Dict 
 from PIL import Image, ImageDraw, ImageFont
 
-from utils import PIXELS_PER_INCH # Used for fixed canvas size, ensure it's compatible with spec.dpi for print
-from photo_specs import PhotoSpecification # Import for type hinting
+from utils import PIXELS_PER_INCH 
+from photo_specs import PhotoSpecification 
 
-def create_printable_image(processed_image_path, printable_path, fonts_folder, 
-                           rows=2, cols=2, photo_spec: Optional[PhotoSpecification] = None):
-    """
-    Создание изображения для печати с размещением нескольких копий фотографии.
-    """
-    # Use a default DPI if spec is not provided, or spec's DPI.
-    # For canvas size, we use a fixed 300 DPI for a 4x6 inch paper.
-    # The photo_spec.dpi will be used for saving the image.
-    current_dpi = photo_spec.dpi if photo_spec else PIXELS_PER_INCH
+WATERMARK_TEXT = "visapicture" 
+WATERMARK_COLOR_WITH_ALPHA = (128, 128, 128, 30) 
 
-    canvas_width = 4 * PIXELS_PER_INCH  # Standard 4x6 paper at 300 DPI for canvas calculations
-    canvas_height = 6 * PIXELS_PER_INCH
-
-    # Создание холста
-    canvas = Image.new('RGB', (canvas_width, canvas_height), 'white')
-    draw = ImageDraw.Draw(canvas)
-
-    # Загрузка обработанного изображения
-    photo = Image.open(processed_image_path)
-
-    # Photo dimensions should come from photo_spec
-    photo_target_width_px = photo_spec.photo_width_px if photo_spec else (2 * PIXELS_PER_INCH)
-    photo_target_height_px = photo_spec.photo_height_px if photo_spec else (2 * PIXELS_PER_INCH)
-
-    if photo.size != (photo_target_width_px, photo_target_height_px):
-        photo = photo.resize((photo_target_width_px, photo_target_height_px), Image.LANCZOS)
-        logging.info(f"Resized photo for printable to {photo_target_width_px}x{photo_target_height_px}px.")
-
-    # Фиксированный отступ между фотографиями (0.25 дюйма = 75 пикселей при 300 DPI for canvas)
-    spacing = int(0.25 * PIXELS_PER_INCH)
-
-    # Вычисление общей ширины и высоты группы фотографий с отступами
-    # photo.width and photo.height are now correctly spec-defined photo sizes
-    total_width = cols * photo.width + (cols - 1) * spacing
-    total_height = rows * photo.height + (rows - 1) * spacing
-
-    # Вычисление начальных координат для центрирования группы фотографий
-    start_x = (canvas_width - total_width) // 2
-    start_y = (canvas_height - total_height) // 2
-
-    # Размещение фотографий
-    for row in range(rows):
-        for col in range(cols):
-            x = start_x + col * (photo.width + spacing)
-            y = start_y + row * (photo.height + spacing)
-            canvas.paste(photo, (x, y))
-
-    # Добавление пунктирных линий для обрезки
-    dash_length = int(0.1 * PIXELS_PER_INCH)  # 0.1 inch dashes
-    gap_length = int(0.1 * PIXELS_PER_INCH)   # 0.1 inch gaps
-    line_color = (180, 180, 180)  # Светло-серый цвет
-
-    # Горизонтальные линии
-    for row in range(rows - 1):
-        y = start_y + (row + 1) * photo.height + (row * spacing) + spacing // 2
-        x = 0
-        while x < canvas_width:
-            x_end = min(x + dash_length, canvas_width)
-            draw.line([(x, y), (x_end, y)], fill=line_color, width=1)
-            x = x_end + gap_length
-
-    # Вертикальные линии
-    for col in range(cols - 1):
-        x = start_x + (col + 1) * photo.width + (col * spacing) + spacing // 2
-        y = 0
-        while y < canvas_height:
-            y_end = min(y + dash_length, canvas_height)
-            draw.line([(x, y), (x, y_end)], fill=line_color, width=1)
-            y = y_end + gap_length
-
-    # Сохранение изображения
-    canvas.save(printable_path, dpi=(current_dpi, current_dpi), quality=95)
-    logging.info(f"Printable image saved at {printable_path} with DPI {current_dpi}")
-
-def create_printable_preview(processed_image_path, printable_preview_path, fonts_folder, 
-                             rows=2, cols=2, photo_spec: Optional[PhotoSpecification] = None):
-    """
-    Создание превью изображения для печати с водяным знаком.
-    """
-    current_dpi = photo_spec.dpi if photo_spec else PIXELS_PER_INCH
+def _draw_tiled_watermark_for_printable(image: Image.Image, text: str, font: ImageFont.FreeTypeFont, 
+                                       color_with_alpha: Tuple[int,int,int,int], angle: int = -30, density_factor: float = 0.15):
+    original_mode = image.mode
+    if image.mode != 'RGBA':
+        image = image.convert('RGBA')
     
-    canvas_width = 4 * PIXELS_PER_INCH # Standard 4x6 paper at 300 DPI for canvas
-    canvas_height = 6 * PIXELS_PER_INCH
-
-    # Создание холста
-    canvas = Image.new('RGB', (canvas_width, canvas_height), 'white')
-    draw = ImageDraw.Draw(canvas)
-
-    # Загрузка обработанного изображения
-    photo = Image.open(processed_image_path)
-
-    # Photo dimensions should come from photo_spec
-    photo_target_width_px = photo_spec.photo_width_px if photo_spec else (2 * PIXELS_PER_INCH)
-    photo_target_height_px = photo_spec.photo_height_px if photo_spec else (2 * PIXELS_PER_INCH)
-
-    if photo.size != (photo_target_width_px, photo_target_height_px):
-        photo = photo.resize((photo_target_width_px, photo_target_height_px), Image.LANCZOS)
-        logging.info(f"Resized photo for printable preview to {photo_target_width_px}x{photo_target_height_px}px.")
-
-    # Применение водяного знака
-    watermarked_photo = apply_watermark_to_photo(photo, fonts_folder)
-
-    # Фиксированный отступ между фотографиями (0.25 дюйма = 75 пикселей при 300 DPI for canvas)
-    spacing = int(0.25 * PIXELS_PER_INCH)
-
-    # Вычисление общей ширины и высоты группы фотографий с отступами
-    # watermarked_photo.width and .height are now correctly spec-defined photo sizes
-    total_width = cols * watermarked_photo.width + (cols - 1) * spacing
-    total_height = rows * watermarked_photo.height + (rows - 1) * spacing
-
-    # Вычисление начальных координат для центрирования группы фотографий
-    start_x = (canvas_width - total_width) // 2
-    start_y = (canvas_height - total_height) // 2
-
-    # Размещение фотографий
-    for row in range(rows):
-        for col in range(cols):
-            x = start_x + col * (photo.width + spacing)
-            y = start_y + row * (photo.height + spacing)
-            canvas.paste(watermarked_photo, (x, y))
-
-    # Добавление тех же пунктирных линий для превью
-    dash_length = int(0.1 * PIXELS_PER_INCH)
-    gap_length = int(0.1 * PIXELS_PER_INCH)
-    line_color = (180, 180, 180)
-
-    # Горизонтальные линии
-    for row in range(rows - 1):
-        y = start_y + (row + 1) * photo.height + (row * spacing) + spacing // 2
-        x = 0
-        while x < canvas_width:
-            x_end = min(x + dash_length, canvas_width)
-            draw.line([(x, y), (x_end, y)], fill=line_color, width=1)
-            x = x_end + gap_length
-
-    # Вертикальные линии
-    for col in range(cols - 1):
-        x = start_x + (col + 1) * photo.width + (col * spacing) + spacing // 2
-        y = 0
-        while y < canvas_height:
-            y_end = min(y + dash_length, canvas_height)
-            draw.line([(x, y), (x, y_end)], fill=line_color, width=1)
-            y = y_end + gap_length
-
-    # Сохранение превью с водяным знаком
-    canvas.save(printable_preview_path, dpi=(current_dpi, current_dpi), quality=95)
-    logging.info(f"Printable preview saved at {printable_preview_path} with DPI {current_dpi}")
-
-def apply_watermark_to_photo(photo, fonts_folder):
-    """
-    Применение водяного знака к фотографии.
-    """
-    watermarked_photo = photo.copy().convert('RGBA')
-    draw = ImageDraw.Draw(watermarked_photo)
+    draw = ImageDraw.Draw(image)
+    width, height = image.size
 
     try:
+        bbox = draw.textbbox((0,0), text, font=font, anchor="lt")
+        text_width = bbox[2] - bbox[0]
+        text_height = bbox[3] - bbox[1]
+    except AttributeError:
+        text_width, text_height = draw.textsize(text, font=font)
+
+    if text_width == 0 or text_height == 0:
+        if original_mode != 'RGBA' and original_mode != image.mode: image = image.convert(original_mode)
+        return image
+
+    proto_text_img = Image.new('RGBA', (text_width, text_height), (255,255,255,0))
+    proto_draw = ImageDraw.Draw(proto_text_img)
+    proto_draw.text((0,0), text, font=font, fill=color_with_alpha, anchor="lt")
+    rotated_proto_text_img = proto_text_img.rotate(angle, expand=True, resample=Image.BICUBIC)
+    stamp_w, stamp_h = rotated_proto_text_img.size
+    
+    step_x = int(stamp_w * (1 / (density_factor * 4 + 0.5))) 
+    step_y = int(stamp_h * (1 / (density_factor * 4 + 0.5)))
+    step_x = max(step_x, int(stamp_w * 0.75)) 
+    step_y = max(step_y, int(stamp_h * 0.75))
+
+    for x_base in range(-stamp_w, width + stamp_w, step_x):
+        for y_base in range(-stamp_h, height + stamp_h, step_y):
+            temp_render_size = (text_width + 4, text_height + 4)
+            text_instance_img = Image.new('RGBA', temp_render_size, (255,255,255,0))
+            text_instance_draw = ImageDraw.Draw(text_instance_img)
+            text_instance_draw.text((2,2), text, font=font, fill=color_with_alpha, anchor="lt")
+            rotated_text_instance_img = text_instance_img.rotate(angle, center=(temp_render_size[0]/2, temp_render_size[1]/2), expand=True, resample=Image.BICUBIC)
+            paste_x = x_base - rotated_text_instance_img.width // 2
+            paste_y = y_base - rotated_text_instance_img.height // 2
+            image.paste(rotated_text_instance_img, (paste_x, paste_y), rotated_text_instance_img)
+    
+    if original_mode != 'RGBA' and original_mode != image.mode: image = image.convert(original_mode)
+    return image
+
+
+def _apply_watermark_to_single_photo_for_printable(photo: Image.Image, fonts_folder: str):
+    watermarked_photo_rgba = photo.copy().convert('RGBA')
+    try:
         arial_font_path = os.path.join(fonts_folder, 'Arial.ttf')
-        watermark_font_size = int(watermarked_photo.width * 0.15)
-        watermark_font = ImageFont.truetype(arial_font_path, watermark_font_size)
+        font_size = int(photo.height * 0.10) 
+        font = ImageFont.truetype(arial_font_path, font_size)
     except IOError:
-        logging.warning("Arial font not found. Using default font.")
-        watermark_font = ImageFont.load_default()
-        watermark_font_size = 50
+        logging.warning(f"Arial font not found in printable_creator for {WATERMARK_TEXT}. Using default.")
+        font = ImageFont.load_default()
+    
+    watermarked_photo_rgba = _draw_tiled_watermark_for_printable(
+        watermarked_photo_rgba, WATERMARK_TEXT, font, 
+        WATERMARK_COLOR_WITH_ALPHA, angle=-30, density_factor=0.20
+    )
+    return watermarked_photo_rgba
 
-    watermark_text = "PREVIEW"
-    watermark_opacity = 128
+def _generate_layout_on_fixed_canvas(
+    photo_to_place: Image.Image, 
+    photo_spec: PhotoSpecification,
+    target_canvas_width_px: int,
+    target_canvas_height_px: int
+) -> Image.Image:
+    canvas = Image.new('RGB', (target_canvas_width_px, target_canvas_height_px), 'white')
+    draw = ImageDraw.Draw(canvas)
 
-    # Позиция
-    position = (watermarked_photo.width / 2, watermarked_photo.height / 2)
+    photo_w_px = photo_spec.photo_width_px
+    photo_h_px = photo_spec.photo_height_px
 
-    # Слой для водяного знака
-    watermark_overlay = Image.new('RGBA', watermarked_photo.size, (255, 255, 255, 0))
-    watermark_draw = ImageDraw.Draw(watermark_overlay)
+    num_cols = 0
+    if photo_w_px <= target_canvas_width_px:
+        num_cols = 1
+        if photo_w_px * 2 <= target_canvas_width_px:
+            num_cols = 2
+    
+    num_rows = 0
+    if photo_h_px <= target_canvas_height_px:
+        num_rows = 1
+        if photo_h_px * 2 <= target_canvas_height_px:
+            num_rows = 2
+    
+    if num_cols == 0 or num_rows == 0:
+        logging.warning(f"Cannot fit even one photo {photo_w_px}x{photo_h_px} on canvas {target_canvas_width_px}x{target_canvas_height_px}. Returning empty canvas.")
+        return canvas
 
-    watermark_draw.text(
-        position,
-        watermark_text,
-        fill=(0, 0, 0, watermark_opacity),
-        font=watermark_font,
-        anchor='mm'
+    spacing_x = 0
+    if num_cols > 1:
+        # Распределяем оставшееся место на (num_cols - 1) отступов между фото
+        # и 2 отступа по краям. Всего (num_cols + 1) "промежутков" для отступов.
+        available_for_all_spacings_x = target_canvas_width_px - num_cols * photo_w_px
+        if available_for_all_spacings_x >= 0:
+             spacing_x = available_for_all_spacings_x / (num_cols + 1)
+             spacing_x = int(round(spacing_x))
+        else: # Фото не помещаются даже вплотную, это не должно произойти из-за проверки выше
+            spacing_x = 0 
+            num_cols = 1 # Переключаемся на одну колонку, если расчет неверен
+    
+    spacing_y = 0
+    if num_rows > 1:
+        available_for_all_spacings_y = target_canvas_height_px - num_rows * photo_h_px
+        if available_for_all_spacings_y >=0:
+            spacing_y = available_for_all_spacings_y / (num_rows + 1)
+            spacing_y = int(round(spacing_y))
+        else:
+            spacing_y = 0
+            num_rows = 1 # Переключаемся на один ряд
+
+    # Начальные координаты - это первый отступ от края
+    start_x = spacing_x
+    start_y = spacing_y
+    
+    # Межфотографийный отступ равен краевому при таком расчете
+    photo_spacing_for_loop_x = spacing_x
+    photo_spacing_for_loop_y = spacing_y
+
+
+    logging.info(f"Printable layout: {num_rows}r x {num_cols}c. Photo: {photo_w_px}x{photo_h_px}. Calculated spacing X:{spacing_x}, Y:{spacing_y}. Start: {start_x},{start_y}")
+
+    photo_count = 0
+    for r_idx in range(num_rows):
+        for c_idx in range(num_cols):
+            x = start_x + c_idx * (photo_w_px + photo_spacing_for_loop_x)
+            y = start_y + r_idx * (photo_h_px + photo_spacing_for_loop_y)
+            
+            if x + photo_w_px <= target_canvas_width_px + 1 and \
+               y + photo_h_px <= target_canvas_height_px + 1:
+                 canvas.paste(photo_to_place, (x, y))
+                 photo_count += 1
+            else:
+                logging.warning(f"Photo {r_idx},{c_idx} at ({x},{y}) calculated outside canvas. Photo: {photo_w_px}x{photo_h_px}. Skipping.")
+    
+    if photo_count > 0:
+        line_color = (200, 200, 200)
+        line_width = 1
+        
+        # Горизонтальные линии (между рядами)
+        if num_rows > 1:
+             for r_idx in range(num_rows - 1):
+                 # Линия рисуется ПОСЛЕ r_idx-го ряда, перед следующим spacing_y
+                 y_line = start_y + (r_idx + 1) * photo_h_px + r_idx * photo_spacing_for_loop_y + photo_spacing_for_loop_y // 2
+                 if photo_spacing_for_loop_y == 0: # Если отступа нет, линия по границе фото
+                     y_line = start_y + (r_idx + 1) * photo_h_px
+                 
+                 line_start_x = start_x 
+                 line_end_x = start_x + num_cols * photo_w_px + max(0, num_cols - 1) * photo_spacing_for_loop_x
+                 draw.line([(line_start_x, y_line), (line_end_x, y_line)], fill=line_color, width=line_width)
+        
+        # Вертикальные линии (между колонками)
+        if num_cols > 1:
+            for c_idx in range(num_cols - 1):
+                 x_line = start_x + (c_idx + 1) * photo_w_px + c_idx * photo_spacing_for_loop_x + photo_spacing_for_loop_x // 2
+                 if photo_spacing_for_loop_x == 0:
+                     x_line = start_x + (c_idx + 1) * photo_w_px
+
+                 line_start_y = start_y
+                 line_end_y = start_y + num_rows * photo_h_px + max(0, num_rows - 1) * photo_spacing_for_loop_y
+                 draw.line([(x_line, line_start_y), (x_line, line_end_y)], fill=line_color, width=line_width)
+
+    logging.info(f"Pasted {photo_count} photos on fixed canvas with cutting lines.")
+    return canvas
+
+
+def create_printable_image(processed_image_path, printable_path, fonts_folder, 
+                           photo_spec: Optional[PhotoSpecification] = None): # Убраны rows, cols
+    if photo_spec is None:
+        logging.error("PhotoSpecification is required for create_printable_image.")
+        Image.new('RGB', (1200,1800), 'white').save(printable_path)
+        return
+
+    try:
+        source_photo_pil = Image.open(processed_image_path)
+    except FileNotFoundError:
+        logging.error(f"Processed image not found at {processed_image_path}")
+        Image.new('RGB', (1200,1800), 'white').save(printable_path)
+        return
+    
+    if source_photo_pil.size != (photo_spec.photo_width_px, photo_spec.photo_height_px):
+        source_photo_pil = source_photo_pil.resize((photo_spec.photo_width_px, photo_spec.photo_height_px), Image.LANCZOS)
+
+    canvas_width_px = 4 * PIXELS_PER_INCH
+    canvas_height_px = 6 * PIXELS_PER_INCH
+
+    final_canvas = _generate_layout_on_fixed_canvas(
+        photo_to_place=source_photo_pil,
+        photo_spec=photo_spec,
+        target_canvas_width_px=canvas_width_px,
+        target_canvas_height_px=canvas_height_px
+    )
+    
+    final_canvas.save(printable_path, dpi=(photo_spec.dpi, photo_spec.dpi), quality=95)
+    logging.info(f"Printable image (strict photo size on 4x6) saved at {printable_path}.")
+
+
+def create_printable_preview(processed_image_path, printable_preview_path, fonts_folder, 
+                             photo_spec: Optional[PhotoSpecification] = None): # Убраны rows, cols
+    if photo_spec is None:
+        logging.error("PhotoSpecification is required for create_printable_preview.")
+        Image.new('RGB', (1200,1800), 'white').save(printable_preview_path)
+        return
+
+    try:
+        source_photo_pil = Image.open(processed_image_path)
+    except FileNotFoundError:
+        logging.error(f"Processed image not found at {processed_image_path}")
+        Image.new('RGB', (1200,1800), 'white').save(printable_preview_path)
+        return
+
+    if source_photo_pil.size != (photo_spec.photo_width_px, photo_spec.photo_height_px):
+        source_photo_pil = source_photo_pil.resize((photo_spec.photo_width_px, photo_spec.photo_height_px), Image.LANCZOS)
+
+    watermarked_single_photo_rgba = _apply_watermark_to_single_photo_for_printable(source_photo_pil, fonts_folder)
+    
+    photo_to_paste_on_sheet = watermarked_single_photo_rgba
+    if watermarked_single_photo_rgba.mode == 'RGBA':
+        temp_bg_for_paste = Image.new('RGB', watermarked_single_photo_rgba.size, (255,255,255))
+        temp_bg_for_paste.paste(watermarked_single_photo_rgba, (0,0), watermarked_single_photo_rgba)
+        photo_to_paste_on_sheet = temp_bg_for_paste
+    else:
+        photo_to_paste_on_sheet = watermarked_single_photo_rgba.convert('RGB')
+    
+    canvas_width_px = 4 * PIXELS_PER_INCH
+    canvas_height_px = 6 * PIXELS_PER_INCH
+
+    final_canvas = _generate_layout_on_fixed_canvas(
+        photo_to_place=photo_to_paste_on_sheet,
+        photo_spec=photo_spec,
+        target_canvas_width_px=canvas_width_px,
+        target_canvas_height_px=canvas_height_px
     )
 
-    # Наложение водяного знака
-    watermarked_photo = Image.alpha_composite(watermarked_photo, watermark_overlay)
-
-    # Конвертация обратно в RGB
-    watermarked_photo = watermarked_photo.convert('RGB')
-
-    return watermarked_photo
+    final_canvas.save(printable_preview_path, dpi=(photo_spec.dpi, photo_spec.dpi), quality=90)
+    logging.info(f"Printable preview (strict photo size on 4x6) saved at {printable_preview_path}.")
