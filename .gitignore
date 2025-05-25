@@ -82,3 +82,11 @@ test_improved_algorithm.py
 # Uncomment if you want to exclude models from git
 gfpgan/weights/*.pth
 models/*.onnx
+
+# Environment variables and sensitive data
+.env
+*.db
+payments.db
+
+# Payment system files
+stripe_logs/

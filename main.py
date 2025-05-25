@@ -1,6 +1,6 @@
 # main.py
 
-from flask import Flask, request, jsonify, render_template, send_file, send_from_directory
+from flask import Flask, request, jsonify, render_template, send_file, send_from_directory, abort
 import os
 import uuid
 import urllib.parse
@@ -9,6 +9,7 @@ import traceback
 import ssl
 import urllib.request
 import requests
+import json
 
 from flask_socketio import SocketIO, emit
 from image_processing import VisaPhotoProcessor
@@ -21,12 +22,45 @@ import onnxruntime as ort
 from photo_specs import DOCUMENT_SPECIFICATIONS, PhotoSpecification, get_photo_specification # Added get_photo_specification
 import mediapipe as mp
 
+# Payment system imports
+from payment_service import StripePaymentService, PricingService
+from models import Order, DatabaseManager
+from email_service import EmailService, configure_mail
+
 # Initialize Flask application
 app = Flask(__name__, static_folder='static', template_folder='templates')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
 socketio = SocketIO(app)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Payment system configuration
+try:
+    payment_service = StripePaymentService()
+    logging.info("Stripe payment service initialized successfully")
+except Exception as e:
+    logging.warning(f"Stripe payment service initialization failed: {e}")
+    payment_service = None
+
+# Email configuration
+try:
+    mail = configure_mail(app)
+    email_service = EmailService(mail)
+    logging.info("Email service initialized successfully")
+except Exception as e:
+    logging.warning(f"Email service initialization failed: {e}")
+    email_service = EmailService()  # Will work in demo mode
+
+# Initialize database
+try:
+    db_manager = DatabaseManager()
+    order_manager = Order(db_manager)
+    logging.info("Database initialized successfully")
+except Exception as e:
+    logging.error(f"Database initialization failed: {e}")
+    db_manager = None
+    order_manager = None
 
 # Directory configuration
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -506,6 +540,11 @@ def debug_preview_page():
     """Debug page for testing preview generation."""
     return render_template('debug_preview.html')
 
+@app.route('/payment')
+def payment_page():
+    """Payment page for purchasing photo downloads."""
+    return render_template('payment.html')
+
 @app.route('/debug_preview/<filename>')
 def debug_preview_image(filename):
     """Generate debug preview for a specific processed image."""
@@ -567,6 +606,207 @@ def debug_preview_image(filename):
     except Exception as e:
         logging.error(f"Debug preview error: {str(e)}")
         return jsonify({'error': str(e)}), 500
+
+# === PAYMENT SYSTEM ROUTES ===
+
+@app.route('/api/pricing')
+def get_pricing():
+    """Get available pricing options."""
+    return jsonify(PricingService.get_all_pricing())
+
+@app.route('/api/create-payment-intent', methods=['POST'])
+def create_payment_intent():
+    """Create payment intent for order."""
+    try:
+        if not payment_service or not order_manager:
+            return jsonify({'error': 'Payment system not available'}), 503
+        
+        data = request.get_json()
+        email = data.get('email')
+        processed_filename = data.get('processed_filename')
+        printable_filename = data.get('printable_filename')
+        product_type = data.get('product_type', 'single_photo')
+        photo_info = data.get('photo_info')
+        
+        if not email or not processed_filename:
+            return jsonify({'error': 'Email and processed filename required'}), 400
+        
+        # Get pricing
+        pricing = PricingService.get_price(product_type)
+        
+        # Create order
+        order_number = order_manager.create_order(
+            email=email,
+            processed_filename=processed_filename,
+            printable_filename=printable_filename,
+            amount_cents=pricing['amount_cents'],
+            currency=pricing['currency'],
+            photo_info=json.dumps(photo_info) if photo_info else None
+        )
+        
+        # Create payment intent
+        payment_intent = payment_service.create_payment_intent(
+            order_number=order_number,
+            email=email,
+            amount_cents=pricing['amount_cents'],
+            currency=pricing['currency']
+        )
+        
+        return jsonify({
+            'client_secret': payment_intent['client_secret'],
+            'order_number': order_number,
+            'amount': pricing['amount_cents'],
+            'currency': pricing['currency'],
+            'publishable_key': payment_service.get_publishable_key()
+        })
+        
+    except Exception as e:
+        logging.error(f"Payment intent creation error: {str(e)}")
+        return jsonify({'error': 'Failed to create payment intent'}), 500
+
+@app.route('/api/webhook', methods=['POST'])
+def stripe_webhook():
+    """Handle Stripe webhooks."""
+    try:
+        if not payment_service:
+            return jsonify({'error': 'Payment service not available'}), 503
+        
+        payload = request.get_data()
+        sig_header = request.headers.get('Stripe-Signature')
+        webhook_secret = os.getenv('STRIPE_WEBHOOK_SECRET')
+        
+        if not webhook_secret:
+            logging.error("STRIPE_WEBHOOK_SECRET not configured")
+            return jsonify({'error': 'Webhook not configured'}), 500
+        
+        payment_service.handle_webhook(payload, sig_header, webhook_secret)
+        return jsonify({'status': 'success'})
+        
+    except Exception as e:
+        logging.error(f"Webhook error: {str(e)}")
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/download/<order_number>/<file_type>')
+def download_paid_file(order_number, file_type):
+    """Download file after payment verification."""
+    try:
+        if not order_manager:
+            return jsonify({'error': 'Order system not available'}), 503
+        
+        # Verify order and payment
+        can_download, message = order_manager.can_download(order_number)
+        if not can_download:
+            return jsonify({'error': message}), 403
+        
+        # Get order details
+        order = order_manager.get_order(order_number)
+        if not order:
+            return jsonify({'error': 'Order not found'}), 404
+        
+        # Determine file path
+        if file_type == 'processed':
+            filename = order['processed_filename']
+            file_path = os.path.join(PROCESSED_FOLDER, filename)
+            download_name = "visa_photo_final.jpg"
+        elif file_type == 'printable':
+            filename = order['printable_filename']
+            if not filename:
+                return jsonify({'error': 'Printable file not available'}), 404
+            file_path = os.path.join(PROCESSED_FOLDER, filename)
+            download_name = "visa_photo_printable_4x6.jpg"
+        else:
+            return jsonify({'error': 'Invalid file type'}), 400
+        
+        # Check if file exists
+        if not os.path.exists(file_path):
+            logging.error(f"File not found: {file_path}")
+            return jsonify({'error': 'File not found'}), 404
+        
+        # Log download attempt
+        order_manager.increment_download_count(
+            order_number, 
+            file_type,
+            request.remote_addr,
+            request.headers.get('User-Agent')
+        )
+        
+        # Send file
+        response = send_file(
+            file_path,
+            as_attachment=True,
+            download_name=download_name,
+            mimetype='image/jpeg'
+        )
+        
+        # Disable caching
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        
+        logging.info(f"Served paid download: {file_path} for order {order_number}")
+        return response
+        
+    except Exception as e:
+        logging.error(f"Paid download error: {str(e)}")
+        return jsonify({'error': 'Download failed'}), 500
+
+@app.route('/order/<order_number>')
+def get_order_status(order_number):
+    """Get order status and details."""
+    try:
+        if not order_manager:
+            return jsonify({'error': 'Order system not available'}), 503
+        
+        order = order_manager.get_order(order_number)
+        if not order:
+            return jsonify({'error': 'Order not found'}), 404
+        
+        # Don't expose sensitive information
+        safe_order = {
+            'order_number': order['order_number'],
+            'payment_status': order['payment_status'],
+            'amount_cents': order['amount_cents'],
+            'currency': order['currency'],
+            'created_at': order['created_at'],
+            'download_count': order['download_count'],
+            'max_downloads': order['max_downloads']
+        }
+        
+        if order['download_expires_at']:
+            safe_order['download_expires_at'] = order['download_expires_at']
+        
+        return jsonify(safe_order)
+        
+    except Exception as e:
+        logging.error(f"Order status error: {str(e)}")
+        return jsonify({'error': 'Failed to get order status'}), 500
+
+# Admin routes (protect these in production!)
+@app.route('/admin/orders')
+def admin_orders():
+    """Admin view of all orders (protect in production!)."""
+    if not db_manager:
+        return jsonify({'error': 'Database not available'}), 503
+    
+    try:
+        with db_manager.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                SELECT order_number, email, payment_status, amount_cents, 
+                       currency, created_at, download_count 
+                FROM orders 
+                ORDER BY created_at DESC 
+                LIMIT 50
+            ''')
+            orders = cursor.fetchall()
+            columns = [description[0] for description in cursor.description]
+            orders_list = [dict(zip(columns, row)) for row in orders]
+        
+        return jsonify(orders_list)
+        
+    except Exception as e:
+        logging.error(f"Admin orders error: {str(e)}")
+        return jsonify({'error': 'Failed to fetch orders'}), 500
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=8000, allow_unsafe_werkzeug=True)

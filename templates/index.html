@@ -117,11 +117,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-7 gap-6 md:gap-8 items-start">
                     <div class="md:col-span-3 flex flex-col items-center">
                         <img id="processed-image-preview" src="#" alt="Processed photo preview" class="w-full max-w-xs md:max-w-sm rounded border border-gray-300 shadow-md mb-4">
-                        <a href="#" id="download-link" class="btn-brand-green text-center py-2.5 px-6 rounded-md font-semibold flex items-center justify-center space-x-2 w-full max-w-xs">
-                            <i data-lucide="download-cloud" class="w-5 h-5"></i>
-                            <span>Continue to Download</span>
-                        </a>
-                        <p class="text-xs text-gray-500 mt-1.5 text-center">Watermarks are for preview only.</p>
+                        <button id="purchase-single-btn" class="bg-blue-600 hover:bg-blue-700 text-white text-center py-2.5 px-6 rounded-md font-semibold flex items-center justify-center space-x-2 w-full max-w-xs transition-colors">
+                            <i data-lucide="credit-card" class="w-5 h-5"></i>
+                            <span>Buy for $2.99</span>
+                        </button>
+                        <p class="text-xs text-gray-500 mt-1.5 text-center">Remove watermark • High quality • Instant download</p>
                     </div>
 
                     <div class="md:col-span-4">
@@ -139,11 +139,11 @@
                     <div class="flex justify-center">
                          <img id="printable-preview-image" src="#" alt="Print preview" class="max-w-md rounded border border-gray-300 shadow-md mb-4">
                     </div>
-                    <a href="#" id="download-printable-link" class="btn-brand-green text-center py-2.5 px-6 rounded-md font-semibold flex items-center justify-center space-x-2 mx-auto max-w-xs">
-                        <i data-lucide="printer" class="w-5 h-5"></i>
-                        <span>Download for Printing</span>
-                    </a>
-                     <p class="text-xs text-gray-500 mt-1.5 text-center">Watermarks are for preview only.</p>
+                    <button id="purchase-bundle-btn" class="bg-green-600 hover:bg-green-700 text-white text-center py-2.5 px-6 rounded-md font-semibold flex items-center justify-center space-x-2 mx-auto max-w-xs transition-colors">
+                        <i data-lucide="package" class="w-5 h-5"></i>
+                        <span>Buy Both for $4.99</span>
+                    </button>
+                     <p class="text-xs text-gray-500 mt-1.5 text-center">Photo + Printable layout • Best value</p>
                 </div>
             </div>
         </div>
@@ -375,6 +375,67 @@
                 }
                 lucide.createIcons();
             }
+            
+            // Payment functionality
+            let lastProcessedData = null;
+            
+            // Store processed data when file processing completes
+            socket.on('file_processed', function(data) {
+                lastProcessedData = data;
+                setupPaymentButtons();
+            });
+            
+            function setupPaymentButtons() {
+                const singleBtn = document.getElementById('purchase-single-btn');
+                const bundleBtn = document.getElementById('purchase-bundle-btn');
+                
+                if (singleBtn) {
+                    singleBtn.addEventListener('click', () => {
+                        initiatePayment('single_photo');
+                    });
+                }
+                
+                if (bundleBtn) {
+                    bundleBtn.addEventListener('click', () => {
+                        initiatePayment('photo_with_printable');
+                    });
+                }
+            }
+            
+            function initiatePayment(productType) {
+                if (!lastProcessedData) {
+                    showMessage('error', 'No processed image data available');
+                    return;
+                }
+                
+                // Get pricing information
+                fetch('/api/pricing')
+                    .then(response => response.json())
+                    .then(pricing => {
+                        const selectedPricing = pricing[productType];
+                        if (!selectedPricing) {
+                            throw new Error('Invalid product type');
+                        }
+                        
+                        // Prepare payment data
+                        const paymentData = {
+                            processed_filename: lastProcessedData.processed_filename,
+                            printable_filename: productType.includes('printable') ? lastProcessedData.printable_filename : null,
+                            product_type: productType,
+                            pricing: selectedPricing,
+                            photo_info: lastProcessedData.photo_info
+                        };
+                        
+                        // Store payment data and redirect to payment page
+                        localStorage.setItem('paymentData', JSON.stringify(paymentData));
+                        window.location.href = '/payment';
+                    })
+                    .catch(error => {
+                        console.error('Payment initiation error:', error);
+                        showMessage('error', 'Failed to initiate payment. Please try again.');
+                    });
+            }
+            
             toggleUploadActiveState(); // Initial UI setup for upload area
             lucide.createIcons();
         });

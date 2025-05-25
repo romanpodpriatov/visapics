@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - VisaPicture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .StripeElement {
+            box-sizing: border-box;
+            height: 40px;
+            padding: 10px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background-color: white;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: box-shadow 150ms ease;
+        }
+        
+        .StripeElement--focus {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+        }
+        
+        .StripeElement--invalid {
+            border-color: #ef4444;
+        }
+        
+        .StripeElement--webkit-autofill {
+            background-color: #fefefe !important;
+        }
+        
+        .payment-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+        <div class="payment-form">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">💳 Secure Payment</h1>
+                <p class="text-gray-600">Complete your purchase to download your visa photo</p>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
+                
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Product:</span>
+                        <span class="font-medium" id="product-name">Visa Photo Download</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Email:</span>
+                        <span class="font-medium" id="customer-email">customer@example.com</span>
+                    </div>
+                    <div class="border-t pt-3 flex justify-between text-lg font-bold">
+                        <span>Total:</span>
+                        <span id="total-amount">$2.99</span>
+                    </div>
+                </div>
+                
+                <!-- What's included -->
+                <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-md">
+                    <h3 class="text-sm font-medium text-green-800 mb-2">✅ What's included:</h3>
+                    <ul class="text-sm text-green-700 space-y-1">
+                        <li>• High-quality processed visa photo (without watermark)</li>
+                        <li id="printable-included" class="hidden">• Printable 4x6" layout for professional printing</li>
+                        <li>• Email receipt and download links</li>
+                        <li>• 30 days download access</li>
+                        <li>• Up to 5 downloads per order</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Payment Form -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <form id="payment-form">
+                    <div class="mb-6">
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                            Email Address *
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="your@email.com"
+                        >
+                        <p class="mt-1 text-xs text-gray-500">We will send a copy of the result photo and a receipt to this email address.</p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="card-element" class="block text-sm font-medium text-gray-700 mb-2">
+                            Card Information *
+                        </label>
+                        <div id="card-element" class="mb-3">
+                            <!-- Stripe Elements will create form elements here -->
+                        </div>
+                        <div id="card-errors" role="alert" class="text-red-600 text-sm"></div>
+                    </div>
+                    
+                    <!-- Security Notice -->
+                    <div class="mb-6 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                        <div class="flex items-start">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-blue-600 mr-2 mt-0.5"></i>
+                            <div class="text-sm text-blue-700">
+                                <p class="font-medium">Secure Payment</p>
+                                <p>Your payment is processed securely by Stripe. We never store your card information.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button 
+                        type="submit" 
+                        id="submit-button"
+                        class="w-full bg-blue-600 text-white py-3 px-4 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150"
+                    >
+                        <span id="button-text">Complete Payment</span>
+                        <span id="spinner" class="hidden">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Processing...
+                        </span>
+                    </button>
+                </form>
+                
+                <!-- Success Message -->
+                <div id="payment-success" class="hidden mt-6 p-4 bg-green-50 border border-green-200 rounded-md">
+                    <div class="flex">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-600 mr-2 mt-0.5"></i>
+                        <div>
+                            <h3 class="text-sm font-medium text-green-800">Payment Successful!</h3>
+                            <div class="mt-2 text-sm text-green-700">
+                                <p>Your order <span id="order-number" class="font-medium"></span> has been processed.</p>
+                                <p>Check your email for download links and receipt.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Error Message -->
+                <div id="payment-error" class="hidden mt-6 p-4 bg-red-50 border border-red-200 rounded-md">
+                    <div class="flex">
+                        <i data-lucide="alert-circle" class="w-5 h-5 text-red-600 mr-2 mt-0.5"></i>
+                        <div>
+                            <h3 class="text-sm font-medium text-red-800">Payment Failed</h3>
+                            <div class="mt-2 text-sm text-red-700">
+                                <p id="error-message">An error occurred processing your payment.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="text-center mt-6 text-sm text-gray-500">
+                <p>Need help? Contact support with any questions.</p>
+                <p class="mt-2">
+                    <a href="/" class="text-blue-600 hover:text-blue-500">← Back to Photo Processing</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Payment processing variables
+        let stripe;
+        let elements;
+        let card;
+        let paymentData = {};
+        
+        // Initialize payment form
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePayment();
+            loadPaymentData();
+        });
+        
+        function initializePayment() {
+            // Get payment data from URL parameters or localStorage
+            const urlParams = new URLSearchParams(window.location.search);
+            const storedData = localStorage.getItem('paymentData');
+            
+            if (storedData) {
+                paymentData = JSON.parse(storedData);
+                updateOrderSummary();
+                initializeStripe();
+            } else {
+                showError('Payment session expired. Please start over.');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 3000);
+            }
+        }
+        
+        function updateOrderSummary() {
+            if (!paymentData.pricing) return;
+            
+            const amount = paymentData.pricing.amount_cents / 100;
+            document.getElementById('total-amount').textContent = `$${amount.toFixed(2)}`;
+            document.getElementById('product-name').textContent = paymentData.pricing.description;
+            
+            if (paymentData.printable_filename) {
+                document.getElementById('printable-included').classList.remove('hidden');
+            }
+            
+            if (paymentData.email) {
+                document.getElementById('email').value = paymentData.email;
+                document.getElementById('customer-email').textContent = paymentData.email;
+            }
+        }
+        
+        async function initializeStripe() {
+            try {
+                // Create payment intent
+                const response = await fetch('/api/create-payment-intent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: paymentData.email,
+                        processed_filename: paymentData.processed_filename,
+                        printable_filename: paymentData.printable_filename,
+                        product_type: paymentData.product_type || 'single_photo',
+                        photo_info: paymentData.photo_info
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to initialize payment');
+                }
+                
+                // Initialize Stripe
+                stripe = Stripe(data.publishable_key);
+                elements = stripe.elements();
+                
+                // Create card element
+                card = elements.create('card', {
+                    style: {
+                        base: {
+                            fontSize: '16px',
+                            color: '#374151',
+                            '::placeholder': {
+                                color: '#9ca3af',
+                            },
+                        },
+                    },
+                });
+                
+                card.mount('#card-element');
+                card.addEventListener('change', handleCardChange);
+                
+                // Store payment intent data
+                paymentData.clientSecret = data.client_secret;
+                paymentData.orderNumber = data.order_number;
+                
+                // Set up form submission
+                document.getElementById('payment-form').addEventListener('submit', handlePaymentSubmit);
+                
+            } catch (error) {
+                console.error('Payment initialization error:', error);
+                showError(error.message);
+            }
+        }
+        
+        function handleCardChange(event) {
+            const cardErrors = document.getElementById('card-errors');
+            if (event.error) {
+                cardErrors.textContent = event.error.message;
+            } else {
+                cardErrors.textContent = '';
+            }
+        }
+        
+        async function handlePaymentSubmit(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            if (!email) {
+                showError('Please enter your email address');
+                return;
+            }
+            
+            setLoading(true);
+            
+            try {
+                const result = await stripe.confirmCardPayment(paymentData.clientSecret, {
+                    payment_method: {
+                        card: card,
+                        billing_details: {
+                            email: email,
+                        },
+                    }
+                });
+                
+                if (result.error) {
+                    throw new Error(result.error.message);
+                } else {
+                    // Payment succeeded
+                    showSuccess(paymentData.orderNumber);
+                    // Clear stored payment data
+                    localStorage.removeItem('paymentData');
+                }
+                
+            } catch (error) {
+                console.error('Payment error:', error);
+                showError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        
+        function setLoading(loading) {
+            const submitButton = document.getElementById('submit-button');
+            const buttonText = document.getElementById('button-text');
+            const spinner = document.getElementById('spinner');
+            
+            submitButton.disabled = loading;
+            
+            if (loading) {
+                buttonText.classList.add('hidden');
+                spinner.classList.remove('hidden');
+            } else {
+                buttonText.classList.remove('hidden');
+                spinner.classList.add('hidden');
+            }
+        }
+        
+        function showSuccess(orderNumber) {
+            document.getElementById('payment-form').classList.add('hidden');
+            document.getElementById('payment-error').classList.add('hidden');
+            document.getElementById('order-number').textContent = orderNumber;
+            document.getElementById('payment-success').classList.remove('hidden');
+        }
+        
+        function showError(message) {
+            document.getElementById('payment-success').classList.add('hidden');
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('payment-error').classList.remove('hidden');
+        }
+        
+        function loadPaymentData() {
+            // This would be called from the main page when redirecting to payment
+            // For now, we'll just check if we have the data
+        }
+    </script>
+</body>
+</html>
