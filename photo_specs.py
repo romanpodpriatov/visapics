@@ -322,6 +322,281 @@ DOCUMENT_SPECIFICATIONS.append(
     )
 )
 
+# US Citizenship (Naturalization) - N-400 Application
+# Similar to passport requirements
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Citizenship",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.uscis.gov/n-400"]
+    )
+)
+
+# US Employment Authorization Document (EAD) - I-765
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Employment Authorization",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.uscis.gov/i-765"]
+    )
+)
+
+# US NY Gun License - 1.5x1.5 inch
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="NY Gun License",
+        photo_width_mm=38.1, photo_height_mm=38.1, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.80,
+        eye_min_from_bottom_mm=20.0, eye_max_from_bottom_mm=25.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.ny.gov/services/apply-pistol-permit"]
+    )
+)
+
+# US Crew Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Crew Visa",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://travel.state.gov/content/travel/en/us-visas/"]
+    )
+)
+
+# US Form I-130 (Petition for Alien Relative)
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Form I-130",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.uscis.gov/i-130"]
+    )
+)
+
+# US Bar Examination - 300x300 pixels specification
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Bar Examination",
+        photo_width_mm=25.4, photo_height_mm=25.4, dpi=300, # 1x1 inch at 300dpi = 300x300px
+        head_min_percentage=0.60, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=13.0, eye_max_from_bottom_mm=17.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.ncbex.org/"]
+    )
+)
+
+# US PADI Certification Card - 45x57mm (1.75x2.25 inch)
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="PADI Certification",
+        photo_width_mm=45.0, photo_height_mm=57.0, dpi=300,
+        head_min_mm=30.0, head_max_mm=40.0,
+        eye_min_from_bottom_mm=30.0, eye_max_from_bottom_mm=40.0,
+        background_color="white", glasses_allowed="if_no_glare",
+        source_urls=["https://www.padi.com/"]
+    )
+)
+
+# US Nursing License
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Nursing License",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.ncsbn.org/"]
+    )
+)
+
+# US Re-entry Permit
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Re-entry Permit",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.uscis.gov/i-131"]
+    )
+)
+
+# US Welding Certificate
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Welding Certificate",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.aws.org/"]
+    )
+)
+
+# US FOID (Firearm Owner Identification) - 1.25x1.5 inch
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="FOID",
+        photo_width_mm=31.75, photo_height_mm=38.1, dpi=300, # 1.25x1.5 inch
+        head_min_percentage=0.65, head_max_percentage=0.80,
+        eye_min_from_bottom_mm=20.0, eye_max_from_bottom_mm=25.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.illinois.gov/ISP/"]
+    )
+)
+
+# US Advance Parole - I-131
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Advance Parole",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.uscis.gov/i-131"]
+    )
+)
+
+# US Veteran ID Card
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Veteran ID Card",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.va.gov/records/get-veteran-id-cards/"]
+    )
+)
+
+# US Passport Card
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="Passport Card",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://travel.state.gov/content/travel/en/passports/how-apply/photos.html"]
+    )
+)
+
+# US SAT (Standardized Test)
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="SAT",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="if_no_glare",
+        source_urls=["https://collegereadiness.collegeboard.org/sat"]
+    )
+)
+
+# US NFA ATF Form
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="NFA ATF Form",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.atf.gov/"]
+    )
+)
+
+# USCIS (General) - for various USCIS forms
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="US",
+        document_name="USCIS",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.uscis.gov/"]
+    )
+)
+
+# Generic Visa Service Providers
+# CIBTvisas
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="GENERIC",
+        document_name="CIBTvisas",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://cibtvisas.com/"]
+    )
+)
+
+# VisaCentral
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="GENERIC",
+        document_name="VisaCentral",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.visacentral.com/"]
+    )
+)
+
+# Travisa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="GENERIC",
+        document_name="Travisa",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.travisa.com/"]
+    )
+)
+
+# VisaHQ
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="GENERIC",
+        document_name="VisaHQ",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        source_urls=["https://www.visahq.com/"]
+    )
+)
+
 # TODO: Add more specifications as needed.
 # - Canada Passport/Visa
 # - China Passport/Visa

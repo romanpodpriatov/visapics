@@ -97,7 +97,7 @@ class TestAppRoutes(unittest.TestCase):
         self.assertIn('printable_filename', json_response)
         self.assertIn('printable_preview_filename', json_response)
         self.assertEqual(json_response['photo_info'], sample_photo_info)
-        self.assertEqual(json_response['message'], 'Файл успешно обработан')
+        self.assertEqual(json_response['message'], 'File successfully processed')
 
         # Check that VisaPhotoProcessor was instantiated and its method called
         MockVisaPhotoProcessor.assert_called_once() # Check instantiation
@@ -175,7 +175,7 @@ class TestAppRoutes(unittest.TestCase):
         response = self.client.get('/previews/non_existent_preview.jpg')
         self.assertEqual(response.status_code, 404)
         json_response = json.loads(response.data)
-        self.assertIn('Превью не найдено', json_response['error'])
+        self.assertIn('Preview not found', json_response['error'])
 
     def test_get_preview_disallowed_type(self):
         # Attempt to access a .txt file as if it's a preview
@@ -187,7 +187,7 @@ class TestAppRoutes(unittest.TestCase):
         response = self.client.get(f'/previews/{dummy_filename}')
         self.assertEqual(response.status_code, 400) # Based on is_allowed_file check
         json_response = json.loads(response.data)
-        self.assertIn('Недопустимый тип файла', json_response['error'])
+        self.assertIn('Invalid file type', json_response['error'])
         
     # --- Tests for /download/<filename> ---
     def test_download_file_success(self):
@@ -206,7 +206,7 @@ class TestAppRoutes(unittest.TestCase):
         response = self.client.get('/download/non_existent_processed.jpg')
         self.assertEqual(response.status_code, 404)
         json_response = json.loads(response.data)
-        self.assertIn('Файл не найден', json_response['error'])
+        self.assertIn('File not found', json_response['error'])
 
     # --- Tests for /previews/printable/<filename> ---
     def test_get_printable_preview_success(self):
@@ -224,7 +224,7 @@ class TestAppRoutes(unittest.TestCase):
         response = self.client.get('/previews/printable/non_existent_printable_preview.jpg')
         self.assertEqual(response.status_code, 404)
         json_response = json.loads(response.data)
-        self.assertIn('Превью не найдено', json_response['error']) # Same error message as regular preview
+        self.assertIn('Preview not found', json_response['error']) # Same error message as regular preview
 
     # --- Tests for /download_printable/<filename> ---
     def test_download_printable_success(self):
@@ -243,7 +243,7 @@ class TestAppRoutes(unittest.TestCase):
         response = self.client.get('/download_printable/non_existent_printable.jpg')
         self.assertEqual(response.status_code, 404)
         json_response = json.loads(response.data)
-        self.assertIn('Файл не найден', json_response['error'])
+        self.assertIn('File not found', json_response['error'])
 
 
 if __name__ == '__main__':

@@ -21,21 +21,21 @@ import onnxruntime as ort
 from photo_specs import DOCUMENT_SPECIFICATIONS, PhotoSpecification, get_photo_specification # Added get_photo_specification
 import mediapipe as mp
 
-# Инициализация Flask-приложения
+# Initialize Flask application
 app = Flask(__name__, static_folder='static', template_folder='templates')
 socketio = SocketIO(app)
 
-# Настройка логирования
+# Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Конфигурация директорий
+# Directory configuration
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
 PROCESSED_FOLDER = os.path.join(BASE_DIR, 'processed')
 PREVIEW_FOLDER = os.path.join(BASE_DIR, 'previews')
 FONTS_FOLDER = os.path.join(BASE_DIR, 'fonts')
 
-# Создание необходимых папок
+# Create necessary directories
 for folder in [UPLOAD_FOLDER, PROCESSED_FOLDER, PREVIEW_FOLDER, FONTS_FOLDER]:
     os.makedirs(folder, exist_ok=True)
     logging.info(f"Created directory: {folder}")
@@ -165,9 +165,9 @@ except Exception as e:
     face_mesh_instance = None
 # --- End of ML Models and Services Initialization ---
 
-# Настройка конфигурации приложения
+# Configure application settings
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # Ограничение на 10 МБ
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10MB limit
 
 # --- Country Display Names (can be moved to a config or photo_specs.py if it grows) ---
 COUNTRY_DISPLAY_NAMES = {
@@ -183,7 +183,7 @@ COUNTRY_DISPLAY_NAMES = {
 @app.route('/')
 def index():
     """
-    Главная страница.
+    Main page.
     """
     # Prepare unique list of countries for the dropdown
     # Each item in countries will be a tuple: (country_code, display_name)
@@ -214,14 +214,14 @@ def get_document_types(country_code):
 @app.route('/static/<path:path>')
 def send_static_files(path):
     """
-    Отправка статических файлов.
+    Serve static files.
     """
     return send_from_directory('static', path)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
     """
-    Обработка загрузки файла.
+    Handle file upload processing.
     """
     input_path = None
     processed_path = None
@@ -287,7 +287,7 @@ def upload_file():
             # Emit an event to notify the client that the file is being processed
             socketio.emit('processing_status', {'status': 'Processing started'})
 
-            # Используем класс VisaPhotoProcessor для обработки изображения
+            # Use VisaPhotoProcessor class for image processing
             processor = VisaPhotoProcessor(
                 input_path=input_path,
                 processed_path=processed_path,
@@ -309,7 +309,7 @@ def upload_file():
             if not gfpganer_instance:
                 logging.warning("GFPGANer failed to initialize. Proceeding without image enhancement.")
 
-            # Обработка изображения и emit status updates
+            # Process image and emit status updates
             photo_info = processor.process_with_updates(socketio)
 
             # DV Lottery specific validation for processed file size
@@ -332,12 +332,12 @@ def upload_file():
                 'printable_filename': os.path.basename(printable_path),
                 'printable_preview_filename': os.path.basename(printable_preview_path),
                 'photo_info': photo_info,
-                'message': 'Файл успешно обработан'
+                'message': 'File processed successfully'
             }
 
             logging.info("File processed successfully")
 
-            # Удаляем загруженный файл после обработки
+            # Clean up uploaded file after processing
             if input_path and os.path.exists(input_path):
                 os.remove(input_path)
                 logging.info(f"Cleaned up input file: {input_path}")
@@ -355,7 +355,7 @@ def upload_file():
         logging.error(f"Error during file upload: {str(e)}")
         logging.error(f"Traceback: {traceback.format_exc()}")
 
-        # Удаление файлов в случае ошибки
+        # Clean up files in case of error
         for path in [input_path, processed_path, preview_path, printable_path, printable_preview_path]:
             if path and os.path.exists(path):
                 try:
@@ -372,77 +372,77 @@ def upload_file():
 @app.route('/previews/<filename>')
 def get_preview(filename):
     """
-    Получение превью.
+    Get preview image.
     """
     try:
-        # Декодирование URL и очистка имени файла
+        # URL decoding and filename cleaning
         decoded_filename = urllib.parse.unquote(filename)
         clean_filename_var = clean_filename(decoded_filename)
         preview_path = os.path.join(PREVIEW_FOLDER, clean_filename_var)
 
-        # Проверка существования файла
+        # Check if file exists
         if not os.path.exists(preview_path):
             logging.warning(f"Preview not found: {filename}")
-            return jsonify({'error': 'Превью не найдено'}), 404
+            return jsonify({'error': 'Preview not found'}), 404
 
-        # Проверка расширения файла для безопасности
+        # Check file extension for security
         if not is_allowed_file(preview_path):
             logging.warning(f"Attempt to access disallowed file type: {filename}")
-            return jsonify({'error': 'Недопустимый тип файла'}), 400
+            return jsonify({'error': 'Invalid file type'}), 400
 
         logging.info(f"Serving preview: {preview_path}")
         return send_file(preview_path, mimetype='image/jpeg', max_age=300)
     except Exception as e:
         logging.error(f"Preview error: {str(e)}")
-        return jsonify({'error': 'Произошла ошибка при получении превью'}), 500
+        return jsonify({'error': 'Error occurred while getting preview'}), 500
 
 @app.route('/previews/printable/<filename>')
 def get_printable_preview(filename):
     """
-    Получение превью для изображения для печати.
+    Get preview for printable image.
     """
     try:
-        # Декодирование URL и очистка имени файла
+        # URL decoding and filename cleaning
         decoded_filename = urllib.parse.unquote(filename)
         clean_filename_var = clean_filename(decoded_filename)
         preview_path = os.path.join(PREVIEW_FOLDER, clean_filename_var)
 
-        # Проверка существования файла
+        # Check if file exists
         if not os.path.exists(preview_path):
             logging.warning(f"Printable preview not found: {filename}")
-            return jsonify({'error': 'Превью не найдено'}), 404
+            return jsonify({'error': 'Preview not found'}), 404
 
-        # Проверка расширения файла для безопасности
+        # Check file extension for security
         if not is_allowed_file(preview_path):
             logging.warning(f"Attempt to access disallowed file type: {filename}")
-            return jsonify({'error': 'Недопустимый тип файла'}), 400
+            return jsonify({'error': 'Invalid file type'}), 400
 
         logging.info(f"Serving printable preview: {preview_path}")
         return send_file(preview_path, mimetype='image/jpeg', max_age=300)
     except Exception as e:
         logging.error(f"Printable preview error: {str(e)}")
-        return jsonify({'error': 'Произошла ошибка при получении превью для печати'}), 500
+        return jsonify({'error': 'Error occurred while getting printable preview'}), 500
 
 @app.route('/download/<filename>')
 def download_file(filename):
     """
-    Загрузка обработанного файла.
+    Download processed file.
     """
     try:
-        # Декодирование URL и очистка имени файла
+        # URL decoding and filename cleaning
         decoded_filename = urllib.parse.unquote(filename)
         clean_filename_var = clean_filename(decoded_filename)
         file_path = os.path.join(PROCESSED_FOLDER, clean_filename_var)
 
-        # Проверка существования файла
+        # Check if file exists
         if not os.path.exists(file_path):
             logging.warning(f"Processed file not found: {filename}")
-            return jsonify({'error': 'Файл не найден'}), 404
+            return jsonify({'error': 'File not found'}), 404
 
-        # Проверка расширения файла для безопасности
+        # Check file extension for security
         if not is_allowed_file(file_path):
             logging.warning(f"Attempt to download disallowed file type: {filename}")
-            return jsonify({'error': 'Недопустимый тип файла'}), 400
+            return jsonify({'error': 'Invalid file type'}), 400
 
         response = send_file(
             file_path,
@@ -451,7 +451,7 @@ def download_file(filename):
             mimetype='image/jpeg'
         )
 
-        # Отключение кеширования
+        # Disable caching
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
         response.headers["Pragma"] = "no-cache"
         response.headers["Expires"] = "0"
@@ -460,28 +460,28 @@ def download_file(filename):
         return response
     except Exception as e:
         logging.error(f"Download error: {str(e)}")
-        return jsonify({'error': 'Произошла ошибка при загрузке файла'}), 500
+        return jsonify({'error': 'Error occurred while downloading file'}), 500
 
 @app.route('/download_printable/<filename>')
 def download_printable(filename):
     """
-    Загрузка изображения для печати 4x6".
+    Download 4x6" printable image.
     """
     try:
-        # Декодирование URL и очистка имени файла
+        # URL decoding and filename cleaning
         decoded_filename = urllib.parse.unquote(filename)
         clean_filename_var = clean_filename(decoded_filename)
         file_path = os.path.join(PROCESSED_FOLDER, clean_filename_var)
 
-        # Проверка существования файла
+        # Check if file exists
         if not os.path.exists(file_path):
             logging.warning(f"Printable file not found: {filename}")
-            return jsonify({'error': 'Файл не найден'}), 404
+            return jsonify({'error': 'File not found'}), 404
 
-        # Проверка расширения файла для безопасности
+        # Check file extension for security
         if not is_allowed_file(file_path):
             logging.warning(f"Attempt to download disallowed file type: {filename}")
-            return jsonify({'error': 'Недопустимый тип файла'}), 400
+            return jsonify({'error': 'Invalid file type'}), 400
 
         response = send_file(
             file_path,
@@ -490,7 +490,7 @@ def download_printable(filename):
             mimetype='image/jpeg'
         )
 
-        # Отключение кеширования
+        # Disable caching
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
         response.headers["Pragma"] = "no-cache"
         response.headers["Expires"] = "0"
@@ -499,7 +499,7 @@ def download_printable(filename):
         return response
     except Exception as e:
         logging.error(f"Download printable error: {str(e)}")
-        return jsonify({'error': 'Произошла ошибка при загрузке файла для печати'}), 500
+        return jsonify({'error': 'Error occurred while downloading printable file'}), 500
 
 @app.route('/debug_preview')
 def debug_preview_page():

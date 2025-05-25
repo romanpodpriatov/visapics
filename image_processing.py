@@ -33,7 +33,7 @@ BACKGROUND_COLOR_MAP = {
     # Add more as needed by PhotoSpecification entries
 }
 
-# Абстрактный базовый класс
+# Abstract base class
 class ImageProcessor(ABC):
     def __init__(self, 
                  input_path, 
@@ -96,7 +96,7 @@ class VisaPhotoProcessor(ImageProcessor):
             logging.info("Face landmarks detected with injected FaceMesh instance.")
         
         if not face_landmarks:
-            raise ValueError("Не удалось обнаружить лицо. Пожалуйста, убедитесь, что лицо хорошо видно")
+            raise ValueError("Failed to detect face. Please ensure the face is clearly visible.")
 
         if socketio:
             socketio.emit('processing_status', {'status': 'Getting segmentation mask for hair detection'})
@@ -212,11 +212,11 @@ class VisaPhotoProcessor(ImageProcessor):
             compliance['eye_position'] = "N/A (No spec range)"
             compliance['eye_to_bottom'] = "N/A (No spec range)"
         
-        # Добавляем вывод compliance информации
-        logging.info(f"📊 COMPLIANCE АНАЛИЗ:")
-        logging.info(f"   Head Height: {achieved_head_height_mm:.2f}mm (требование: {spec_head_range_mm_str})")
+        # Add compliance information output
+        logging.info(f"📊 COMPLIANCE ANALYSIS:")
+        logging.info(f"   Head Height: {achieved_head_height_mm:.2f}mm (requirement: {spec_head_range_mm_str})")
         logging.info(f"   Head Compliance: {'✅ COMPLIANT' if compliance.get('head_height', False) else '❌ NON-COMPLIANT'}")
-        logging.info(f"   Eye Distance: {achieved_eye_level_from_bottom_mm:.2f}mm (требование: {spec_eye_range_mm_str})")
+        logging.info(f"   Eye Distance: {achieved_eye_level_from_bottom_mm:.2f}mm (requirement: {spec_eye_range_mm_str})")
         logging.info(f"   Eye Compliance: {'✅ COMPLIANT' if compliance.get('eye_to_bottom', False) else '❌ NON-COMPLIANT'}")
             
         # Ensure all values are defined before creating photo_info

@@ -258,7 +258,7 @@ class TestVisaPhotoProcessor(unittest.TestCase):
         mock_face_results_no_face.multi_face_landmarks = None # Key part for this test
         self.mock_face_mesh.process.return_value = mock_face_results_no_face
 
-        with self.assertRaisesRegex(ValueError, "Не удалось обнаружить лицо. Пожалуйста, убедитесь, что лицо хорошо видно"):
+        with self.assertRaisesRegex(ValueError, "Failed to detect face. Please ensure the face is clearly visible."):
             self.processor.process_with_updates(mock_socketio)
         
         # Ensure that socketio status for 'Detecting face landmarks' was emitted before failure

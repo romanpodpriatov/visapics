@@ -7,50 +7,50 @@ from typing import Tuple # For type hinting
 
 def remove_background_and_make_white(image, ort_session, target_color_rgb: Tuple[int, int, int] = (255, 255, 255), return_mask: bool = False):
     """
-    Удаление фона изображения и замена его на target_color_rgb с использованием модели сегментации.
+    Remove image background and replace it with target_color_rgb using segmentation model.
     """
-    # Оригинальный размер
+    # Original size
     original_size = image.size
 
-    # Изменение размера до входного размера модели
+    # Resize to model input size
     input_size = (1024, 1024)
     image_resized = image.resize(input_size, Image.LANCZOS)
     img = np.array(image_resized).astype(np.float32)
 
-    # Нормализация
+    # Normalization
     img = img / 255.0
     img = (img - np.array([0.485, 0.456, 0.406], dtype=np.float32)) / \
           np.array([0.229, 0.224, 0.225], dtype=np.float32)
 
-    # Формат CHW
+    # CHW format
     img = np.transpose(img, (2, 0, 1))
 
-    # Добавление batch dimension
+    # Add batch dimension
     img = np.expand_dims(img, axis=0).astype(np.float32)
 
-    # Прогон через модель
+    # Run through model
     ort_inputs = {ort_session.get_inputs()[0].name: img}
     ort_outs = ort_session.run(None, ort_inputs)
     pred = ort_outs[0][0]
 
-    # Сигмоида и маска
+    # Sigmoid and mask
     pred = 1 / (1 + np.exp(-pred))
     pred = np.squeeze(pred)
 
-    # Изменение размера маски до оригинального
+    # Resize mask to original size
     mask = Image.fromarray((pred * 255).astype(np.uint8)).resize(original_size, Image.BILINEAR)
 
-    # Создание фона с заданным цветом
+    # Create background with specified color
     background_img = Image.new('RGB', original_size, target_color_rgb)
 
-    # Обеспечение наличия альфа-канала
+    # Ensure alpha channel presence
     if image.mode != 'RGBA':
         image = image.convert('RGBA')
 
-    # Применение маски
+    # Apply mask
     image.putalpha(mask)
 
-    # Наложение на фон
+    # Composite onto background
     result_image = Image.alpha_composite(background_img.convert('RGBA'), image)
 
     # Return mask if requested for hair detection

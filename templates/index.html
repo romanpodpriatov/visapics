@@ -191,7 +191,7 @@
             function updateUploadAreaUI() {
                 const icon = elements.uploadArea.querySelector('i');
                 
-                // Безопасная проверка существования иконки
+                // Safe check for icon existence
                 if (!icon) {
                     console.warn('Upload area icon not found');
                     return;
@@ -200,7 +200,7 @@
                 if (uploadAreaActive) {
                     elements.uploadArea.classList.add('upload-area-active');
                     elements.uploadArea.classList.remove('cursor-not-allowed', 'bg-gray-100', 'opacity-60');
-                    // Безопасная замена классов иконки
+                    // Safe icon class replacement
                     if (icon.classList.contains('text-gray-400')) {
                         icon.classList.replace('text-gray-400', 'text-primary');
                     } else {
@@ -210,7 +210,7 @@
                 } else {
                     elements.uploadArea.classList.remove('upload-area-active');
                     elements.uploadArea.classList.add('cursor-not-allowed', 'bg-gray-100', 'opacity-60');
-                    // Безопасная замена классов иконки
+                    // Safe icon class replacement
                     if (icon.classList.contains('text-primary')) {
                         icon.classList.replace('text-primary', 'text-gray-400');
                     } else {
@@ -306,7 +306,7 @@
             }
             
             function updateResultDisplay(info) {
-                // Безопасное извлечение заголовка документа
+                // Safe document title extraction
                 let docTitle = info.spec_document_name || 'Document';
                 
                 try {
@@ -332,14 +332,14 @@
                      elements.resultMainMessage.className = "result-header-text text-red-600";
                 }
 
-                // Проверка обязательных полей
+                // Check required fields
                 if (!info.spec_country || !info.spec_document_name) {
                     console.error('Missing required fields in photo_info');
                     showMessage('error', 'Incomplete data received from server');
                     return;
                 }
                 
-                // Безопасные значения по умолчанию
+                // Safe default values
                 const safeBackgroundRgb = info.background_color_rgb || [255, 255, 255];
                 const safeSourceUrls = info.source_urls || [];
                 const safePhotoSizeStr = info.photo_size_str || '';

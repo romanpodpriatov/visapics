@@ -4,28 +4,28 @@ import os
 from werkzeug.utils import secure_filename
 from PIL import Image
 
-# Константы
+# Constants
 PIXELS_PER_INCH = 300
-PHOTO_SIZE_PIXELS = 600  # 2 дюйма * 300 пикселей на дюйм
+PHOTO_SIZE_PIXELS = 600  # 2 inches * 300 pixels per inch
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 def allowed_file(filename):
     """
-    Проверка допустимого расширения файла.
+    Check allowed file extension.
     """
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def is_allowed_file(filepath):
     """
-    Проверка, является ли файл допустимым по расширению.
+    Check if file is allowed by extension.
     """
     file_ext = os.path.splitext(filepath)[1].lower().lstrip('.')
     return file_ext in ALLOWED_EXTENSIONS
 
 def clean_filename(filename):
     """
-    Очистка имени файла от нежелательных символов.
+    Clean filename from unwanted characters.
     """
     # Handle special cases first
     if not filename:
@@ -68,18 +68,18 @@ def clean_filename(filename):
 
 def create_image_with_padding(image, target_size=(600, 600), padding_color=(255, 255, 255)):
     """
-    Изменение размера изображения с сохранением соотношения сторон и добавлением отступов до нужного размера.
+    Resize image while maintaining aspect ratio and adding padding to target size.
     """
     width, height = image.size
     target_width, target_height = target_size
 
-    # Расчет коэффициента масштабирования
+    # Calculate scaling factor
     ratio = min(target_width / width, target_height / height)
     new_width = int(width * ratio)
     new_height = int(height * ratio)
     resized_image = image.resize((new_width, new_height), Image.LANCZOS)
 
-    # Создание нового изображения с отступами
+    # Create new image with padding
     new_image = Image.new('RGB', target_size, padding_color)
     paste_x = (target_width - new_width) // 2
     paste_y = (target_height - new_height) // 2

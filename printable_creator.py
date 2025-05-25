@@ -104,15 +104,15 @@ def _generate_layout_on_fixed_canvas(
 
     spacing_x = 0
     if num_cols > 1:
-        # Распределяем оставшееся место на (num_cols - 1) отступов между фото
-        # и 2 отступа по краям. Всего (num_cols + 1) "промежутков" для отступов.
+        # Distribute remaining space for (num_cols - 1) gaps between photos
+        # and 2 edge margins. Total (num_cols + 1) "gaps" for spacing.
         available_for_all_spacings_x = target_canvas_width_px - num_cols * photo_w_px
         if available_for_all_spacings_x >= 0:
              spacing_x = available_for_all_spacings_x / (num_cols + 1)
              spacing_x = int(round(spacing_x))
-        else: # Фото не помещаются даже вплотную, это не должно произойти из-за проверки выше
+        else: # Photos don't fit even when adjacent, this shouldn't happen due to checks above
             spacing_x = 0 
-            num_cols = 1 # Переключаемся на одну колонку, если расчет неверен
+            num_cols = 1 # Switch to one column if calculation is incorrect
     
     spacing_y = 0
     if num_rows > 1:
@@ -122,13 +122,13 @@ def _generate_layout_on_fixed_canvas(
             spacing_y = int(round(spacing_y))
         else:
             spacing_y = 0
-            num_rows = 1 # Переключаемся на один ряд
+            num_rows = 1 # Switch to one row
 
-    # Начальные координаты - это первый отступ от края
+    # Initial coordinates - first margin from edge
     start_x = spacing_x
     start_y = spacing_y
     
-    # Межфотографийный отступ равен краевому при таком расчете
+    # Inter-photo spacing equals edge spacing in this calculation
     photo_spacing_for_loop_x = spacing_x
     photo_spacing_for_loop_y = spacing_y
 
@@ -152,19 +152,19 @@ def _generate_layout_on_fixed_canvas(
         line_color = (200, 200, 200)
         line_width = 1
         
-        # Горизонтальные линии (между рядами)
+        # Horizontal lines (between rows)
         if num_rows > 1:
              for r_idx in range(num_rows - 1):
-                 # Линия рисуется ПОСЛЕ r_idx-го ряда, перед следующим spacing_y
+                 # Line is drawn AFTER r_idx-th row, before next spacing_y
                  y_line = start_y + (r_idx + 1) * photo_h_px + r_idx * photo_spacing_for_loop_y + photo_spacing_for_loop_y // 2
-                 if photo_spacing_for_loop_y == 0: # Если отступа нет, линия по границе фото
+                 if photo_spacing_for_loop_y == 0: # If no spacing, line at photo boundary
                      y_line = start_y + (r_idx + 1) * photo_h_px
                  
                  line_start_x = start_x 
                  line_end_x = start_x + num_cols * photo_w_px + max(0, num_cols - 1) * photo_spacing_for_loop_x
                  draw.line([(line_start_x, y_line), (line_end_x, y_line)], fill=line_color, width=line_width)
         
-        # Вертикальные линии (между колонками)
+        # Vertical lines (between columns)
         if num_cols > 1:
             for c_idx in range(num_cols - 1):
                  x_line = start_x + (c_idx + 1) * photo_w_px + c_idx * photo_spacing_for_loop_x + photo_spacing_for_loop_x // 2
@@ -180,7 +180,7 @@ def _generate_layout_on_fixed_canvas(
 
 
 def create_printable_image(processed_image_path, printable_path, fonts_folder, 
-                           photo_spec: Optional[PhotoSpecification] = None): # Убраны rows, cols
+                           photo_spec: Optional[PhotoSpecification] = None): # Removed rows, cols
     if photo_spec is None:
         logging.error("PhotoSpecification is required for create_printable_image.")
         Image.new('RGB', (1200,1800), 'white').save(printable_path)
@@ -211,7 +211,7 @@ def create_printable_image(processed_image_path, printable_path, fonts_folder,
 
 
 def create_printable_preview(processed_image_path, printable_preview_path, fonts_folder, 
-                             photo_spec: Optional[PhotoSpecification] = None): # Убраны rows, cols
+                             photo_spec: Optional[PhotoSpecification] = None): # Removed rows, cols
     if photo_spec is None:
         logging.error("PhotoSpecification is required for create_printable_preview.")
         Image.new('RGB', (1200,1800), 'white').save(printable_preview_path)
