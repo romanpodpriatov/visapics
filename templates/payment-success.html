@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - VisaPicture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                    <i data-lucide="check" class="w-8 h-8 text-green-600"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Payment Successful!</h1>
+                <p class="text-gray-600">Your visa photo is ready for download</p>
+            </div>
+            
+            <!-- Order Details -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Order Confirmation</h2>
+                
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Order Number:</span>
+                        <span class="font-medium" id="order-number">Loading...</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Status:</span>
+                        <span class="font-medium text-green-600" id="payment-status">Paid</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Amount:</span>
+                        <span class="font-medium" id="amount">$0.00</span>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-md">
+                    <h3 class="text-sm font-medium text-green-800 mb-2">✅ What happens next:</h3>
+                    <ul class="text-sm text-green-700 space-y-1">
+                        <li>• Check your email for download links</li>
+                        <li>• Download your high-quality photos</li>
+                        <li>• Links expire in 30 days</li>
+                        <li>• Maximum 5 downloads per order</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="space-y-3">
+                <button 
+                    id="check-email-btn"
+                    class="w-full bg-blue-600 text-white py-3 px-4 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150"
+                >
+                    <i data-lucide="mail" class="w-5 h-5 inline mr-2"></i>
+                    Check Your Email
+                </button>
+                
+                <a 
+                    href="/"
+                    class="w-full bg-gray-600 text-white py-3 px-4 rounded-md font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-150 text-center block"
+                >
+                    <i data-lucide="camera" class="w-5 h-5 inline mr-2"></i>
+                    Process Another Photo
+                </a>
+            </div>
+            
+            <!-- Support -->
+            <div class="text-center mt-8 text-sm text-gray-500">
+                <p>Need help? Contact support with your order number.</p>
+                <p class="mt-2">
+                    <a href="mailto:support@visapicture.com" class="text-blue-600 hover:text-blue-500">
+                        support@visapicture.com
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Get order number from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderNumber = urlParams.get('order');
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (orderNumber) {
+                document.getElementById('order-number').textContent = orderNumber;
+                loadOrderDetails(orderNumber);
+            } else {
+                document.getElementById('order-number').textContent = 'Not found';
+            }
+            
+            // Email check button
+            document.getElementById('check-email-btn').addEventListener('click', function() {
+                // Simple way to open email client
+                window.location.href = 'mailto:';
+            });
+        });
+        
+        async function loadOrderDetails(orderNumber) {
+            try {
+                const response = await fetch(`/order/${orderNumber}`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Update order details
+                    const amount = data.amount_cents / 100;
+                    document.getElementById('amount').textContent = `$${amount.toFixed(2)}`;
+                    
+                    // Update status based on payment status
+                    const statusElement = document.getElementById('payment-status');
+                    if (data.payment_status === 'completed') {
+                        statusElement.textContent = 'Paid';
+                        statusElement.className = 'font-medium text-green-600';
+                    } else {
+                        statusElement.textContent = 'Processing';
+                        statusElement.className = 'font-medium text-yellow-600';
+                    }
+                } else {
+                    console.error('Failed to load order details:', data.error);
+                }
+            } catch (error) {
+                console.error('Error loading order details:', error);
+            }
+        }
+    </script>
+</body>
+</html>

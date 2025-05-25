@@ -8,28 +8,11 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
-        .StripeElement {
-            box-sizing: border-box;
-            height: 40px;
-            padding: 10px 12px;
+        #payment-element {
             border: 1px solid #e5e7eb;
             border-radius: 6px;
             background-color: white;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            transition: box-shadow 150ms ease;
-        }
-        
-        .StripeElement--focus {
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(59, 130, 246, 0.1);
-            border-color: #3b82f6;
-        }
-        
-        .StripeElement--invalid {
-            border-color: #ef4444;
-        }
-        
-        .StripeElement--webkit-autofill {
-            background-color: #fefefe !important;
         }
         
         .payment-form {
@@ -98,13 +81,13 @@
                     </div>
                     
                     <div class="mb-6">
-                        <label for="card-element" class="block text-sm font-medium text-gray-700 mb-2">
-                            Card Information *
+                        <label for="payment-element" class="block text-sm font-medium text-gray-700 mb-2">
+                            Payment Information *
                         </label>
-                        <div id="card-element" class="mb-3">
-                            <!-- Stripe Elements will create form elements here -->
+                        <div id="payment-element" class="mb-3">
+                            <!-- Stripe Payment Element will create form elements here -->
                         </div>
-                        <div id="card-errors" role="alert" class="text-red-600 text-sm"></div>
+                        <div id="payment-message" role="alert" class="text-red-600 text-sm"></div>
                     </div>
                     
                     <!-- Security Notice -->
@@ -179,7 +162,7 @@
         // Payment processing variables
         let stripe;
         let elements;
-        let card;
+        let paymentElement;
         let paymentData = {};
         
         // Initialize payment form
@@ -247,23 +230,35 @@
                 
                 // Initialize Stripe
                 stripe = Stripe(data.publishable_key);
-                elements = stripe.elements();
                 
-                // Create card element
-                card = elements.create('card', {
-                    style: {
-                        base: {
-                            fontSize: '16px',
-                            color: '#374151',
-                            '::placeholder': {
-                                color: '#9ca3af',
-                            },
-                        },
-                    },
-                });
+                // Create elements with client secret
+                const appearance = {
+                    theme: 'stripe',
+                    variables: {
+                        colorPrimary: '#3b82f6',
+                        colorBackground: '#ffffff',
+                        colorText: '#374151',
+                        colorDanger: '#ef4444',
+                        fontFamily: 'Inter, system-ui, sans-serif',
+                        spacingUnit: '4px',
+                        borderRadius: '6px'
+                    }
+                };
                 
-                card.mount('#card-element');
-                card.addEventListener('change', handleCardChange);
+                const options = {
+                    clientSecret: data.client_secret,
+                    appearance: appearance,
+                    layout: {
+                        type: 'tabs',
+                        defaultCollapsed: false
+                    }
+                };
+                
+                elements = stripe.elements(options);
+                
+                // Create payment element
+                paymentElement = elements.create('payment');
+                paymentElement.mount('#payment-element');
                 
                 // Store payment intent data
                 paymentData.clientSecret = data.client_secret;
@@ -278,14 +273,7 @@
             }
         }
         
-        function handleCardChange(event) {
-            const cardErrors = document.getElementById('card-errors');
-            if (event.error) {
-                cardErrors.textContent = event.error.message;
-            } else {
-                cardErrors.textContent = '';
-            }
-        }
+        // Payment Element handles errors automatically
         
         async function handlePaymentSubmit(event) {
             event.preventDefault();
@@ -299,17 +287,20 @@
             setLoading(true);
             
             try {
-                const result = await stripe.confirmCardPayment(paymentData.clientSecret, {
-                    payment_method: {
-                        card: card,
-                        billing_details: {
-                            email: email,
-                        },
-                    }
+                const {error} = await stripe.confirmPayment({
+                    elements,
+                    confirmParams: {
+                        return_url: `${window.location.origin}/payment-success?order=${paymentData.orderNumber}`,
+                        receipt_email: email,
+                    },
+                    redirect: 'if_required'
                 });
                 
-                if (result.error) {
-                    throw new Error(result.error.message);
+                if (error) {
+                    // This point will only be reached if there is an immediate error when
+                    // confirming the payment. Show error to your customer (for example, payment
+                    // details incomplete)
+                    showError(error.message);
                 } else {
                     // Payment succeeded
                     showSuccess(paymentData.orderNumber);

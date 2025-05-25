@@ -68,24 +68,34 @@ class StripePaymentService:
     
     def handle_webhook(self, payload, sig_header, webhook_secret):
         """Handle Stripe webhook events."""
+        event = None
+        
         try:
             event = stripe.Webhook.construct_event(
                 payload, sig_header, webhook_secret
             )
+            logging.info(f"Webhook event received: {event['type']}")
+            
         except ValueError as e:
-            logging.error(f"Invalid payload: {e}")
-            raise
+            logging.error(f"Invalid webhook payload: {e}")
+            raise ValueError("Invalid payload")
         except stripe.error.SignatureVerificationError as e:
-            logging.error(f"Invalid signature: {e}")
-            raise
+            logging.error(f"Invalid webhook signature: {e}")
+            raise ValueError("Invalid signature")
         
-        # Handle the event
-        if event['type'] == 'payment_intent.succeeded':
+        # Handle the event based on type
+        event_type = event['type']
+        
+        if event_type == 'payment_intent.succeeded':
             self._handle_payment_success(event['data']['object'])
-        elif event['type'] == 'payment_intent.payment_failed':
+        elif event_type == 'payment_intent.payment_failed':
             self._handle_payment_failed(event['data']['object'])
+        elif event_type == 'payment_intent.requires_action':
+            self._handle_payment_requires_action(event['data']['object'])
+        elif event_type == 'payment_intent.canceled':
+            self._handle_payment_canceled(event['data']['object'])
         else:
-            logging.info(f"Unhandled event type: {event['type']}")
+            logging.info(f"Unhandled event type: {event_type}")
         
         return True
     
@@ -126,6 +136,32 @@ class StripePaymentService:
         )
         
         logging.info(f"Payment failed for order {order_number}")
+    
+    def _handle_payment_requires_action(self, payment_intent):
+        """Handle payment that requires additional action."""
+        order_number = payment_intent['metadata'].get('order_number')
+        if not order_number:
+            logging.error("No order_number in payment_intent metadata")
+            return
+        
+        logging.info(f"Payment requires action for order {order_number}")
+        # Order status remains as pending until action is completed
+    
+    def _handle_payment_canceled(self, payment_intent):
+        """Handle canceled payment."""
+        order_number = payment_intent['metadata'].get('order_number')
+        if not order_number:
+            logging.error("No order_number in payment_intent metadata")
+            return
+        
+        # Update order status to failed/canceled
+        self.order_manager.update_payment_status(
+            order_number,
+            PaymentStatus.FAILED.value,
+            payment_intent['id']
+        )
+        
+        logging.info(f"Payment canceled for order {order_number}")
     
     def _send_payment_confirmation_email(self, order):
         """Send payment confirmation email with download links."""

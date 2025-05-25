@@ -11,6 +11,10 @@ import urllib.request
 import requests
 import json
 
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
 from flask_socketio import SocketIO, emit
 from image_processing import VisaPhotoProcessor
 from utils import allowed_file, is_allowed_file, clean_filename, ALLOWED_EXTENSIONS
@@ -545,6 +549,11 @@ def payment_page():
     """Payment page for purchasing photo downloads."""
     return render_template('payment.html')
 
+@app.route('/payment-success')
+def payment_success_page():
+    """Payment success confirmation page."""
+    return render_template('payment-success.html')
+
 @app.route('/debug_preview/<filename>')
 def debug_preview_image(filename):
     """Generate debug preview for a specific processed image."""
@@ -666,12 +675,13 @@ def create_payment_intent():
 
 @app.route('/api/webhook', methods=['POST'])
 def stripe_webhook():
-    """Handle Stripe webhooks."""
+    """Handle Stripe webhooks - endpoint for Stripe to send events."""
     try:
         if not payment_service:
+            logging.error("Payment service not available for webhook")
             return jsonify({'error': 'Payment service not available'}), 503
         
-        payload = request.get_data()
+        payload = request.get_data(as_text=True)
         sig_header = request.headers.get('Stripe-Signature')
         webhook_secret = os.getenv('STRIPE_WEBHOOK_SECRET')
         
@@ -679,12 +689,19 @@ def stripe_webhook():
             logging.error("STRIPE_WEBHOOK_SECRET not configured")
             return jsonify({'error': 'Webhook not configured'}), 500
         
-        payment_service.handle_webhook(payload, sig_header, webhook_secret)
-        return jsonify({'status': 'success'})
+        logging.info(f"Received webhook with signature: {sig_header[:20]}...")
         
+        payment_service.handle_webhook(payload, sig_header, webhook_secret)
+        
+        logging.info("Webhook processed successfully")
+        return jsonify({'received': True}), 200
+        
+    except ValueError as e:
+        logging.error(f"Webhook payload error: {str(e)}")
+        return jsonify({'error': 'Invalid payload'}), 400
     except Exception as e:
-        logging.error(f"Webhook error: {str(e)}")
-        return jsonify({'error': str(e)}), 400
+        logging.error(f"Webhook processing error: {str(e)}")
+        return jsonify({'error': 'Webhook processing failed'}), 400
 
 @app.route('/download/<order_number>/<file_type>')
 def download_paid_file(order_number, file_type):
