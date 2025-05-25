@@ -80,5 +80,5 @@ test_improved_algorithm.py
 
 # Model weights (large files, should be downloaded separately)
 # Uncomment if you want to exclude models from git
-# gfpgan/weights/*.pth
-# models/*.onnx
+gfpgan/weights/*.pth
+models/*.onnx
