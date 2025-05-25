@@ -13,11 +13,13 @@ The payment system allows users to:
 
 ## Features
 
+✅ **Modern Payment Element**: Stripe's latest payment interface with tabs layout  
+✅ **Multiple Payment Methods**: Cards, wallets, bank transfers automatically enabled  
 ✅ **Secure Payments**: Stripe integration with PCI compliance  
 ✅ **Email Notifications**: Automatic receipt and download links  
 ✅ **Order Management**: Unique order numbers and tracking  
 ✅ **Download Protection**: Time-limited and count-limited downloads  
-✅ **Webhook Support**: Real-time payment status updates  
+✅ **Enhanced Webhooks**: Comprehensive event handling with detailed logging  
 ✅ **Admin Dashboard**: Order monitoring and management  
 
 ## Setup Instructions
@@ -31,6 +33,7 @@ pip install -r requirements.txt
 New dependencies added:
 - `stripe>=5.0.0` - Stripe payment processing
 - `flask-mail>=0.9.1` - Email notifications
+- `python-dotenv>=1.0.0` - Environment variable loading
 
 ### 2. Create Stripe Account
 
@@ -71,7 +74,17 @@ MAIL_PASSWORD=your-app-password
 4. Select these events:
    - `payment_intent.succeeded`
    - `payment_intent.payment_failed`
+   - `payment_intent.requires_action`
+   - `payment_intent.canceled`
 5. Copy the webhook signing secret to your `.env` file
+
+**For local testing**, use Stripe CLI:
+```bash
+# Install Stripe CLI
+# Forward events to your local server
+stripe listen --forward-to localhost:8000/api/webhook
+# Use the webhook secret from CLI output in your .env
+```
 
 ### 5. Configure Email (Optional)
 
