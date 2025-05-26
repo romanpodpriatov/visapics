@@ -35,8 +35,10 @@ update_env_var "SECRET_KEY" "$SECRET_KEY"
 # Get Stripe keys
 echo ""
 echo "💳 Enter your Stripe keys (from https://dashboard.stripe.com/apikeys):"
-read -p "Stripe Publishable Key (pk_live_...): " STRIPE_PK
-read -p "Stripe Secret Key (sk_live_...): " -s STRIPE_SK
+echo "For visapics.org, contact admin for test keys or use your own Stripe account"
+echo ""
+read -p "Stripe Publishable Key: " STRIPE_PK
+read -p "Stripe Secret Key: " -s STRIPE_SK
 echo ""
 read -p "Stripe Webhook Secret (whsec_...): " -s WEBHOOK_SECRET
 echo ""
