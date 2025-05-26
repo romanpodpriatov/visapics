@@ -93,7 +93,10 @@ print_status "Setting up application directory at $APP_DIR..."
 mkdir -p $APP_DIR
 cd $APP_DIR
 
-# 4. Clone repository if not exists
+# 4. Fix Git ownership and clone/update repository
+print_status "Setting up Git repository..."
+git config --global --add safe.directory $APP_DIR
+
 if [ ! -d ".git" ]; then
     print_status "Cloning repository..."
     git clone https://github.com/romanpodpriatov/visapics.git .
@@ -101,6 +104,9 @@ else
     print_status "Updating repository..."
     git pull origin main
 fi
+
+# Fix ownership after Git operations
+chown -R visapics:visapics $APP_DIR
 
 print_success "Repository ready"
 
