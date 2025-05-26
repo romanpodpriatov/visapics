@@ -44,7 +44,21 @@ if command -v apt &> /dev/null; then
     apt install -y curl wget git docker.io docker-compose openssl
 elif command -v yum &> /dev/null; then
     yum update -y
-    yum install -y curl wget git docker docker-compose openssl
+    yum install -y curl wget git openssl
+    
+    # Install Docker for CentOS/RHEL
+    print_status "Installing Docker for CentOS/RHEL..."
+    yum install -y yum-utils
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin
+    
+    # Install Docker Compose
+    print_status "Installing Docker Compose..."
+    DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\" -f4)
+    curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+    ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
+    
     systemctl start docker
     systemctl enable docker
 else
