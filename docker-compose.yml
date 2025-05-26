@@ -7,6 +7,13 @@ services:
       dockerfile: Dockerfile.uv
     ports:
       - "8000:8000"
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+        reservations:
+          memory: 4G
+    shm_size: 2G
     environment:
       - FLASK_ENV=production
       - SECRET_KEY=${SECRET_KEY}
