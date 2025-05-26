@@ -39,14 +39,15 @@ prompt_input() {
         user_input=$default_value
     fi
     
-    # Update .env file
-    sed -i "s|${var_name}=.*|${var_name}=${user_input}|g" .env
+    # Update .env file (escape special characters)
+    escaped_input=$(printf '%s\n' "$user_input" | sed 's/[[\.*^$()+?{|]/\\&/g')
+    sed -i "s|^${var_name}=.*|${var_name}=${escaped_input}|g" .env
 }
 
 # Generate random secret key
 echo "🔑 Generating secure SECRET_KEY..."
 SECRET_KEY=$(openssl rand -base64 32)
-sed -i "s|SECRET_KEY=.*|SECRET_KEY=${SECRET_KEY}|g" .env
+sed -i "s|^SECRET_KEY=.*|SECRET_KEY=${SECRET_KEY}|g" .env
 
 # Stripe Configuration
 echo ""
@@ -77,7 +78,7 @@ required_vars=("SECRET_KEY" "STRIPE_SECRET_KEY" "STRIPE_PUBLISHABLE_KEY" "STRIPE
 missing_vars=()
 
 for var in "${required_vars[@]}"; do
-    if grep -q "${var}=.*your.*here" .env; then
+    if grep -qE "^${var}=.*your.*here" .env; then
         missing_vars+=("$var")
     fi
 done
