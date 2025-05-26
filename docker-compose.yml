@@ -2,7 +2,9 @@
 
 services:
   visapics:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.uv
     ports:
       - "8000:8000"
     environment:
