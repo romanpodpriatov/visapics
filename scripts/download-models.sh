@@ -89,6 +89,7 @@ if [ ! -f "$BIREFNET_PATH" ] || ! verify_download "$BIREFNET_PATH" 900 "BiRefNet
     
     # Try multiple sources for BiRefNet
     BIREFNET_URLS=(
+        "https://huggingface.co/onnx-community/BiRefNet-portrait-ONNX/resolve/main/onnx/model.onnx"
         "https://huggingface.co/briaai/RMBG-1.4/resolve/main/onnx/model.onnx"
         "https://github.com/ZhengPeng7/BiRefNet/releases/download/v1/BiRefNet-portrait-epoch_150.onnx"
     )
