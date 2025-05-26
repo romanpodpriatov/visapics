@@ -214,7 +214,7 @@ EOF
 chmod +x scripts/update.sh
 
 # Set proper ownership
-chown -R visapics:visapics /opt/visapics
+chown -R visapics:visapics /opt/visapics 2>/dev/null || true
 
 echo "📊 Monitoring setup completed!"
 echo ""

@@ -76,11 +76,16 @@ print_success "System dependencies installed"
 print_status "Creating application user..."
 if ! id "visapics" &>/dev/null; then
     useradd -m -s /bin/bash visapics
-    usermod -aG docker visapics
     print_success "User 'visapics' created"
 else
     print_warning "User 'visapics' already exists"
 fi
+
+# Add user to docker group and setup Docker directory
+usermod -aG docker visapics
+mkdir -p /home/visapics/.docker
+chown visapics:visapics /home/visapics/.docker
+print_success "User added to docker group"
 
 # 3. Create application directory
 APP_DIR="/opt/visapics"
@@ -116,29 +121,35 @@ print_status "Setting file permissions..."
 chown -R visapics:visapics $APP_DIR
 chmod +x scripts/*.sh
 
-# 9. Build and deploy
+# 9. Restart Docker to apply group changes
+print_status "Restarting Docker service..."
+systemctl restart docker
+sleep 5
+
+# 10. Build and deploy
 print_status "Building Docker containers..."
-sudo -u visapics docker-compose build
+cd $APP_DIR
+docker-compose build
 
 print_status "Starting services..."
-sudo -u visapics docker-compose up -d
+docker-compose up -d
 
-# 10. Wait for services to be ready
+# 11. Wait for services to be ready
 print_status "Waiting for services to start..."
 sleep 30
 
-# 11. Health check
+# 12. Health check
 print_status "Performing health check..."
-if ./scripts/health-check.sh; then
+if cd $APP_DIR && ./scripts/health-check.sh; then
     print_success "Health check passed!"
 else
     print_error "Health check failed. Check logs with: docker-compose logs"
     exit 1
 fi
 
-# 12. Setup monitoring and backup
+# 13. Setup monitoring and backup
 print_status "Setting up monitoring and backup..."
-./scripts/setup-monitoring.sh
+cd $APP_DIR && ./scripts/setup-monitoring.sh
 
 print_success "🎉 VisaPics deployment completed successfully!"
 print_status "Application is running at: https://visapics.org"
