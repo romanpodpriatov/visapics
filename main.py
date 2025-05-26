@@ -825,5 +825,16 @@ def admin_orders():
         logging.error(f"Admin orders error: {str(e)}")
         return jsonify({'error': 'Failed to fetch orders'}), 500
 
+@app.route('/health')
+def health_check():
+    """Health check endpoint for Docker"""
+    return jsonify({
+        "status": "healthy",
+        "timestamp": "2024-01-01T00:00:00Z"
+    }), 200
+
 if __name__ == '__main__':
-    socketio.run(app, debug=True, host='0.0.0.0', port=8000, allow_unsafe_werkzeug=True)
+    # Production configuration
+    port = int(os.getenv('PORT', 8000))
+    debug = os.getenv('FLASK_ENV') != 'production'
+    socketio.run(app, debug=debug, host='0.0.0.0', port=port, allow_unsafe_werkzeug=True)
