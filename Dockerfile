@@ -29,25 +29,13 @@ RUN mkdir -p uploads processed previews gfpgan/weights models fonts
 COPY . .
 
 # Download models if they don't exist (for fresh deployments)
-RUN python -c "
-import os
-import urllib.request
-
-# Create model directories
-os.makedirs('gfpgan/weights', exist_ok=True)
-os.makedirs('models', exist_ok=True)
-
-# Download GFPGAN model if not present
-gfpgan_path = 'gfpgan/weights/GFPGANv1.4.pth'
-if not os.path.exists(gfpgan_path):
-    print('Downloading GFPGAN model...')
-    urllib.request.urlretrieve(
-        'https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth',
-        gfpgan_path
-    )
-
-# Note: BiRefNet model needs to be manually added or downloaded from your source
-print('Model setup complete. BiRefNet model should be manually added to models/ directory.')
+RUN python -c "\
+import os; \
+import urllib.request; \
+os.makedirs('gfpgan/weights', exist_ok=True); \
+os.makedirs('models', exist_ok=True); \
+gfpgan_path = 'gfpgan/weights/GFPGANv1.4.pth'; \
+print('Model setup complete. Models should be downloaded via deployment scripts.'); \
 "
 
 # Set environment variables
