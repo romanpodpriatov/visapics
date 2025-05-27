@@ -34,7 +34,7 @@ from email_service import EmailService, configure_mail
 # Initialize Flask application
 app = Flask(__name__, static_folder='static', template_folder='templates')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
