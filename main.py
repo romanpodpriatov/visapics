@@ -48,8 +48,8 @@ socketio = SocketIO(
     engineio_logger=True,
     path='/socket.io/',
     allow_upgrades=True,
-    ping_timeout=60,
-    ping_interval=25,
+    ping_timeout=20,  # Reduced for faster detection
+    ping_interval=10, # More frequent pings
     socket_io_version='5.0.0',
     engine_io_version='4.0.0'
 )
