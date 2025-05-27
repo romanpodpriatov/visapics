@@ -195,8 +195,22 @@
                 elements.progressContainer.classList.toggle('hidden', progress === 0 || progress === 1);
                 NProgress.set(progress);
             }
+            // SocketIO connection event handlers with debugging
+            socket.on('connect', () => {
+                console.log('✅ SocketIO connected:', socket.id);
+            });
+            
+            socket.on('disconnect', (reason) => {
+                console.log('❌ SocketIO disconnected:', reason);
+            });
+            
+            socket.on('connect_error', (error) => {
+                console.error('🔥 SocketIO connection error:', error);
+            });
+            
             // SocketIO event handlers for async processing
             socket.on('processing_status', data => {
+                console.log('📊 Processing status:', data);
                 if (data.task_id) {
                     updateProgressBar(data.status);
                 } else {
@@ -205,6 +219,7 @@
             });
             
             socket.on('processing_complete', data => {
+                console.log('✅ Processing complete:', data);
                 if (data.success) {
                     displayProcessingResults(data);
                     hideProgressBar();
@@ -215,6 +230,7 @@
             });
             
             socket.on('processing_error', data => {
+                console.error('🔥 Processing error:', data);
                 showMessage('Processing failed: ' + (data.error || 'Unknown error'), 'error');
                 hideProgressBar();
             });
