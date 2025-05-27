@@ -1,5 +1,9 @@
 # main.py
 
+# IMPORTANT: eventlet monkey patch must be first
+import eventlet
+eventlet.monkey_patch()
+
 from flask import Flask, request, jsonify, render_template, send_file, send_from_directory, abort
 import os
 import uuid
@@ -368,7 +372,8 @@ def upload_file():
                 logging.warning("GFPGANer failed to initialize. Proceeding without image enhancement.")
 
             # Process image and emit status updates
-            photo_info = processor.process_with_updates(socketio)
+            with app.app_context():
+                photo_info = processor.process_with_updates(socketio)
 
             # DV Lottery specific validation for processed file size
             if document_name.lower() == "visa lottery":
