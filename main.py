@@ -49,7 +49,9 @@ socketio = SocketIO(
     path='/socket.io/',
     allow_upgrades=True,
     ping_timeout=60,
-    ping_interval=25
+    ping_interval=25,
+    socket_io_version='5.0.0',
+    engine_io_version='4.0.0'
 )
 
 # Configure logging
