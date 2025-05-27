@@ -13,7 +13,7 @@ services:
           memory: 6G
         reservations:
           memory: 4G
-    shm_size: 2G
+    shm_size: 4G
     environment:
       - FLASK_ENV=production
       - SECRET_KEY=${SECRET_KEY}

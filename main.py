@@ -183,10 +183,30 @@ if not os.path.exists(ONNX_MODEL_PATH):
     # raise FileNotFoundError(f"ONNX model not found: {ONNX_MODEL_PATH}") # Alternative: stop app
 else:
     try:
-        ort_session_instance = ort.InferenceSession(ONNX_MODEL_PATH)
-        logging.info("ONNX Runtime session initialized successfully.")
+        # Configure ONNX Runtime session options for better memory management
+        sess_options = ort.SessionOptions()
+        sess_options.enable_mem_pattern = False  # Disable memory pattern optimization
+        sess_options.enable_cpu_mem_arena = False  # Disable CPU memory arena
+        sess_options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL  # Sequential execution
+        sess_options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_BASIC
+        
+        # Set inter/intra thread counts for better resource control
+        sess_options.inter_op_num_threads = 1
+        sess_options.intra_op_num_threads = 2
+        
+        # Initialize session with options and explicit CPU provider
+        ort_session_instance = ort.InferenceSession(
+            ONNX_MODEL_PATH, 
+            sess_options=sess_options,
+            providers=['CPUExecutionProvider']
+        )
+        
+        model_size_mb = os.path.getsize(ONNX_MODEL_PATH) / 1024 / 1024
+        logging.info(f"ONNX Runtime session initialized successfully with optimizations. Model size: {model_size_mb:.1f}MB")
     except Exception as e:
         logging.error(f"Error initializing ONNX Runtime session: {e}")
+        logging.error(f"Model path: {ONNX_MODEL_PATH}")
+        logging.error(f"Model exists: {os.path.exists(ONNX_MODEL_PATH)}")
         ort_session_instance = None
 
 # Initialize MediaPipe FaceMesh
