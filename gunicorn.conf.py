@@ -10,12 +10,12 @@ backlog = 2048
 workers = 1  # Single worker required for SocketIO with shared state
 worker_class = "eventlet"  # Required for SocketIO support
 worker_connections = 1000
-timeout = 120
+timeout = 600  # 10 minutes for heavy AI processing
 keepalive = 2
 
 # Restart workers after this many requests, to help control memory
-max_requests = 1000
-max_requests_jitter = 100
+max_requests = 50  # Lower for memory control with heavy AI models
+max_requests_jitter = 10
 
 # Logging
 accesslog = "-"

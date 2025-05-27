@@ -10,10 +10,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 12G
+          memory: 14G
         reservations:
-          memory: 8G
-    shm_size: 8G
+          memory: 10G
+    shm_size: 6G
     environment:
       - FLASK_ENV=production
       - SECRET_KEY=${SECRET_KEY}
