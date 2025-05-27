@@ -26,8 +26,8 @@
             path: '/socket.io/',
             transports: ['websocket', 'polling'],
             timeout: 30000,
-            pingTimeout: 30000,
-            pingInterval: 10000,
+            pingTimeout: 20000,  // Match server: 20s
+            pingInterval: 10000, // Match server: 10s  
             reconnection: false  // Disable reconnection for clean testing
         });
         
