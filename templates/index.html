@@ -151,7 +151,11 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const socket = io();
+            const socket = io({
+                transports: ['websocket', 'polling'],
+                timeout: 60000,
+                forceNew: true
+            });
             const elements = {
                 uploadArea: document.getElementById('upload-area'),
                 fileInput: document.getElementById('file-input'),
