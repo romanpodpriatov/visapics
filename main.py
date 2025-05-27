@@ -38,10 +38,35 @@ from email_service import EmailService, configure_mail
 # Initialize Flask application
 app = Flask(__name__, static_folder='static', template_folder='templates')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
+
+# Enhanced SocketIO configuration for production
+socketio = SocketIO(
+    app, 
+    cors_allowed_origins="*", 
+    async_mode='eventlet',
+    logger=True,
+    engineio_logger=True,
+    path='/socket.io/',
+    allow_upgrades=True,
+    ping_timeout=60,
+    ping_interval=25
+)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# SocketIO event handlers
+@socketio.on('connect')
+def handle_connect():
+    logging.info(f"Client connected: {request.sid}")
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    logging.info(f"Client disconnected: {request.sid}")
+
+@socketio.on_error_default
+def default_error_handler(e):
+    logging.error(f"SocketIO error: {e}")
 
 # Payment system configuration
 try:
