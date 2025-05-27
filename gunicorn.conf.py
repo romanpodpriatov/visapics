@@ -6,8 +6,8 @@ import os
 bind = "0.0.0.0:8000"
 backlog = 2048
 
-# Worker processes
-workers = min(multiprocessing.cpu_count() * 2 + 1, 8)  # Limit max workers for memory
+# Worker processes - SocketIO requires single worker for proper operation
+workers = 1  # Single worker required for SocketIO with shared state
 worker_class = "eventlet"  # Required for SocketIO support
 worker_connections = 1000
 timeout = 120
