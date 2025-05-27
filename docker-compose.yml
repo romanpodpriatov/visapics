@@ -10,10 +10,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 4G   # Conservative limit for shared hosting
+          memory: 24G  # Use 75% of 32GB for safety
         reservations:
-          memory: 2G   # Minimum guaranteed
-    shm_size: 1G       # Reduced shared memory
+          memory: 16G  # Guarantee 16GB
+    shm_size: 8G       # Large shared memory for AI models
     environment:
       - FLASK_ENV=production
       - SECRET_KEY=${SECRET_KEY}

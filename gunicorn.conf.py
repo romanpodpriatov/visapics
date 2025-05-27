@@ -6,17 +6,21 @@ import os
 bind = "0.0.0.0:8000"
 backlog = 2048
 
-# Optimized for shared hosting with limited memory
-workers = 1  # Single worker only
-worker_class = "eventlet"  # Required for SocketIO support  
-worker_connections = 100  # Reduced from 1000
+# Optimized for dedicated server: 32GB RAM, 8 cores
+workers = 1  # Keep single worker for SocketIO compatibility
+worker_class = "eventlet"  # Required for SocketIO support
+worker_connections = 2000  # High concurrent connections
 timeout = 600  # 10 minutes for heavy AI processing
-keepalive = 2
+keepalive = 5
 
-# Aggressive memory management
-max_requests = 10  # Restart worker every 10 requests to free memory
-max_requests_jitter = 2
+# Memory management for high-performance server
+max_requests = 500  # Higher threshold for powerful server
+max_requests_jitter = 50
 worker_tmp_dir = "/dev/shm"  # Use shared memory for tmp files
+
+# Performance optimizations
+preload_app = True  # Preload models once, share across workers
+worker_rlimit_nofile = 65535  # High file descriptor limit
 
 # Logging
 accesslog = "-"
