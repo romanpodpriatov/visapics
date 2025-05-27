@@ -280,6 +280,94 @@ def send_static_files(path):
     """
     return send_from_directory('static', path)
 
+def process_image_background(task_id, input_path, processed_path, preview_path, 
+                           printable_path, printable_preview_path, spec, 
+                           country_code, document_name):
+    """Background task for image processing to avoid Cloudflare timeouts"""
+    try:
+        with app.app_context():
+            logging.info(f"Starting background processing for task {task_id}")
+            socketio.emit('processing_status', {'task_id': task_id, 'status': 'Processing started'})
+            
+            # Check if critical instances were initialized correctly
+            if not ort_session_instance or not face_mesh_instance:
+                logging.error("Critical ML models (ONNX or FaceMesh) failed to initialize.")
+                socketio.emit('processing_error', {
+                    'task_id': task_id, 
+                    'error': 'Critical ML model initialization failed'
+                })
+                return
+            
+            if not gfpganer_instance:
+                logging.warning("GFPGANer failed to initialize. Proceeding without image enhancement.")
+            
+            # Use VisaPhotoProcessor class for image processing
+            processor = VisaPhotoProcessor(
+                input_path=input_path,
+                processed_path=processed_path,
+                preview_path=preview_path,
+                printable_path=printable_path,
+                printable_preview_path=printable_preview_path,
+                fonts_folder=FONTS_FOLDER,
+                photo_spec=spec,
+                gfpganer_instance=gfpganer_instance,
+                ort_session_instance=ort_session_instance,
+                face_mesh_instance=face_mesh_instance
+            )
+            
+            # Process image with progress updates
+            photo_info = processor.process_with_updates(socketio)
+            
+            # DV Lottery specific validation for processed file size
+            if document_name.lower() == "visa lottery":
+                processed_size_kb = os.path.getsize(processed_path) / 1024
+                if processed_size_kb > 240:
+                    logging.warning(f"DV Lottery processed file size ({processed_size_kb:.1f}KB) exceeds 240KB limit")
+                    photo_info['dv_lottery_warning'] = f"File size ({processed_size_kb:.1f}KB) may exceed DV Lottery 240KB limit"
+                elif processed_size_kb < 10:
+                    raise ValueError("Processed DV Lottery photo is too small (less than 10KB)")
+                else:
+                    photo_info['dv_lottery_compliance'] = f"File size ({processed_size_kb:.1f}KB) meets DV Lottery requirements (10-240KB)"
+            
+            # Emit completion event
+            socketio.emit('processing_complete', {
+                'task_id': task_id,
+                'success': True,
+                'preview_filename': os.path.basename(preview_path),
+                'download_filename': os.path.basename(processed_path),
+                'printable_filename': os.path.basename(printable_path),
+                'printable_preview_filename': os.path.basename(printable_preview_path),
+                'photo_info': photo_info,
+                'message': 'File processed successfully'
+            })
+            
+            logging.info(f"Background processing completed for task {task_id}")
+            
+            # Clean up uploaded file after processing
+            if input_path and os.path.exists(input_path):
+                os.remove(input_path)
+                logging.info(f"Cleaned up input file: {input_path}")
+                
+    except Exception as e:
+        logging.error(f"Error during background processing for task {task_id}: {str(e)}")
+        logging.error(f"Traceback: {traceback.format_exc()}")
+        
+        # Clean up files in case of error
+        for path in [input_path, processed_path, preview_path, printable_path, printable_preview_path]:
+            if path and os.path.exists(path):
+                try:
+                    os.remove(path)
+                    logging.info(f"Removed file: {path}")
+                except Exception as cleanup_error:
+                    logging.error(f"Error cleaning up file {path}: {cleanup_error}")
+        
+        # Emit error event
+        socketio.emit('processing_error', {
+            'task_id': task_id,
+            'error': str(e),
+            'message': 'Processing failed'
+        })
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     """
@@ -346,66 +434,30 @@ def upload_file():
                     raise ValueError("DV Lottery photos must be at least 10KB in size")
                 # Note: The 240KB upper limit will be checked on the processed file to ensure compliance
 
-            # Emit an event to notify the client that the file is being processed
-            socketio.emit('processing_status', {'status': 'Processing started'})
-
-            # Use VisaPhotoProcessor class for image processing
-            processor = VisaPhotoProcessor(
+            # Return immediately with task info - processing will happen in background
+            task_id = unique_id
+            
+            # Start background processing
+            socketio.start_background_task(
+                target=process_image_background,
+                task_id=task_id,
                 input_path=input_path,
                 processed_path=processed_path,
                 preview_path=preview_path,
                 printable_path=printable_path,
                 printable_preview_path=printable_preview_path,
-                fonts_folder=FONTS_FOLDER,
-                photo_spec=spec, # Pass the spec object
-                gfpganer_instance=gfpganer_instance,
-                ort_session_instance=ort_session_instance,
-                face_mesh_instance=face_mesh_instance
+                spec=spec,
+                country_code=country_code,
+                document_name=document_name
             )
-
-            # Check if critical instances were initialized correctly
-            if not ort_session_instance or not face_mesh_instance:
-                logging.error("Critical ML models (ONNX or FaceMesh) failed to initialize. Aborting processing.")
-                raise RuntimeError("Critical ML model initialization failed. Please check server logs.")
             
-            if not gfpganer_instance:
-                logging.warning("GFPGANer failed to initialize. Proceeding without image enhancement.")
-
-            # Process image and emit status updates
-            with app.app_context():
-                photo_info = processor.process_with_updates(socketio)
-
-            # DV Lottery specific validation for processed file size
-            if document_name.lower() == "visa lottery":
-                processed_size_kb = os.path.getsize(processed_path) / 1024
-                if processed_size_kb > 240:
-                    logging.warning(f"DV Lottery processed file size ({processed_size_kb:.1f}KB) exceeds 240KB limit")
-                    # For now, we'll log a warning but still allow the file to be processed
-                    # In a production system, you might want to reprocess with higher compression
-                    photo_info['dv_lottery_warning'] = f"File size ({processed_size_kb:.1f}KB) may exceed DV Lottery 240KB limit"
-                elif processed_size_kb < 10:
-                    raise ValueError("Processed DV Lottery photo is too small (less than 10KB)")
-                else:
-                    photo_info['dv_lottery_compliance'] = f"File size ({processed_size_kb:.1f}KB) meets DV Lottery requirements (10-240KB)"
-
-            response_data = {
+            # Return immediate response to avoid Cloudflare timeout
+            return jsonify({
                 'success': True,
-                'preview_filename': os.path.basename(preview_path),
-                'download_filename': os.path.basename(processed_path),
-                'printable_filename': os.path.basename(printable_path),
-                'printable_preview_filename': os.path.basename(printable_preview_path),
-                'photo_info': photo_info,
-                'message': 'File processed successfully'
-            }
-
-            logging.info("File processed successfully")
-
-            # Clean up uploaded file after processing
-            if input_path and os.path.exists(input_path):
-                os.remove(input_path)
-                logging.info(f"Cleaned up input file: {input_path}")
-
-            return jsonify(response_data)
+                'task_id': task_id,
+                'message': 'File uploaded successfully. Processing started.',
+                'status': 'processing'
+            }), 202
 
         else:
             logging.warning("Invalid file type uploaded")

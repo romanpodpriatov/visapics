@@ -188,7 +188,29 @@
                 elements.progressContainer.classList.toggle('hidden', progress === 0 || progress === 1);
                 NProgress.set(progress);
             }
-            socket.on('processing_status', data => updateProgressBar(data.status));
+            // SocketIO event handlers for async processing
+            socket.on('processing_status', data => {
+                if (data.task_id) {
+                    updateProgressBar(data.status);
+                } else {
+                    updateProgressBar(data.status); // Legacy compatibility
+                }
+            });
+            
+            socket.on('processing_complete', data => {
+                if (data.success) {
+                    displayProcessingResults(data);
+                    hideProgressBar();
+                } else {
+                    showMessage('Processing failed: ' + (data.message || 'Unknown error'), 'error');
+                    hideProgressBar();
+                }
+            });
+            
+            socket.on('processing_error', data => {
+                showMessage('Processing failed: ' + (data.error || 'Unknown error'), 'error');
+                hideProgressBar();
+            });
 
             function updateUploadAreaUI() {
                 const icon = elements.uploadArea.querySelector('i');
@@ -286,32 +308,52 @@
                 fetch('/upload', { method: 'POST', body: formData })
                     .then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)))
                     .then(data => {
-                        if (data.success) {
-                            showMessage('success', data.message || 'Photo processed!');
-                            elements.processedImagePreview.src = `/previews/${encodeURIComponent(data.preview_filename)}`;
-                            elements.printablePreviewImage.src = `/previews/printable/${encodeURIComponent(data.printable_preview_filename)}`;
-                            elements.processedContainer.classList.remove('hidden');
-                            updateResultDisplay(data.photo_info);
-                            
-                            // Store processed data for payment system
-                            lastProcessedData = {
-                                processed_filename: data.download_filename,
-                                printable_filename: data.printable_filename,
-                                preview_filename: data.preview_filename,
-                                photo_info: data.photo_info
-                            };
-                            setupPaymentButtons();
+                        if (data.success && data.status === 'processing') {
+                            // New async processing - wait for SocketIO events
+                            showMessage('info', data.message || 'File uploaded, processing started...');
+                            updateProgressBar('Processing started');
+                            // Don't call NProgress.done() - wait for completion event
+                        } else if (data.success) {
+                            // Legacy synchronous response (fallback)
+                            displayProcessingResults(data);
+                            NProgress.done();
+                            updateProgressBar('Processing complete');
                         } else {
-                            showMessage('error', data.error || 'Processing failed.');
+                            showMessage('error', data.error || 'Upload failed.');
+                            NProgress.done();
                         }
                     })
-                    .catch(err => showMessage('error', err.error || err.message || 'Upload error.'))
-                    .finally(() => { NProgress.done(); updateProgressBar('Processing complete'); });
+                    .catch(err => {
+                        showMessage('error', err.error || err.message || 'Upload error.');
+                        NProgress.done();
+                    });
             }
 
             function showMessage(type, text) {
                 const colors = { success: 'green', error: 'red', info: 'blue' };
                 elements.messageContainer.innerHTML = `<div class="p-3 mb-3 rounded-md bg-${colors[type]}-100 text-${colors[type]}-700 border border-${colors[type]}-300">${text}</div>`;
+            }
+            
+            function displayProcessingResults(data) {
+                showMessage('success', data.message || 'Photo processed successfully!');
+                elements.processedImagePreview.src = `/previews/${encodeURIComponent(data.preview_filename)}`;
+                elements.printablePreviewImage.src = `/previews/printable/${encodeURIComponent(data.printable_preview_filename)}`;
+                elements.processedContainer.classList.remove('hidden');
+                updateResultDisplay(data.photo_info);
+                
+                // Store processed data for payment system
+                lastProcessedData = {
+                    processed_filename: data.download_filename,
+                    printable_filename: data.printable_filename,
+                    preview_filename: data.preview_filename,
+                    photo_info: data.photo_info
+                };
+                setupPaymentButtons();
+            }
+            
+            function hideProgressBar() {
+                NProgress.done();
+                updateProgressBar('');
             }
             
             function updateResultDisplay(info) {
