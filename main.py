@@ -54,8 +54,13 @@ socketio = SocketIO(
     engine_io_version='4.0.0'
 )
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Configure logging - enable DEBUG for detailed Socket.IO logs
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Enable verbose Engine.IO/Socket.IO logging
+import logging
+logging.getLogger('socketio').setLevel(logging.DEBUG)
+logging.getLogger('engineio').setLevel(logging.DEBUG)
 
 # SocketIO event handlers
 @socketio.on('connect')
@@ -268,6 +273,11 @@ COUNTRY_DISPLAY_NAMES = {
     # Add more mappings if country_code in PhotoSpecification is just 'DE' for Schengen
 }
 
+
+@app.route('/test-websocket')
+def test_websocket():
+    """Test page for WebSocket debugging"""
+    return render_template('test_websocket.html')
 
 @app.route('/')
 def index():

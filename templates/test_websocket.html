@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>WebSocket Connection Test</h1>
+    <div id="status">Connecting...</div>
+    <div id="logs"></div>
+
+    <script>
+        // Enable debugging
+        localStorage.debug = 'socket.io-client:*,engine.io-client:*';
+        
+        const logs = document.getElementById('logs');
+        const status = document.getElementById('status');
+        
+        function log(message) {
+            const timestamp = new Date().toISOString();
+            console.log(message);
+            logs.innerHTML += `<div>${timestamp}: ${message}</div>`;
+        }
+        
+        const socket = io({
+            path: '/socket.io/',
+            transports: ['websocket', 'polling'],
+            timeout: 30000,
+            pingTimeout: 30000,
+            pingInterval: 10000,
+            reconnection: false  // Disable reconnection for clean testing
+        });
+        
+        socket.on('connect', () => {
+            status.textContent = 'Connected';
+            log('✅ Connected: ' + socket.id);
+        });
+        
+        socket.on('disconnect', (reason) => {
+            status.textContent = 'Disconnected: ' + reason;
+            log('❌ Disconnected: ' + reason);
+        });
+        
+        socket.on('connect_error', (error) => {
+            status.textContent = 'Connection Error';
+            log('🔥 Connection Error: ' + error.message);
+        });
+        
+        // Log all events
+        socket.onAny((eventName, ...args) => {
+            log(`🔄 Event: ${eventName} - ${JSON.stringify(args)}`);
+        });
+        
+        // Heartbeat monitoring
+        let heartbeatInterval = setInterval(() => {
+            if (socket.connected) {
+                log('💓 Heartbeat - Connection alive');
+            } else {
+                log('💀 Heartbeat - Connection dead');
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
