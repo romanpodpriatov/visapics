@@ -44,23 +44,18 @@ socketio = SocketIO(
     app, 
     cors_allowed_origins="*", 
     async_mode='eventlet',
-    logger=True,
-    engineio_logger=True,
+    logger=False,
+    engineio_logger=False,
     path='/socket.io/',
     allow_upgrades=True,
-    ping_timeout=15,  # Shorter timeout
-    ping_interval=5,  # Very frequent pings to keep alive
+    ping_timeout=60,  # Production timeout
+    ping_interval=25, # Standard interval
     socket_io_version='5.0.0',
     engine_io_version='4.0.0'
 )
 
-# Configure logging - enable DEBUG for detailed Socket.IO logs
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Enable verbose Engine.IO/Socket.IO logging
-import logging
-logging.getLogger('socketio').setLevel(logging.DEBUG)
-logging.getLogger('engineio').setLevel(logging.DEBUG)
+# Configure logging - INFO level for production
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # SocketIO event handlers
 @socketio.on('connect')

@@ -10,10 +10,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 14G
+          memory: 4G   # Conservative limit for shared hosting
         reservations:
-          memory: 10G
-    shm_size: 6G
+          memory: 2G   # Minimum guaranteed
+    shm_size: 1G       # Reduced shared memory
     environment:
       - FLASK_ENV=production
       - SECRET_KEY=${SECRET_KEY}

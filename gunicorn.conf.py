@@ -6,16 +6,17 @@ import os
 bind = "0.0.0.0:8000"
 backlog = 2048
 
-# Worker processes - SocketIO requires single worker for proper operation
-workers = 1  # Single worker required for SocketIO with shared state
-worker_class = "eventlet"  # Required for SocketIO support
-worker_connections = 1000
+# Optimized for shared hosting with limited memory
+workers = 1  # Single worker only
+worker_class = "eventlet"  # Required for SocketIO support  
+worker_connections = 100  # Reduced from 1000
 timeout = 600  # 10 minutes for heavy AI processing
 keepalive = 2
 
-# Restart workers after this many requests, to help control memory
-max_requests = 50  # Lower for memory control with heavy AI models
-max_requests_jitter = 10
+# Aggressive memory management
+max_requests = 10  # Restart worker every 10 requests to free memory
+max_requests_jitter = 2
+worker_tmp_dir = "/dev/shm"  # Use shared memory for tmp files
 
 # Logging
 accesslog = "-"
