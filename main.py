@@ -186,39 +186,65 @@ else:
     ort_session_instance = None
     logging.info(f"ONNX model found at {ONNX_MODEL_PATH}. Will load on first use (lazy loading).")
 
-# Lazy loading function for ONNX model
+# Lazy loading function for ONNX model with fallback
 def get_onnx_session():
-    """Lazy load ONNX session on first use"""
+    """Lazy load ONNX session on first use with automatic fallback to smaller model"""
     global ort_session_instance
     
-    if ort_session_instance is None and os.path.exists(ONNX_MODEL_PATH):
-        try:
-            logging.info("Loading ONNX model on demand...")
-            
-            # Configure ONNX Runtime session options for better memory management
-            sess_options = ort.SessionOptions()
-            sess_options.enable_mem_pattern = False  # Disable memory pattern optimization
-            sess_options.enable_cpu_mem_arena = False  # Disable CPU memory arena
-            sess_options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL  # Sequential execution
-            sess_options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_BASIC
-            
-            # Set inter/intra thread counts for better resource control
-            sess_options.inter_op_num_threads = 1
-            sess_options.intra_op_num_threads = 2
-            
-            # Initialize session with options and explicit CPU provider
-            ort_session_instance = ort.InferenceSession(
-                ONNX_MODEL_PATH, 
-                sess_options=sess_options,
-                providers=['CPUExecutionProvider']
-            )
-            
-            model_size_mb = os.path.getsize(ONNX_MODEL_PATH) / 1024 / 1024
-            logging.info(f"ONNX Runtime session loaded successfully. Model size: {model_size_mb:.1f}MB")
-            
-        except Exception as e:
-            logging.error(f"Error loading ONNX Runtime session: {e}")
-            ort_session_instance = None
+    if ort_session_instance is None:
+        # Primary model path
+        primary_model = ONNX_MODEL_PATH
+        # Fallback model (smaller, more memory efficient)
+        fallback_model = os.path.join('models', 'BiRefNet-fallback.onnx')
+        
+        # Try primary model first
+        for model_path, model_type in [(primary_model, "primary"), (fallback_model, "fallback")]:
+            if not os.path.exists(model_path):
+                if model_type == "fallback":
+                    # Download fallback model automatically
+                    try:
+                        logging.info("Downloading fallback model...")
+                        download_model_with_fallback(
+                            "https://huggingface.co/briaai/RMBG-1.4/resolve/main/onnx/model.onnx",
+                            fallback_model
+                        )
+                    except Exception as e:
+                        logging.error(f"Failed to download fallback model: {e}")
+                        continue
+                else:
+                    continue
+                    
+            try:
+                model_size_mb = os.path.getsize(model_path) / 1024 / 1024
+                logging.info(f"Attempting to load {model_type} ONNX model ({model_size_mb:.1f}MB)...")
+                
+                # Configure ONNX Runtime session options for better memory management
+                sess_options = ort.SessionOptions()
+                sess_options.enable_mem_pattern = False
+                sess_options.enable_cpu_mem_arena = False
+                sess_options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+                sess_options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_BASIC
+                sess_options.inter_op_num_threads = 1
+                sess_options.intra_op_num_threads = 2
+                
+                # Initialize session
+                ort_session_instance = ort.InferenceSession(
+                    model_path, 
+                    sess_options=sess_options,
+                    providers=['CPUExecutionProvider']
+                )
+                
+                logging.info(f"ONNX Runtime session loaded successfully using {model_type} model ({model_size_mb:.1f}MB)")
+                break
+                
+            except Exception as e:
+                logging.error(f"Failed to load {model_type} model: {e}")
+                if model_type == "primary":
+                    logging.info("Falling back to smaller model...")
+                continue
+                
+        if ort_session_instance is None:
+            logging.error("All ONNX model loading attempts failed")
             
     return ort_session_instance
 
