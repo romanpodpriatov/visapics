@@ -1,8 +1,6 @@
 # main.py
 
-# IMPORTANT: eventlet monkey patch must be first
-import eventlet
-eventlet.monkey_patch()
+# Removed eventlet monkey patch - not needed with uvicorn
 
 from flask import Flask, request, jsonify, render_template, send_file, send_from_directory, abort
 import os
@@ -39,19 +37,17 @@ from email_service import EmailService, configure_mail
 app = Flask(__name__, static_folder='static', template_folder='templates')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
 
-# Enhanced SocketIO configuration for production
+# Enhanced SocketIO configuration for uvicorn - synchronized timeouts
 socketio = SocketIO(
     app, 
     cors_allowed_origins="*", 
-    async_mode='eventlet',
+    async_mode='threading',  # Changed from eventlet to threading for uvicorn
     logger=False,
     engineio_logger=False,
     path='/socket.io/',
     allow_upgrades=True,
-    ping_timeout=60,  # Production timeout
-    ping_interval=25, # Standard interval
-    socket_io_version='5.0.0',
-    engine_io_version='4.0.0'
+    ping_timeout=60,  # Synchronized with uvicorn ws_ping_timeout (slightly lower)
+    ping_interval=25, # Synchronized with uvicorn ws_ping_interval
 )
 
 # Configure logging - INFO level for production
@@ -943,7 +939,26 @@ def health_check():
     }), 200
 
 if __name__ == '__main__':
-    # Production configuration
+    # Development mode - for production use uvicorn
+    import uvicorn
     port = int(os.getenv('PORT', 8000))
     debug = os.getenv('FLASK_ENV') != 'production'
-    socketio.run(app, debug=debug, host='0.0.0.0', port=port, allow_unsafe_werkzeug=True)
+    
+    if debug:
+        # Development mode with SocketIO compatibility
+        socketio.run(app, debug=debug, host='0.0.0.0', port=port, allow_unsafe_werkzeug=True)
+    else:
+        # Production mode with uvicorn - synchronized timeouts
+        uvicorn.run(
+            "main:app",
+            host="0.0.0.0",
+            port=port,
+            workers=1,
+            loop="uvloop",
+            http="httptools",
+            ws_ping_interval=25,  # Synchronized with socketio ping_interval
+            ws_ping_timeout=65,   # Slightly higher than socketio ping_timeout
+            timeout_keep_alive=600,
+            access_log=True,
+            log_level="info"
+        )
