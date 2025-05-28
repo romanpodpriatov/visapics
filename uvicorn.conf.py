@@ -19,7 +19,7 @@ ssl_keyfile = None
 ssl_certfile = None
 
 # Application configuration
-app_module = "main:app"
+app_module = "main:asgi_app"
 
 # Logging configuration
 log_level = "info"

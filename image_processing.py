@@ -76,15 +76,21 @@ class VisaPhotoProcessor(ImageProcessor):
         # if you want to keep the process method for compatibility
         return self.process_with_updates(None)
 
-    def process_with_updates(self, socketio):
+    def process_with_updates(self, socketio, task_id=None):
         if socketio:
-            socketio.emit('processing_status', {'status': 'Loading image'})
+            emit_data = {'status': 'Loading image'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         img_cv = cv2.imread(self.input_path)
         if img_cv is None:
             raise ValueError("Failed to read the uploaded image")
 
         if socketio:
-            socketio.emit('processing_status', {'status': 'Detecting face landmarks'})
+            emit_data = {'status': 'Detecting face landmarks'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         # mp_face_mesh module is still available via 'import mediapipe as mp'
         img_rgb = cv2.cvtColor(img_cv, cv2.COLOR_BGR2RGB)
 
@@ -99,7 +105,10 @@ class VisaPhotoProcessor(ImageProcessor):
             raise ValueError("Failed to detect face. Please ensure the face is clearly visible.")
 
         if socketio:
-            socketio.emit('processing_status', {'status': 'Getting segmentation mask for hair detection'})
+            emit_data = {'status': 'Getting segmentation mask for hair detection'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         
         # Step 1: Get segmentation mask from original image for hair detection
         img_height, img_width = img_cv.shape[:2]
@@ -123,17 +132,26 @@ class VisaPhotoProcessor(ImageProcessor):
             logging.warning("No ONNX session available for segmentation mask. Using landmark-only hair detection.")
 
         if socketio:
-            socketio.emit('processing_status', {'status': 'Calculating crop dimensions with mask-based hair detection'})
+            emit_data = {'status': 'Calculating crop dimensions with mask-based hair detection'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         
         # Step 2: Calculate crop dimensions using mask-based hair detection
         crop_data = calculate_mask_based_crop_dimensions(face_landmarks, img_height, img_width, self.photo_spec, segmentation_mask)
 
         if socketio:
-            socketio.emit('processing_status', {'status': 'Cropping and scaling image'})
+            emit_data = {'status': 'Cropping and scaling image'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         processed_img = self._crop_and_scale_image(img_cv, crop_data)
 
         if socketio:
-            socketio.emit('processing_status', {'status': 'Removing background'})
+            emit_data = {'status': 'Removing background'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         
         # Step 3: Apply background removal to the cropped image (if ONNX session available)
         if self.ort_session is not None:
@@ -142,11 +160,17 @@ class VisaPhotoProcessor(ImageProcessor):
             logging.warning("No ONNX session available. Skipping background removal.")
 
         if socketio:
-            socketio.emit('processing_status', {'status': 'Enhancing image'})
+            emit_data = {'status': 'Enhancing image'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         processed_img = self._enhance_image(processed_img) # Will use self.gfpganer
 
         if socketio:
-            socketio.emit('processing_status', {'status': 'Saving processed image'})
+            emit_data = {'status': 'Saving processed image'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         # Use DPI from photo_spec for saving
         processed_img.save(self.processed_path, dpi=(self.photo_spec.dpi, self.photo_spec.dpi), quality=95)
 
@@ -286,7 +310,10 @@ class VisaPhotoProcessor(ImageProcessor):
         }
         
         if socketio:
-            socketio.emit('processing_status', {'status': 'Creating preview'})
+            emit_data = {'status': 'Creating preview'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         create_preview_with_watermark(
             self.processed_path,
             self.preview_path,
@@ -295,7 +322,10 @@ class VisaPhotoProcessor(ImageProcessor):
         )
 
         if socketio:
-            socketio.emit('processing_status', {'status': 'Creating printable image'})
+            emit_data = {'status': 'Creating printable image'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         # Pass photo_spec to printable creators if they need DPI or physical dimensions
         create_printable_image(
             self.processed_path,
@@ -305,7 +335,10 @@ class VisaPhotoProcessor(ImageProcessor):
         )
 
         if socketio:
-            socketio.emit('processing_status', {'status': 'Creating printable preview'})
+            emit_data = {'status': 'Creating printable preview'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         logging.info("About to call create_printable_preview with new signature")
         create_printable_preview(
             self.processed_path, # Source image for the small photos in preview
@@ -315,7 +348,10 @@ class VisaPhotoProcessor(ImageProcessor):
         )
 
         if socketio:
-            socketio.emit('processing_status', {'status': 'Processing complete'})
+            emit_data = {'status': 'Processing complete'}
+            if task_id:
+                emit_data['task_id'] = task_id
+            socketio.emit('processing_status', emit_data)
         return photo_info
 
     def _crop_and_scale_image(self, img_cv, crop_data_from_analyzer):

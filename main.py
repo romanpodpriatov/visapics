@@ -21,12 +21,30 @@ from flask_socketio import SocketIO, emit
 from image_processing import VisaPhotoProcessor
 from utils import allowed_file, is_allowed_file, clean_filename, ALLOWED_EXTENSIONS
 
-# Imports for Dependency Injection
-from gfpgan import GFPGANer
-import onnxruntime as ort
+# Imports for Dependency Injection - make optional for testing
+try:
+    from gfpgan import GFPGANer
+    GFPGAN_AVAILABLE = True
+except ImportError:
+    logging.warning("GFPGAN not available - image enhancement disabled")
+    GFPGAN_AVAILABLE = False
+
+try:
+    import onnxruntime as ort
+    ONNX_AVAILABLE = True
+except ImportError:
+    logging.warning("ONNX Runtime not available - background removal disabled")
+    ONNX_AVAILABLE = False
+
+try:
+    import mediapipe as mp
+    MEDIAPIPE_AVAILABLE = True
+except ImportError:
+    logging.warning("MediaPipe not available - face detection disabled")
+    MEDIAPIPE_AVAILABLE = False
+
 # Imports for Document Specifications
 from photo_specs import DOCUMENT_SPECIFICATIONS, PhotoSpecification, get_photo_specification # Added get_photo_specification
-import mediapipe as mp
 
 # Payment system imports
 from payment_service import StripePaymentService, PricingService
@@ -42,8 +60,8 @@ socketio = SocketIO(
     app, 
     cors_allowed_origins="*", 
     async_mode='threading',  # Changed from eventlet to threading for uvicorn
-    logger=False,
-    engineio_logger=False,
+    logger=True,
+    engineio_logger=True,
     path='/socket.io/',
     allow_upgrades=True,
     ping_timeout=60,  # Synchronized with uvicorn ws_ping_timeout (slightly lower)
@@ -344,7 +362,7 @@ def process_image_background(task_id, input_path, processed_path, preview_path,
             )
             
             # Process image with progress updates
-            photo_info = processor.process_with_updates(socketio)
+            photo_info = processor.process_with_updates(socketio, task_id)
             
             # DV Lottery specific validation for processed file size
             if document_name.lower() == "visa lottery":
@@ -938,27 +956,15 @@ def health_check():
         "timestamp": "2024-01-01T00:00:00Z"
     }), 200
 
+# Create ASGI app for uvicorn compatibility
+from werkzeug.middleware.proxy_fix import ProxyFix
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+
+# ASGI adapter for Flask-SocketIO
+from a2wsgi import WSGIMiddleware
+asgi_app = WSGIMiddleware(app)
+
 if __name__ == '__main__':
-    # Development mode - for production use uvicorn
-    import uvicorn
+    # Force development mode temporarily for debugging Socket.IO
     port = int(os.getenv('PORT', 8000))
-    debug = os.getenv('FLASK_ENV') != 'production'
-    
-    if debug:
-        # Development mode with SocketIO compatibility
-        socketio.run(app, debug=debug, host='0.0.0.0', port=port, allow_unsafe_werkzeug=True)
-    else:
-        # Production mode with uvicorn - synchronized timeouts
-        uvicorn.run(
-            "main:app",
-            host="0.0.0.0",
-            port=port,
-            workers=1,
-            loop="uvloop",
-            http="httptools",
-            ws_ping_interval=25,  # Synchronized with socketio ping_interval
-            ws_ping_timeout=65,   # Slightly higher than socketio ping_timeout
-            timeout_keep_alive=600,
-            access_log=True,
-            log_level="info"
-        )
+    socketio.run(app, debug=True, host='0.0.0.0', port=port, allow_unsafe_werkzeug=True)
