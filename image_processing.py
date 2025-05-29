@@ -4,14 +4,41 @@ import os
 import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont  # Add ImageDraw and ImageFont here
-import mediapipe as mp
 import logging
 from abc import ABC, abstractmethod
-import torchvision
 
-from gfpgan import GFPGANer # For type hinting if used, instance provided by DI
-import onnxruntime as ort # For type hinting if used, instance provided by DI
-# mediapipe is already imported as mp
+# Optional imports for ML dependencies
+try:
+    import mediapipe as mp
+    MEDIAPIPE_AVAILABLE = True
+except ImportError:
+    logging.warning("MediaPipe not available in image_processing")
+    MEDIAPIPE_AVAILABLE = False
+    mp = None
+
+try:
+    import torchvision
+    TORCHVISION_AVAILABLE = True
+except ImportError:
+    logging.warning("TorchVision not available in image_processing")
+    TORCHVISION_AVAILABLE = False
+
+try:
+    from gfpgan import GFPGANer # For type hinting if used, instance provided by DI
+    GFPGAN_AVAILABLE = True
+except ImportError:
+    logging.warning("GFPGAN not available in image_processing")
+    GFPGAN_AVAILABLE = False
+    GFPGANer = None
+
+try:
+    import onnxruntime as ort # For type hinting if used, instance provided by DI
+    ONNX_AVAILABLE = True
+except ImportError:
+    logging.warning("ONNX Runtime not available in image_processing")
+    ONNX_AVAILABLE = False
+    ort = None
+
 from photo_specs import PhotoSpecification # Import for type hinting
 
 from utils import clean_filename, is_allowed_file, PIXELS_PER_INCH # PHOTO_SIZE_PIXELS is not used directly here
