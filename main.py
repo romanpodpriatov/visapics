@@ -189,24 +189,10 @@ if not os.path.exists(GFPGAN_MODEL_PATH):
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-try:
-    # Set environment variable to disable SSL verification for GFPGANer's internal downloads
-    os.environ['PYTHONHTTPSVERIFY'] = '0'
-    
-    gfpganer_instance = GFPGANer(
-        model_path=GFPGAN_MODEL_PATH,
-        upscale=1,
-        arch='clean',
-        channel_multiplier=2,
-        bg_upsampler=None
-    )
-    logging.info("GFPGANer initialized successfully.")
-except Exception as e:
-    logging.error(f"Error initializing GFPGANer: {e}")
-    # Try to fix SSL issues by temporarily disabling SSL verification
+if GFPGAN_AVAILABLE:
     try:
-        import ssl
-        ssl._create_default_https_context = ssl._create_unverified_context
+        # Set environment variable to disable SSL verification for GFPGANer's internal downloads
+        os.environ['PYTHONHTTPSVERIFY'] = '0'
         
         gfpganer_instance = GFPGANer(
             model_path=GFPGAN_MODEL_PATH,
@@ -215,18 +201,31 @@ except Exception as e:
             channel_multiplier=2,
             bg_upsampler=None
         )
-        logging.info("GFPGANer initialized successfully with SSL fix.")
-    except Exception as ssl_fix_error:
-        logging.error(f"GFPGANer initialization failed even with SSL fix: {ssl_fix_error}")
-        gfpganer_instance = None # Ensure it's None if initialization fails
+        logging.info("GFPGANer initialized successfully.")
+    except Exception as e:
+        logging.error(f"Error initializing GFPGANer: {e}")
+        # Try to fix SSL issues by temporarily disabling SSL verification
+        try:
+            import ssl
+            ssl._create_default_https_context = ssl._create_unverified_context
+            
+            gfpganer_instance = GFPGANer(
+                model_path=GFPGAN_MODEL_PATH,
+                upscale=1,
+                arch='clean',
+                channel_multiplier=2,
+                bg_upsampler=None
+            )
+            logging.info("GFPGANer initialized successfully with SSL fix.")
+        except Exception as ssl_fix_error:
+            logging.error(f"GFPGANer initialization failed even with SSL fix: {ssl_fix_error}")
+            gfpganer_instance = None # Ensure it's None if initialization fails
+else:
+    logging.warning("GFPGANer failed to initialize. Proceeding without image enhancement.")
+    gfpganer_instance = None
 
 # Initialize ONNX Runtime Session for background removal
-if not os.path.exists(ONNX_MODEL_PATH):
-    logging.error(f"ONNX model not found at {ONNX_MODEL_PATH}. Background removal will fail.")
-    # Depending on the application's needs, you might want to exit or raise an error here.
-    ort_session_instance = None # Ensure it's None if model is missing
-    # raise FileNotFoundError(f"ONNX model not found: {ONNX_MODEL_PATH}") # Alternative: stop app
-else:
+if ONNX_AVAILABLE and os.path.exists(ONNX_MODEL_PATH):
     try:
         # Configure ONNX Runtime session options for better memory management
         sess_options = ort.SessionOptions()
@@ -253,18 +252,28 @@ else:
         logging.error(f"Model path: {ONNX_MODEL_PATH}")
         logging.error(f"Model exists: {os.path.exists(ONNX_MODEL_PATH)}")
         ort_session_instance = None
+else:
+    if not ONNX_AVAILABLE:
+        logging.warning("ONNX Runtime not available - background removal disabled")
+    elif not os.path.exists(ONNX_MODEL_PATH):
+        logging.error(f"ONNX model not found at {ONNX_MODEL_PATH}. Background removal will fail.")
+    ort_session_instance = None
 
 # Initialize MediaPipe FaceMesh
-try:
-    face_mesh_instance = mp.solutions.face_mesh.FaceMesh(
-        max_num_faces=1,
-        refine_landmarks=True,
-        min_detection_confidence=0.5,
-        min_tracking_confidence=0.5
-    )
-    logging.info("MediaPipe FaceMesh initialized successfully.")
-except Exception as e:
-    logging.error(f"Error initializing MediaPipe FaceMesh: {e}")
+if MEDIAPIPE_AVAILABLE:
+    try:
+        face_mesh_instance = mp.solutions.face_mesh.FaceMesh(
+            max_num_faces=1,
+            refine_landmarks=True,
+            min_detection_confidence=0.5,
+            min_tracking_confidence=0.5
+        )
+        logging.info("MediaPipe FaceMesh initialized successfully.")
+    except Exception as e:
+        logging.error(f"Error initializing MediaPipe FaceMesh: {e}")
+        face_mesh_instance = None
+else:
+    logging.warning("MediaPipe not available - face detection disabled")
     face_mesh_instance = None
 # --- End of ML Models and Services Initialization ---
 
@@ -961,8 +970,8 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 # ASGI adapter for Flask-SocketIO
-from a2wsgi import WSGIMiddleware
-asgi_app = WSGIMiddleware(app)
+# Use socketio.ASGIApp for proper WebSocket support
+asgi_app = socketio.ASGIApp(socketio, app)
 
 if __name__ == '__main__':
     # Force development mode temporarily for debugging Socket.IO
