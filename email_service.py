@@ -5,8 +5,21 @@ import logging
 import json
 from datetime import datetime
 from flask import url_for, current_app
-from flask_mail import Mail, Message
+try:
+    from flask_mail import Mail, Message
+except ImportError:
+    Mail = None
+    Message = None
 from models import EmailLog
+
+# Brevo API imports
+try:
+    import sib_api_v3_sdk
+    from sib_api_v3_sdk.rest import ApiException
+    BREVO_AVAILABLE = True
+except ImportError:
+    BREVO_AVAILABLE = False
+    logging.warning("Brevo SDK not available. Install with: pip install sib-api-v3-sdk")
 
 class EmailService:
     """Handles email sending for payment confirmations and receipts."""
@@ -14,6 +27,29 @@ class EmailService:
     def __init__(self, mail_instance=None):
         self.mail = mail_instance
         self.email_logger = EmailLog()
+        
+        # Initialize Brevo API client
+        self.brevo_client = None
+        self.use_brevo = False
+        
+        if BREVO_AVAILABLE:
+            api_key = os.getenv('MAIL_API')
+            if api_key:
+                try:
+                    configuration = sib_api_v3_sdk.Configuration()
+                    configuration.api_key['api-key'] = api_key
+                    client = sib_api_v3_sdk.ApiClient(configuration)
+                    self.brevo_client = sib_api_v3_sdk.TransactionalEmailsApi(client)
+                    self.use_brevo = True
+                    logging.info("Brevo email service initialized successfully")
+                except Exception as e:
+                    logging.error(f"Failed to initialize Brevo: {e}")
+                    self.use_brevo = False
+            else:
+                logging.warning("MAIL_API environment variable not set for Brevo")
+        
+        if not self.use_brevo and not mail_instance:
+            logging.warning("No email service configured - emails will be logged only")
     
     def send_payment_confirmation(self, order):
         """Send payment confirmation email with download links."""
@@ -30,17 +66,24 @@ class EmailService:
                     pass
             
             # Generate download links
-            download_link = url_for('download_paid_file', 
-                                  order_number=order['order_number'],
-                                  file_type='processed',
-                                  _external=True)
-            
-            printable_link = None
-            if order['printable_filename']:
-                printable_link = url_for('download_paid_file',
-                                       order_number=order['order_number'], 
-                                       file_type='printable',
-                                       _external=True)
+            try:
+                download_link = url_for('download_paid_file', 
+                                      order_number=order['order_number'],
+                                      file_type='processed',
+                                      _external=True)
+                
+                printable_link = None
+                if order['printable_filename']:
+                    printable_link = url_for('download_paid_file',
+                                           order_number=order['order_number'], 
+                                           file_type='printable',
+                                           _external=True)
+            except RuntimeError:
+                # Working outside of application context - use direct links
+                domain = os.getenv('DOMAIN', 'visapics.org')
+                base_url = f"https://{domain}"
+                download_link = f"{base_url}/download/{order['order_number']}/processed"
+                printable_link = f"{base_url}/download/{order['order_number']}/printable" if order['printable_filename'] else None
             
             # Email content
             html_content = self._generate_confirmation_email_html(
@@ -51,8 +94,25 @@ class EmailService:
                 order, photo_info, download_link, printable_link
             )
             
-            # Send email
-            if self.mail:
+            # Send email via Brevo or Flask-Mail
+            if self.use_brevo and self.brevo_client:
+                # Send via Brevo API
+                send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
+                    to=[{"email": recipient, "name": recipient.split('@')[0].title()}],
+                    sender={"email": "support@visapics.org", "name": "VisaPics Support"},
+                    reply_to={"email": "support@visapics.org", "name": "VisaPics Support"},
+                    subject=subject,
+                    text_content=text_content,
+                    html_content=html_content
+                )
+                
+                response = self.brevo_client.send_transac_email(send_smtp_email)
+                logging.info(f"Brevo email sent successfully. Message ID: {response.message_id}")
+                status = 'sent'
+                error_msg = None
+                
+            elif self.mail and Message:
+                # Send via Flask-Mail
                 msg = Message(
                     subject=subject,
                     recipients=[recipient],
@@ -62,6 +122,7 @@ class EmailService:
                 self.mail.send(msg)
                 status = 'sent'
                 error_msg = None
+                
             else:
                 # For testing/demo - just log the email
                 logging.info(f"EMAIL WOULD BE SENT TO: {recipient}")
@@ -84,6 +145,20 @@ class EmailService:
             
             logging.info(f"Payment confirmation email sent for order {order['order_number']}")
             return True
+            
+        except ApiException as e:
+            error_msg = f"Brevo API error: {e.status} {e.reason}"
+            logging.error(f"Failed to send payment confirmation email via Brevo: {error_msg}")
+            logging.error(f"Brevo error body: {e.body}")
+            self.email_logger.log_email(
+                order['order_number'],
+                'payment_confirmation',
+                order['email'],
+                subject,
+                'failed',
+                error_msg
+            )
+            return False
             
         except Exception as e:
             logging.error(f"Failed to send payment confirmation email: {str(e)}")

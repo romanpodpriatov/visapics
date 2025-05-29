@@ -65,9 +65,31 @@ prompt_input "STRIPE_WEBHOOK_SECRET" "Stripe Webhook Secret (whsec_...)" "whsec_
 # Email Configuration
 echo ""
 echo "📧 Email Configuration (for payment notifications):"
-prompt_input "MAIL_USERNAME" "Email address" "your-email@gmail.com"
-prompt_input "MAIL_PASSWORD" "Email app password" "your-app-password" true
-prompt_input "MAIL_DEFAULT_SENDER" "Sender email" "noreply@visapics.org"
+echo "   Choose email service:"
+echo "   1) Brevo (recommended)"
+echo "   2) Gmail/Traditional SMTP"
+read -p "Select option (1-2) [1]: " email_option
+email_option=${email_option:-1}
+
+if [ "$email_option" = "1" ]; then
+    echo ""
+    echo "📨 Brevo Configuration (get API key from https://app.brevo.com/settings/keys/api):"
+    prompt_input "MAIL_API" "Brevo API Key (xkeysib-...)" "your-brevo-api-key-here" true
+    prompt_input "MAIL_DEFAULT_SENDER" "Sender email" "support@visapics.org"
+    
+    # Set Brevo SMTP settings
+    sed -i "s|^MAIL_SERVER=.*|MAIL_SERVER=smtp-relay.brevo.com|g" .env
+    sed -i "s|^MAIL_PORT=.*|MAIL_PORT=587|g" .env
+    sed -i "s|^MAIL_USE_TLS=.*|MAIL_USE_TLS=True|g" .env
+else
+    echo ""
+    echo "📧 Traditional SMTP Configuration:"
+    prompt_input "MAIL_SERVER" "SMTP Server" "smtp.gmail.com"
+    prompt_input "MAIL_PORT" "SMTP Port" "587"
+    prompt_input "MAIL_USERNAME" "Email address" "your-email@gmail.com"
+    prompt_input "MAIL_PASSWORD" "Email app password" "your-app-password" true
+    prompt_input "MAIL_DEFAULT_SENDER" "Sender email" "noreply@visapics.org"
+fi
 
 # Validate configuration
 echo ""
@@ -82,6 +104,17 @@ for var in "${required_vars[@]}"; do
         missing_vars+=("$var")
     fi
 done
+
+# Check email configuration based on selected option
+if [ "$email_option" = "1" ]; then
+    if grep -qE "^MAIL_API=.*your.*here" .env; then
+        missing_vars+=("MAIL_API")
+    fi
+else
+    if grep -qE "^MAIL_PASSWORD=.*your.*here" .env; then
+        missing_vars+=("MAIL_PASSWORD")
+    fi
+fi
 
 if [ ${#missing_vars[@]} -gt 0 ]; then
     echo "❌ Missing configuration for: ${missing_vars[*]}"
@@ -101,7 +134,13 @@ echo "📋 Configuration Summary:"
 echo "   Domain: visapics.org"
 echo "   Environment: production"
 echo "   Stripe Mode: $(grep -q 'pk_live' .env && echo 'Live' || echo 'Test')"
-echo "   Email: $(grep MAIL_USERNAME .env | cut -d'=' -f2)"
+if [ "$email_option" = "1" ]; then
+    echo "   Email Service: Brevo API"
+    echo "   Sender: $(grep MAIL_DEFAULT_SENDER .env | cut -d'=' -f2)"
+else
+    echo "   Email Service: Traditional SMTP"
+    echo "   Email: $(grep MAIL_USERNAME .env | cut -d'=' -f2)"
+fi
 
 echo ""
 echo "🔔 Important reminders:"

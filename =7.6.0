@@ -1,0 +1,5 @@
+Requirement already satisfied: sib-api-v3-sdk in /usr/local/lib/python3.12/site-packages (7.6.0)
+Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.12/site-packages (from sib-api-v3-sdk) (2025.4.26)
+Requirement already satisfied: python-dateutil>=2.1 in /usr/lib/python3.12/site-packages (from sib-api-v3-sdk) (2.8.2)
+Requirement already satisfied: six>=1.10 in /usr/lib/python3.12/site-packages (from sib-api-v3-sdk) (1.16.0)
+Requirement already satisfied: urllib3>=1.23 in /usr/lib/python3.12/site-packages (from sib-api-v3-sdk) (1.26.19)

@@ -10,7 +10,7 @@ from flask import current_app
 class StripePaymentService:
     """Handles Stripe payment processing."""
     
-    def __init__(self, stripe_secret_key=None, stripe_publishable_key=None):
+    def __init__(self, stripe_secret_key=None, stripe_publishable_key=None, email_service=None):
         # Get keys from environment or config
         self.stripe_secret_key = stripe_secret_key or os.getenv('STRIPE_SECRET_KEY')
         self.stripe_publishable_key = stripe_publishable_key or os.getenv('STRIPE_PUBLISHABLE_KEY')
@@ -20,6 +20,7 @@ class StripePaymentService:
         
         stripe.api_key = self.stripe_secret_key
         self.order_manager = Order()
+        self.email_service = email_service
     
     def create_payment_intent(self, order_number, email, amount_cents, currency='usd'):
         """Create Stripe Payment Intent for order."""
@@ -166,9 +167,13 @@ class StripePaymentService:
     def _send_payment_confirmation_email(self, order):
         """Send payment confirmation email with download links."""
         try:
-            from email_service import EmailService
-            email_service = EmailService()
-            email_service.send_payment_confirmation(order)
+            if self.email_service:
+                self.email_service.send_payment_confirmation(order)
+            else:
+                # Fallback to creating new instance
+                from email_service import EmailService
+                email_service = EmailService()
+                email_service.send_payment_confirmation(order)
         except Exception as e:
             logging.error(f"Failed to send confirmation email for order {order['order_number']}: {str(e)}")
     

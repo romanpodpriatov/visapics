@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  visapics-fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: visapics-fastapi
+    ports:
+      - "8000:8000"  # FastAPI HTTP
+      - "50051:50051"  # gRPC
+    environment:
+      - PORT=8000
+      - GRPC_PORT=50051
+      - PYTHONPATH=/app
+      - SECRET_KEY=${SECRET_KEY:-dev-secret-key-change-in-production}
+      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+    volumes:
+      - ./uploads:/app/uploads
+      - ./processed:/app/processed
+      - ./previews:/app/previews
+      - ./models:/app/models
+      - ./gfpgan:/app/gfpgan
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  nginx:
+    image: nginx:alpine
+    container_name: visapics-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - visapics-fastapi
+    restart: unless-stopped
+
+networks:
+  default:
+    name: visapics-network

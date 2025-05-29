@@ -18,6 +18,23 @@
 
 ## Quick Deployment Steps
 
+### Option A: Automated Deployment (Recommended)
+
+**Single command deployment:**
+```bash
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/romanpodpriatov/visapics/main/deploy.sh)"
+```
+
+This script will:
+- Install Docker and dependencies
+- Clone the repository
+- Setup SSL certificates
+- Configure environment (interactive)
+- Download AI models
+- Build and start services
+
+### Option B: Manual Deployment
+
 ### 1. Clone Repository
 ```bash
 git clone https://github.com/romanpodpriatov/visapics.git
@@ -36,10 +53,11 @@ wget -O models/BiRefNet-portrait-epoch_150.onnx "YOUR_BIREFNET_MODEL_URL"
 
 ### 3. Environment Configuration
 ```bash
-# Copy production environment template
-cp .env.production .env
+# Interactive setup (recommended)
+./scripts/setup-env.sh
 
-# Edit with your actual values
+# Or manual setup
+cp .env.production .env
 nano .env
 ```
 
@@ -48,6 +66,8 @@ Required environment variables:
 - `STRIPE_SECRET_KEY`: Your live Stripe secret key
 - `STRIPE_PUBLISHABLE_KEY`: Your live Stripe publishable key  
 - `STRIPE_WEBHOOK_SECRET`: Your production webhook secret
+- `MAIL_API`: Brevo API key for email delivery (recommended)
+- `MAIL_DEFAULT_SENDER`: Verified sender email address
 - Email settings for notifications
 
 ### 4. SSL Certificate Setup

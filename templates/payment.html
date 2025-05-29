@@ -176,12 +176,37 @@
             const urlParams = new URLSearchParams(window.location.search);
             const storedData = localStorage.getItem('paymentData');
             
+            // Check for URL parameters first (for direct links)
+            const email = urlParams.get('email');
+            const filename = urlParams.get('filename');
+            const printableFilename = urlParams.get('printable_filename');
+            
             if (storedData) {
                 paymentData = JSON.parse(storedData);
                 updateOrderSummary();
                 initializeStripe();
+            } else if (email && filename) {
+                // Handle direct URL access with parameters
+                fetch('/api/pricing')
+                    .then(response => response.json())
+                    .then(pricing => {
+                        paymentData = {
+                            email: email,
+                            processed_filename: filename,
+                            printable_filename: printableFilename,
+                            product_type: printableFilename ? 'photo_with_printable' : 'single_photo',
+                            pricing: pricing[printableFilename ? 'photo_with_printable' : 'single_photo']
+                        };
+                        updateOrderSummary();
+                        initializeStripe();
+                    })
+                    .catch(error => {
+                        console.error('Error loading pricing:', error);
+                        showError('Failed to load payment information. Please try again.');
+                    });
             } else {
-                showError('Payment session expired. Please start over.');
+                // Show a message instead of immediate error
+                showError('No payment information found. Please process a photo first.');
                 setTimeout(() => {
                     window.location.href = '/';
                 }, 3000);

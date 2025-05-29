@@ -13,12 +13,14 @@ services:
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
       - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
       - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
-      - MAIL_SERVER=${MAIL_SERVER:-smtp.gmail.com}
+      - MAIL_SERVER=${MAIL_SERVER:-smtp-relay.brevo.com}
       - MAIL_PORT=${MAIL_PORT:-587}
       - MAIL_USE_TLS=${MAIL_USE_TLS:-True}
       - MAIL_USERNAME=${MAIL_USERNAME}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - MAIL_DEFAULT_SENDER=${MAIL_DEFAULT_SENDER}
+      - MAIL_API=${MAIL_API}
+      - DOMAIN=${DOMAIN:-visapics.org}
     volumes:
       - ./uploads:/app/uploads
       - ./processed:/app/processed

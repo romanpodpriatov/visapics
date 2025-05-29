@@ -17,3 +17,4 @@ werkzeug>=2.0.0,<3.0.0
 stripe>=5.0.0
 flask-mail>=0.9.1
 python-dotenv>=1.0.0
+sib-api-v3-sdk>=7.6.0

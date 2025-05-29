@@ -39,15 +39,7 @@ socketio = SocketIO(app)
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Payment system configuration
-try:
-    payment_service = StripePaymentService()
-    logging.info("Stripe payment service initialized successfully")
-except Exception as e:
-    logging.warning(f"Stripe payment service initialization failed: {e}")
-    payment_service = None
-
-# Email configuration
+# Email configuration (must be initialized before payment service)
 try:
     mail = configure_mail(app)
     email_service = EmailService(mail)
@@ -55,6 +47,14 @@ try:
 except Exception as e:
     logging.warning(f"Email service initialization failed: {e}")
     email_service = EmailService()  # Will work in demo mode
+
+# Payment system configuration
+try:
+    payment_service = StripePaymentService(email_service=email_service)
+    logging.info("Stripe payment service initialized successfully")
+except Exception as e:
+    logging.warning(f"Stripe payment service initialization failed: {e}")
+    payment_service = None
 
 # Initialize database
 try:
