@@ -207,15 +207,8 @@ except Exception as e:
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10MB limit
 
-# --- Country Display Names (can be moved to a config or photo_specs.py if it grows) ---
-COUNTRY_DISPLAY_NAMES = {
-    "US": "United States",
-    "GB": "United Kingdom",
-    "DE_schengen": "Germany (Schengen)", # Example, adapt as per actual country codes in photo_specs
-    "IN": "India",
-    "CA": "Canada",
-    # Add more mappings if country_code in PhotoSpecification is just 'DE' for Schengen
-}
+# --- Country Display Names (imported from generated file) ---
+from country_display_names import COUNTRY_DISPLAY_NAMES
 
 
 @app.route('/')

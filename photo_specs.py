@@ -597,6 +597,4190 @@ DOCUMENT_SPECIFICATIONS.append(
     )
 )
 
+# AUTO-GENERATED SPECIFICATIONS FROM VISAFOTO.COM
+# This section contains specifications automatically generated from visafoto.com data
+# Review and adjust as needed before using in production
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="US Visa 2x2 inch (600x600 px, 51x51mm)",
+    photo_width_mm=51.0,
+    photo_height_mm=51.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.6,
+    eye_max_from_bottom_mm=38.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="US Passport 2x2 inch (51х51 mm)",
+    photo_width_mm=50.8,
+    photo_height_mm=50.8,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.5,
+    eye_max_from_bottom_mm=38.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="US Green Card (Permanent Resident) 2x2\"",
+    photo_width_mm=50.8,
+    photo_height_mm=50.8,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.5,
+    eye_max_from_bottom_mm=38.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="US Citizenship (naturalization) 2x2 inch (51x51 mm)",
+    photo_width_mm=51.0,
+    photo_height_mm=51.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=30.6,
+    eye_max_from_bottom_mm=38.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="US Employment Authorization 2x2 inch (51x51 mm)",
+    photo_width_mm=51.0,
+    photo_height_mm=51.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=30.6,
+    eye_max_from_bottom_mm=38.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="USA CCHI ID badge 3x3 inch",
+    photo_width_mm=76.2,
+    photo_height_mm=76.2,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=45.7,
+    eye_max_from_bottom_mm=57.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="USA crew visa 2x2 inch",
+    photo_width_mm=50.8,
+    photo_height_mm=50.8,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.5,
+    eye_max_from_bottom_mm=38.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="USA Form I-130 2x2 inch",
+    photo_width_mm=50.8,
+    photo_height_mm=50.8,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.5,
+    eye_max_from_bottom_mm=38.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="USA Re-entry Permit 2x2 inch",
+    photo_width_mm=50.8,
+    photo_height_mm=50.8,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.5,
+    eye_max_from_bottom_mm=38.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="USA advance parole 2x2 inch",
+    photo_width_mm=50.8,
+    photo_height_mm=50.8,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.5,
+    eye_max_from_bottom_mm=38.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="US passport card 2x2 inch",
+    photo_width_mm=50.8,
+    photo_height_mm=50.8,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.5,
+    eye_max_from_bottom_mm=38.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="US",
+    document_name="USCIS 2x2 inch",
+    photo_width_mm=50.8,
+    photo_height_mm=50.8,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.5,
+    eye_max_from_bottom_mm=38.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CA",
+    document_name="Canada Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CA",
+    document_name="Canada Temporary Resident Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CA",
+    document_name="Canada Passport 5x7 cm (715x1000 - 2000x2800)",
+    photo_width_mm=50.0,
+    photo_height_mm=70.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=42.0,
+    eye_max_from_bottom_mm=52.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CA",
+    document_name="Canada Permanent Resident Card 5x7 cm (715x1000 - 2000x2800)",
+    photo_width_mm=50.0,
+    photo_height_mm=70.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=42.0,
+    eye_max_from_bottom_mm=52.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CA",
+    document_name="Canada Citizenship 5x7 cm (50x70mm)",
+    photo_width_mm=50.0,
+    photo_height_mm=70.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=42.0,
+    eye_max_from_bottom_mm=52.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="GB",
+    document_name="UK Passport offline 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="GB",
+    document_name="UK Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="GB",
+    document_name="UK ID / residence card 45x35 mm (4.5x3.5 cm)",
+    photo_width_mm=45.0,
+    photo_height_mm=35.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=21.0,
+    eye_max_from_bottom_mm=26.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="GB",
+    document_name="British Seaman's discharge book 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="GB",
+    document_name="British Seaman's card 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia International Passport Gosuslugi.ru, 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=22.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia International Passport offline, 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=22.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia Internal Passport, 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=22.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia internal Passport for Gosuslugi, 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=22.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia Passport (eyes to bottom of chin 12 mm), 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=22.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia Pensioner ID 3x4",
+    photo_width_mm=76.2,
+    photo_height_mm=101.6,
+    dpi=300,
+    head_min_percentage=0.50,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=20.0,
+    eye_max_from_bottom_mm=70.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia Pensioner ID 21x30 for Gosuslugi.ru",
+    photo_width_mm=21.0,
+    photo_height_mm=30.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=20.0,
+    eye_max_from_bottom_mm=28.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia Army ID 3x4",
+    photo_width_mm=76.2,
+    photo_height_mm=101.6,
+    dpi=300,
+    head_min_percentage=0.50,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=20.0,
+    eye_max_from_bottom_mm=70.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia Work Permit 3x4",
+    photo_width_mm=76.2,
+    photo_height_mm=101.6,
+    dpi=300,
+    head_min_percentage=0.50,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=20.0,
+    eye_max_from_bottom_mm=70.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia Student ID 3x4",
+    photo_width_mm=76.2,
+    photo_height_mm=101.6,
+    dpi=300,
+    head_min_percentage=0.50,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=20.0,
+    eye_max_from_bottom_mm=70.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia Student ID 25x35 mm (2.5x3.5 cm)",
+    photo_width_mm=25.0,
+    photo_height_mm=35.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=21.0,
+    eye_max_from_bottom_mm=26.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=22.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia e-visa 450x600 pixels",
+    photo_width_mm=38.1,
+    photo_height_mm=50.8,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=22.0,
+    eye_max_from_bottom_mm=32.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia visa via VFSGlobal 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=22.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia citizenship 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=22.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia citizenship 3x4 cm",
+    photo_width_mm=30.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Moscow social card 3x4 cm",
+    photo_width_mm=30.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russian APEC Business Travel Card 4x6 cm",
+    photo_width_mm=40.0,
+    photo_height_mm=60.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=22.0,
+    eye_max_from_bottom_mm=38.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia ULM 3x4 cm",
+    photo_width_mm=30.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="RU",
+    document_name="Russia Seaman’s book 3x4 cm",
+    photo_width_mm=30.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AU",
+    document_name="Australia Passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AU",
+    document_name="Australia Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AU",
+    document_name="Australia adult proof of age card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AU",
+    document_name="Australia citizenship 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NZ",
+    document_name="New Zealand Passport Online 900x1200 px",
+    photo_width_mm=22860.0,
+    photo_height_mm=30480.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=18288.0,
+    eye_max_from_bottom_mm=22860.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NZ",
+    document_name="New Zealand Visa online 900x1200 px",
+    photo_width_mm=22860.0,
+    photo_height_mm=30480.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=18288.0,
+    eye_max_from_bottom_mm=22860.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NZ",
+    document_name="New Zealand NZETA 540x720 px",
+    photo_width_mm=13716.0,
+    photo_height_mm=18288.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=10972.8,
+    eye_max_from_bottom_mm=13716.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NZ",
+    document_name="New Zealand citizenship 900 x 1200 pixels",
+    photo_width_mm=22860.0,
+    photo_height_mm=30480.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=18288.0,
+    eye_max_from_bottom_mm=22860.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NZ",
+    document_name="New Zealand citizenship 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NZ",
+    document_name="New Zealand Certificate of Identity / Refugee Travel Document 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NZ",
+    document_name="Kiwi Access Card 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NZ",
+    document_name="New Zealand SeaCert 1650x2200 px online",
+    photo_width_mm=41910.0,
+    photo_height_mm=55880.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=33528.0,
+    eye_max_from_bottom_mm=41910.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NZ",
+    document_name="New Zealand SeaCert 35x45 mm offline",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DE",
+    document_name="Germany Passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DE",
+    document_name="Germany ID card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DE",
+    document_name="Germany Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DE",
+    document_name="Germany residence permit 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DE",
+    document_name="Germany Lawyer ID card 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DE",
+    document_name="Germany doctor's identity card 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="FR",
+    document_name="France Passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="FR",
+    document_name="France Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="FR",
+    document_name="France ID card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="FR",
+    document_name="Campus France 26x32 mm photo",
+    photo_width_mm=26.0,
+    photo_height_mm=32.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=19.2,
+    eye_max_from_bottom_mm=24.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="FR",
+    document_name="France Asylum Seeker (Demande D'asile) 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IT",
+    document_name="Italy ID card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IT",
+    document_name="Italy Passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IT",
+    document_name="Italy Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IT",
+    document_name="Italy Passport 40x40 mm (LA consulate) 4x4 cm",
+    photo_width_mm=40.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IT",
+    document_name="Italy fan loyalty card 800x1000 pixels",
+    photo_width_mm=20320.0,
+    photo_height_mm=25400.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=15240.0,
+    eye_max_from_bottom_mm=19050.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IT",
+    document_name="Italy fan loyalty card 600x600 pixels",
+    photo_width_mm=15240.0,
+    photo_height_mm=15240.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=9144.0,
+    eye_max_from_bottom_mm=11430.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="ES",
+    document_name="Spain passport 3x4 cm",
+    photo_width_mm=30.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="ES",
+    document_name="Spain DNI (ID card) 32x26 mm",
+    photo_width_mm=32.0,
+    photo_height_mm=26.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=15.6,
+    eye_max_from_bottom_mm=19.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="ES",
+    document_name="Spain passport 32x26 mm",
+    photo_width_mm=32.0,
+    photo_height_mm=26.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=15.6,
+    eye_max_from_bottom_mm=19.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="ES",
+    document_name="Spain TIE card (foreigner ID) 32x26 mm",
+    photo_width_mm=32.0,
+    photo_height_mm=26.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=15.6,
+    eye_max_from_bottom_mm=19.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="ES",
+    document_name="Spain NIE card 32x26 mm",
+    photo_width_mm=32.0,
+    photo_height_mm=26.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=15.6,
+    eye_max_from_bottom_mm=19.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="ES",
+    document_name="Spain Passport 40x53 mm",
+    photo_width_mm=40.0,
+    photo_height_mm=53.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=31.8,
+    eye_max_from_bottom_mm=39.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="ES",
+    document_name="Spain Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="ES",
+    document_name="Spain Visa 2x2 inch (US Chicago consulate)",
+    photo_width_mm=50.8,
+    photo_height_mm=50.8,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.5,
+    eye_max_from_bottom_mm=38.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="PL",
+    document_name="Poland Passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="PL",
+    document_name="Poland ID card online 492x633 pixels",
+    photo_width_mm=12496.8,
+    photo_height_mm=16078.2,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=9646.9,
+    eye_max_from_bottom_mm=12058.6,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="PL",
+    document_name="Poland ID card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="PL",
+    document_name="Poland ID card online 492x610 pixels",
+    photo_width_mm=12496.8,
+    photo_height_mm=15494.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=9296.4,
+    eye_max_from_bottom_mm=11620.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="PL",
+    document_name="Poland Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="PL",
+    document_name="Card of the Pole 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="PL",
+    document_name="Poland permanent residence card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="PL",
+    document_name="Poland temporary residence card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NL",
+    document_name="Netherlands Passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NL",
+    document_name="Netherlands Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NL",
+    document_name="Dutch ID card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BE",
+    document_name="Belgium electronic ID card (eID) 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BE",
+    document_name="Belgium Kids-ID 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BE",
+    document_name="Belgium Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BE",
+    document_name="Belgium passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BE",
+    document_name="Belgium residence permit 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CZ",
+    document_name="Czech Republic Visa 35x45mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CZ",
+    document_name="Czechia ID card 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CZ",
+    document_name="Czech Republic Passport 35x45mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CZ",
+    document_name="Czech Republic Passport 5x5cm (50x50mm)",
+    photo_width_mm=50.0,
+    photo_height_mm=50.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.0,
+    eye_max_from_bottom_mm=37.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CZ",
+    document_name="Czechia residence 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="SE",
+    document_name="Sweden ID card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="SE",
+    document_name="Sweden Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="SE",
+    document_name="Sweden visa 446x580 pixels",
+    photo_width_mm=11328.4,
+    photo_height_mm=14732.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=8839.2,
+    eye_max_from_bottom_mm=11049.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="SE",
+    document_name="Sweden passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AT",
+    document_name="Austrian ID card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AT",
+    document_name="Austria Passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AT",
+    document_name="Austria Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AT",
+    document_name="Austrian residence permit 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AT",
+    document_name="Austria Civil engineer ID card 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CH",
+    document_name="Switzerland Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CH",
+    document_name="Swiss ID card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CH",
+    document_name="Switzerland ID card online 1980x1440px",
+    photo_width_mm=50292.0,
+    photo_height_mm=36576.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=21945.6,
+    eye_max_from_bottom_mm=27432.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CH",
+    document_name="Switzerland passport 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DK",
+    document_name="Denmark Visa 35x45mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DK",
+    document_name="Denmark Passport for kk.dk 35x45mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DK",
+    document_name="Denmark Passport 35x45mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DK",
+    document_name="Denmark ID card 35x45mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DK",
+    document_name="University of Copenhagen student card 200x200 pixel",
+    photo_width_mm=5080.0,
+    photo_height_mm=5080.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=3048.0,
+    eye_max_from_bottom_mm=3810.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="DK",
+    document_name="Denmark Seafarer's Discharge Book 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="FI",
+    document_name="Finland Passport 36x47 mm",
+    photo_width_mm=36.0,
+    photo_height_mm=47.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=28.2,
+    eye_max_from_bottom_mm=35.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="FI",
+    document_name="Finland Visa 36x47 mm",
+    photo_width_mm=36.0,
+    photo_height_mm=47.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=28.2,
+    eye_max_from_bottom_mm=35.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="FI",
+    document_name="Finland Passport online 500x653 px",
+    photo_width_mm=12700.0,
+    photo_height_mm=16586.2,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=9951.7,
+    eye_max_from_bottom_mm=12439.7,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="FI",
+    document_name="Finland ID card online 500x653 px",
+    photo_width_mm=12700.0,
+    photo_height_mm=16586.2,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=9951.7,
+    eye_max_from_bottom_mm=12439.7,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="FI",
+    document_name="Finland ID card offline 36x47 mm",
+    photo_width_mm=36.0,
+    photo_height_mm=47.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=28.2,
+    eye_max_from_bottom_mm=35.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="FI",
+    document_name="Finland residence 36x47 mm",
+    photo_width_mm=36.0,
+    photo_height_mm=47.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=28.2,
+    eye_max_from_bottom_mm=35.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NO",
+    document_name="Norway Passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="NO",
+    document_name="Norway Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="ZA",
+    document_name="South Africa Passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="ZA",
+    document_name="South Africa Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CN",
+    document_name="China Visa 33x48 mm",
+    photo_width_mm=33.0,
+    photo_height_mm=48.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=28.8,
+    eye_max_from_bottom_mm=36.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CN",
+    document_name="China Visa online 354x472 - 420x560 pixels",
+    photo_width_mm=8991.6,
+    photo_height_mm=11988.8,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=7193.3,
+    eye_max_from_bottom_mm=8991.6,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CN",
+    document_name="China Passport online 354x472 pixel",
+    photo_width_mm=8991.6,
+    photo_height_mm=11988.8,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=7193.3,
+    eye_max_from_bottom_mm=8991.6,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CN",
+    document_name="China Passport online 354x472 pixel old format",
+    photo_width_mm=8991.6,
+    photo_height_mm=11988.8,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=7193.3,
+    eye_max_from_bottom_mm=8991.6,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CN",
+    document_name="China Passport 33x48 mm",
+    photo_width_mm=33.0,
+    photo_height_mm=48.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=28.8,
+    eye_max_from_bottom_mm=36.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CN",
+    document_name="China Passport 33x48 mm light grey background",
+    photo_width_mm=33.0,
+    photo_height_mm=48.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=28.8,
+    eye_max_from_bottom_mm=36.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CN",
+    document_name="China 354x472 pixel with eyes on crosslines",
+    photo_width_mm=8991.6,
+    photo_height_mm=11988.8,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=7193.3,
+    eye_max_from_bottom_mm=8991.6,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CN",
+    document_name="China Social Security Card 32x26 mm",
+    photo_width_mm=32.0,
+    photo_height_mm=26.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=15.6,
+    eye_max_from_bottom_mm=19.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CN",
+    document_name="China Resident ID card 26x32 mm",
+    photo_width_mm=26.0,
+    photo_height_mm=32.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=19.2,
+    eye_max_from_bottom_mm=24.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CN",
+    document_name="China Medicare card 26x32 mm",
+    photo_width_mm=26.0,
+    photo_height_mm=32.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=19.2,
+    eye_max_from_bottom_mm=24.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="CN",
+    document_name="China Green Card 33x48 mm",
+    photo_width_mm=33.0,
+    photo_height_mm=48.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=28.8,
+    eye_max_from_bottom_mm=36.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India Visa (2x2 inch, 51x51mm)",
+    photo_width_mm=51.0,
+    photo_height_mm=51.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.6,
+    eye_max_from_bottom_mm=38.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India Visa 190x190 px via VFSglobal.com",
+    photo_width_mm=4826.0,
+    photo_height_mm=4826.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=2895.6,
+    eye_max_from_bottom_mm=3619.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India OCI Passport (2x2 inch, 51x51mm, 200x200 to 1500x1500 pixels)",
+    photo_width_mm=51.0,
+    photo_height_mm=51.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.6,
+    eye_max_from_bottom_mm=38.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India OCI passport 360x360 - 900x900 pixel",
+    photo_width_mm=9144.0,
+    photo_height_mm=9144.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=5486.4,
+    eye_max_from_bottom_mm=6858.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India Passport (2x2 inch, 51x51mm)",
+    photo_width_mm=51.0,
+    photo_height_mm=51.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.6,
+    eye_max_from_bottom_mm=38.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India passport Seva 4.5x3.5 cm",
+    photo_width_mm=45.0,
+    photo_height_mm=35.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=21.0,
+    eye_max_from_bottom_mm=26.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India child passport Seva 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India passport 35x35 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=35.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=21.0,
+    eye_max_from_bottom_mm=26.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India PAN card online 213x213 pixel",
+    photo_width_mm=5410.2,
+    photo_height_mm=5410.2,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=3246.1,
+    eye_max_from_bottom_mm=4057.6,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India PAN card 25x35mm (2.5x3.5cm)",
+    photo_width_mm=25.0,
+    photo_height_mm=35.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=21.0,
+    eye_max_from_bottom_mm=26.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India PIO (Person of Indian Origin) 35x35 mm (3.5x3.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=35.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=21.0,
+    eye_max_from_bottom_mm=26.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India PCC / Birth Certificate 35x35 mm (3.5x3.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=35.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=21.0,
+    eye_max_from_bottom_mm=26.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India FRRO (Foreigner Registration) 35x35 mm online",
+    photo_width_mm=35.0,
+    photo_height_mm=35.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=21.0,
+    eye_max_from_bottom_mm=26.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IN",
+    document_name="India Passport for BLS USA Application (2x2 inch, 51x51mm)",
+    photo_width_mm=51.0,
+    photo_height_mm=51.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.6,
+    eye_max_from_bottom_mm=38.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="JP",
+    document_name="Japan Residence Card or Certificate of Eligibility 30x40 mm",
+    photo_width_mm=30.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="JP",
+    document_name="Japan Visa 45x45mm, head 27 mm",
+    photo_width_mm=45.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="JP",
+    document_name="Japan Visa 2x2 inch (standard visa from the US)",
+    photo_width_mm=50.8,
+    photo_height_mm=50.8,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.5,
+    eye_max_from_bottom_mm=38.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="JP",
+    document_name="Japan My Number Card 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="JP",
+    document_name="Japan Visa 45x45mm, head 34 mm",
+    photo_width_mm=45.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="JP",
+    document_name="Japan e-visa 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="JP",
+    document_name="Japan Passport 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="JP",
+    document_name="Japan GoGoNihon 800 pixels 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="JP",
+    document_name="Japan APEC Business Travel Card 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="JP",
+    document_name="Japan visa 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="KR",
+    document_name="South Korea Visa 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="KR",
+    document_name="South Korea passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="KR",
+    document_name="South Korea residence card 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="KR",
+    document_name="South Korea Alien Registration 3x4 cm (30x40 mm)",
+    photo_width_mm=30.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="KR",
+    document_name="South Korea registration card 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AE",
+    document_name="UAE Visa online Emirates.com 300x369 pixels",
+    photo_width_mm=7620.0,
+    photo_height_mm=9372.6,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=5623.6,
+    eye_max_from_bottom_mm=7029.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AE",
+    document_name="UAE Visa offline 43x55 mm",
+    photo_width_mm=43.0,
+    photo_height_mm=55.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=33.0,
+    eye_max_from_bottom_mm=41.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AE",
+    document_name="UAE ID card online 35x45 mm icp.gov.ae",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AE",
+    document_name="UAE passport 4x6 cm",
+    photo_width_mm=40.0,
+    photo_height_mm=60.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=36.0,
+    eye_max_from_bottom_mm=45.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AE",
+    document_name="UAE ID card 4x6 cm",
+    photo_width_mm=40.0,
+    photo_height_mm=60.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=36.0,
+    eye_max_from_bottom_mm=45.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AE",
+    document_name="UAE residence 4x6 cm",
+    photo_width_mm=40.0,
+    photo_height_mm=60.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=36.0,
+    eye_max_from_bottom_mm=45.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AE",
+    document_name="UAE family book 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IL",
+    document_name="Israel ID card 3.5x4.5 cm (35x45 mm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IL",
+    document_name="Israel gov.il 3.5x4.5 cm (35x45 mm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IL",
+    document_name="Israel Passport 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IL",
+    document_name="Israel Passport 5x5 cm (2x2 in, 51x51 mm)",
+    photo_width_mm=51.0,
+    photo_height_mm=51.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.6,
+    eye_max_from_bottom_mm=38.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IL",
+    document_name="Israel Visa 35x45mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="IL",
+    document_name="Israel Visa 55x55mm (usually from India)",
+    photo_width_mm=55.0,
+    photo_height_mm=55.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=33.0,
+    eye_max_from_bottom_mm=41.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MY",
+    document_name="Malaysia Passport 35x50 mm white background",
+    photo_width_mm=35.0,
+    photo_height_mm=50.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.0,
+    eye_max_from_bottom_mm=37.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MY",
+    document_name="Malaysia eVisa online application 35x50 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=50.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.0,
+    eye_max_from_bottom_mm=37.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MY",
+    document_name="Malaysia Passport 35x50 mm blue background",
+    photo_width_mm=35.0,
+    photo_height_mm=50.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.0,
+    eye_max_from_bottom_mm=37.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="blue",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MY",
+    document_name="Malaysia Visa 35x50 mm blue background",
+    photo_width_mm=35.0,
+    photo_height_mm=50.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.0,
+    eye_max_from_bottom_mm=37.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="blue",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MY",
+    document_name="Malaysia expat 99x142 pixels blue background",
+    photo_width_mm=2514.6,
+    photo_height_mm=3606.8,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=2164.1,
+    eye_max_from_bottom_mm=2705.1,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="blue",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MY",
+    document_name="Malaysia Visa 35x50 mm white background",
+    photo_width_mm=35.0,
+    photo_height_mm=50.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.0,
+    eye_max_from_bottom_mm=37.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MY",
+    document_name="Malaysia Visa 35x45 mm blue background",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="blue",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MY",
+    document_name="Malaysia Visa 35x45 mm white background",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MY",
+    document_name="Malaysia EMGS 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MY",
+    document_name="Malaysia APEC Business Travel Card 35x50mm (3.5x5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=50.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=30.0,
+    eye_max_from_bottom_mm=37.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BR",
+    document_name="Brazil visa online 413x531 px via VFSGlobal",
+    photo_width_mm=10490.2,
+    photo_height_mm=13487.4,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=8092.4,
+    eye_max_from_bottom_mm=10115.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BR",
+    document_name="Brazil visa online 431x531 px",
+    photo_width_mm=10947.4,
+    photo_height_mm=13487.4,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=8092.4,
+    eye_max_from_bottom_mm=10115.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BR",
+    document_name="Brazil ID card 3x4 cm (30x40 mm)",
+    photo_width_mm=30.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BR",
+    document_name="Brazil Visa 2x2 inch (from the US) 51x51 mm",
+    photo_width_mm=51.0,
+    photo_height_mm=51.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=30.6,
+    eye_max_from_bottom_mm=38.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BR",
+    document_name="Brazil Passport online 431x531 px",
+    photo_width_mm=10947.4,
+    photo_height_mm=13487.4,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=8092.4,
+    eye_max_from_bottom_mm=10115.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BR",
+    document_name="Brazil Common Passport 5x7 cm",
+    photo_width_mm=50.0,
+    photo_height_mm=70.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=42.0,
+    eye_max_from_bottom_mm=52.5,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="BR",
+    document_name="SPTrans Bilhete Único 3x4 cm",
+    photo_width_mm=30.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="SG",
+    document_name="Singapore visa online 400x514 px",
+    photo_width_mm=10160.0,
+    photo_height_mm=13055.6,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=7833.4,
+    eye_max_from_bottom_mm=9791.7,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="SG",
+    document_name="Singapore passport online 400x514 px",
+    photo_width_mm=10160.0,
+    photo_height_mm=13055.6,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=7833.4,
+    eye_max_from_bottom_mm=9791.7,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="SG",
+    document_name="Singapore ID card 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="SG",
+    document_name="Singapore passport offline 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="SG",
+    document_name="Singapore visa offline 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="SG",
+    document_name="Singapore Citizenship Certificate 35x45 mm (3.5x4.5 cm)",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="SG",
+    document_name="Singapore seaman's discharge book 400x514 px",
+    photo_width_mm=10160.0,
+    photo_height_mm=13055.6,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=7833.4,
+    eye_max_from_bottom_mm=9791.7,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MX",
+    document_name="Mexico passport 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MX",
+    document_name="Mexico visa 35x45 mm",
+    photo_width_mm=35.0,
+    photo_height_mm=45.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=27.0,
+    eye_max_from_bottom_mm=33.8,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MX",
+    document_name="Mexico visa 25x35mm (2.5x3.5cm or 1\"x1.2\")",
+    photo_width_mm=25.0,
+    photo_height_mm=35.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=21.0,
+    eye_max_from_bottom_mm=26.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MX",
+    document_name="Mexico permanent residents visa 31x39mm (3.1x3.9cm)",
+    photo_width_mm=31.0,
+    photo_height_mm=39.0,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=23.4,
+    eye_max_from_bottom_mm=29.2,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="MX",
+    document_name="Mexico visa 1.5x1.75 inch (1.5 x 1 3/4 inches or 3.8x4.4cm)",
+    photo_width_mm=38.0,
+    photo_height_mm=44.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=26.4,
+    eye_max_from_bottom_mm=33.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="TR",
+    document_name="Turkey Visa 50x60 mm (5x6 cm)",
+    photo_width_mm=50.0,
+    photo_height_mm=60.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=36.0,
+    eye_max_from_bottom_mm=45.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="TR",
+    document_name="Turkey Passport 50x60 mm (5x6 cm)",
+    photo_width_mm=50.0,
+    photo_height_mm=60.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=36.0,
+    eye_max_from_bottom_mm=45.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="TR",
+    document_name="Turkey ID card 5x6 cm",
+    photo_width_mm=50.0,
+    photo_height_mm=60.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=36.0,
+    eye_max_from_bottom_mm=45.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AR",
+    document_name="Argentina DNI 4x4 cm (40x40 mm)",
+    photo_width_mm=40.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.75,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="light_grey",
+    glasses_allowed="if_no_glare",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AR",
+    document_name="Argentina passport 4x4 cm (40x40 mm)",
+    photo_width_mm=40.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.70,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AR",
+    document_name="Argentina visa 4x4 cm (40x40 mm)",
+    photo_width_mm=40.0,
+    photo_height_mm=40.0,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.80,
+    eye_min_from_bottom_mm=23.0,
+    eye_max_from_bottom_mm=30.0,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AR",
+    document_name="Argentina passport in USA 1.5x1.5 inch",
+    photo_width_mm=38.1,
+    photo_height_mm=38.1,
+    dpi=300,
+    head_min_percentage=0.65,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=22.9,
+    eye_max_from_bottom_mm=28.6,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code="AR",
+    document_name="Argentina visa in USA 1.5x1.5 inch",
+    photo_width_mm=38.1,
+    photo_height_mm=38.1,
+    dpi=300,
+    head_min_percentage=0.60,
+    head_max_percentage=0.85,
+    eye_min_from_bottom_mm=22.9,
+    eye_max_from_bottom_mm=28.6,
+    head_top_min_dist_from_photo_top_mm=2.0,
+    head_top_max_dist_from_photo_top_mm=8.0,
+    background_color="white",
+    glasses_allowed="no",
+    neutral_expression_required=True,
+    other_requirements="Auto-generated from visafoto.com data",
+    source_urls=["https://visafoto.com/"]
+))
+
 # TODO: Add more specifications as needed.
 # - Canada Passport/Visa
 # - China Passport/Visa
