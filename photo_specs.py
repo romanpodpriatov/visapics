@@ -652,6 +652,9 @@ DOCUMENT_SPECIFICATIONS.append(
         # If top of head is ~3-7mm from top of photo: eye_min_from_top ~17mm, eye_max_from_top ~23mm
         eye_min_from_top_mm=17.0, # Placeholder derived from typical head proportions and top margin
         eye_max_from_top_mm=23.0, # Placeholder
+        # Calculate eye position from bottom: photo_height(70mm) - eye_from_top
+        eye_min_from_bottom_mm=70.0 - 23.0, # 47.0mm
+        eye_max_from_bottom_mm=70.0 - 17.0, # 53.0mm
         background_color="white", # "Plain white or light-coloured background"
         glasses_allowed="no", # Generally no, unless for medical reasons with a signed note.
         neutral_expression_required=True,

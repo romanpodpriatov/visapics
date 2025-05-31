@@ -13,7 +13,7 @@
                     colors: {
                         'primary': '#2563eb', 'primary-dark': '#1d4ed8',
                         'secondary': '#06b6d4', 'accent': '#10b981',
-                        'brand-green': '#3CB371' // For visafoto style green
+                        'brand-green': '#3CB371'
                     }
                 }
             }
@@ -24,24 +24,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
+    <!-- Tom Select CSS & JS -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.default.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', system-ui, sans-serif; }
-        .upload-area-active { background: linear-gradient(135deg, rgba(37,99,235,0.05) 0%, rgba(16,185,129,0.05) 100%); border: 2px dashed #2563eb; }
+        .upload-area-active { background: linear-gradient(135deg, rgba(37,99,235,0.05) 0%, rgba(16,185,129,0.05) 100%); border: 2px dashed #2563eb !important; }
         .upload-area-active:hover { background: linear-gradient(135deg, rgba(37,99,235,0.1) 0%, rgba(16,185,129,0.1) 100%); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37,99,235,0.2); }
         .card-modern { background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border-radius: 12px; }
-        .dropdown-modern { background: #f8fafc; border: 1px solid #e2e8f0; }
-        .dropdown-modern:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); outline: none; }
+        
+        /* Tom Select Styling to match Tailwind forms */
+        .ts-control { background-color: #f9fafb !important; /* Tailwind gray-50 */ border: 1px solid #d1d5db !important; /* Tailwind gray-300 */ border-radius: 0.375rem !important; /* Tailwind rounded-md */ padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; padding-left: 0.75rem !important; padding-right: 0.75rem !important; line-height: 1.5 !important; }
+        .ts-control.focus { border-color: #2563eb !important; /* primary color */ box-shadow: 0 0 0 3px rgba(37,99,235,0.1) !important; outline: none !important; }
+        .ts-dropdown { border-radius: 0.375rem !important; border: 1px solid #e5e7eb !important; /* Tailwind gray-200 */ box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* Tailwind shadow-md */ }
+        .ts-dropdown .active { background-color: #eff6ff !important; /* Tailwind blue-50 */ color: #1d4ed8 !important; /* Tailwind blue-700 */ }
+        .ts-input::placeholder { color: #9ca3af; /* Tailwind gray-400 */ }
+        .ts-control .item { font-size: 0.875rem; /* Tailwind text-sm */ }
+
+
         .btn-brand-green { background-color: #3CB371; color: white; }
         .btn-brand-green:hover { background-color: #34a065; }
         #nprogress .bar { background: linear-gradient(90deg, #2563eb, #06b6d4) !important; height: 3px !important; }
         #nprogress .peg { box-shadow: 0 0 10px #2563eb, 0 0 5px #2563eb !important; }
-        .info-table td, .info-table th { padding: 0.75rem 1rem; vertical-align: top; }
-        .info-table tr:not(:last-child) td { border-bottom: 1px solid #e5e7eb; }
+        .info-table td, .info-table th { padding: 0.65rem 0.9rem; vertical-align: top; }
+        .info-table tr:not(:last-child) td, .info-table tr:not(:last-child) th { border-bottom: 1px solid #e5e7eb; }
         .info-table th { text-align: left; font-weight: 600; color: #4b5563; width: 40%;}
         .info-table td { color: #374151; }
         .result-header-text { font-size: 1.125rem; line-height: 1.75rem; color: #111827; margin-bottom: 0.25rem;}
-        .result-subheader-text { font-size: 0.875rem; line-height: 1.25rem; color: #4b5563; margin-bottom: 1.5rem;}
+        .result-subheader-text { font-size: 0.875rem; line-height: 1.25rem; color: #4b5563; margin-bottom: 1.25rem;}
+
+        /* Tab styling */
+        .tab-button.active-tab { border-color: #2563eb; color: #2563eb; }
+        .tab-button:not(.active-tab) { border-color: transparent; color: #6b7280; } /* gray-500 */
+        .tab-button:not(.active-tab):hover { border-color: #d1d5db; color: #4b5563; } /* gray-300, gray-600 */
+
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -55,21 +73,21 @@
         </div>
     </header>
 
-    <div class="container mx-auto my-8 px-4 max-w-6xl">
-        <div class="card-modern p-6 md:p-8">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-3">Get Your Compliant ID Photo</h2>
+    <div class="container mx-auto my-6 px-4 max-w-6xl">
+        <div class="card-modern p-5 md:p-6">
+            <div class="text-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-900 mb-2">Get Your Compliant ID Photo</h2>
                 <p class="text-lg text-gray-600 max-w-xl mx-auto">Upload your photo and let our AI ensure it meets official requirements.</p>
             </div>
 
-            <div class="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
+            <div class="mb-6 p-5 bg-gray-50 rounded-lg border border-gray-200">
                  <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
                     <i data-lucide="settings-2" class="w-5 h-5 text-primary mr-2"></i>Photo Requirements
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label for="country_select" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
-                        <select id="country_select" name="country_code" class="dropdown-modern w-full py-2.5 px-3 rounded-md text-gray-800">
+                        <select id="country_select" name="country_code" placeholder="Search or select a country...">
                             <option value="">Select country</option>
                             {% for country_code, display_name in countries %}
                                 <option value="{{ country_code }}">{{ display_name }}</option>
@@ -78,72 +96,96 @@
                     </div>
                     <div>
                         <label for="document_type_select" class="block text-sm font-medium text-gray-700 mb-1">Document Type</label>
-                        <select id="document_type_select" name="document_name" class="dropdown-modern w-full py-2.5 px-3 rounded-md text-gray-800" disabled>
+                        <select id="document_type_select" name="document_name" placeholder="Search or select document type..." disabled>
                             <option value="">Select document type</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-10 text-center cursor-not-allowed bg-gray-100 opacity-60 transition-all">
-                <i data-lucide="image-up" class="w-12 h-12 text-gray-400 mx-auto mb-3"></i>
-                <h3 class="text-lg font-semibold text-gray-600 mb-1">Click or Drag & Drop Photo Here</h3>
+            <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-not-allowed bg-gray-100 opacity-60 transition-all">
+                <i data-lucide="image-up" class="w-10 h-10 text-gray-400 mx-auto mb-2"></i>
+                <h3 class="text-md font-semibold text-gray-600 mb-1">Click or Drag & Drop Photo Here</h3>
                 <p class="text-sm text-gray-500">Supports JPG, JPEG, PNG. Max 10MB.</p>
                 <input type="file" id="file-input" accept="image/*" class="hidden">
             </div>
             
-            <div id="original-preview-container" class="mt-6 hidden">
+            <div id="original-preview-container" class="mt-4 hidden">
                 <h4 class="text-md font-semibold text-gray-700 mb-2 text-center">Original Uploaded Photo:</h4>
                 <div class="flex justify-center border border-gray-200 p-2 rounded-md bg-gray-50">
-                    <img id="original-preview-image" src="#" alt="Original Preview" class="max-h-60 rounded shadow">
+                    <img id="original-preview-image" src="#" alt="Original Preview" class="max-h-52 rounded shadow">
                 </div>
             </div>
 
-            <div id="progress-container" class="mt-6 hidden">
+            <div id="progress-container" class="mt-4 hidden">
                 <div class="text-sm font-medium text-gray-600 mb-1" id="progress-status">Processing...</div>
                 <div class="relative h-2.5 bg-gray-200 rounded-full overflow-hidden">
                     <div id="progress-bar" class="bg-primary absolute top-0 left-0 h-full transition-all duration-300" style="width: 0%"></div>
                 </div>
             </div>
 
-            <div id="message-container" class="mt-4"></div>
+            <div id="message-container" class="mt-3"></div>
 
-            <div id="processed-container" class="mt-8 hidden">
-                <div id="result-header" class="mb-6">
+            <div id="processed-container" class="mt-6 hidden">
+                <div id="result-header" class="mb-4">
                     <p id="result-main-message" class="result-header-text"></p>
                     <p id="result-sub-message" class="result-subheader-text"></p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-7 gap-6 md:gap-8 items-start">
-                    <div class="md:col-span-3 flex flex-col items-center">
-                        <img id="processed-image-preview" src="#" alt="Processed photo preview" class="w-full max-w-xs md:max-w-sm rounded border border-gray-300 shadow-md mb-4">
-                        <button id="purchase-single-btn" class="bg-blue-600 hover:bg-blue-700 text-white text-center py-2.5 px-6 rounded-md font-semibold flex items-center justify-center space-x-2 w-full max-w-xs transition-colors">
-                            <i data-lucide="credit-card" class="w-5 h-5"></i>
-                            <span>Buy for $2.99</span>
-                        </button>
-                        <p class="text-xs text-gray-500 mt-1.5 text-center">Remove watermark • High quality • Instant download</p>
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+                    <!-- Левая колонка: Превью и кнопки в табах (занимает 3/5) -->
+                    <div class="lg:col-span-3">
+                        <!-- Табы -->
+                        <div class="mb-3 border-b border-gray-200">
+                            <nav class="flex -mb-px sm:space-x-4 space-x-2" aria-label="Tabs">
+                                <button id="tab-digital" role="tab" aria-controls="panel-digital" aria-selected="true"
+                                        class="tab-button active-tab whitespace-nowrap pb-2 pt-3 px-1 border-b-2 font-medium text-sm">
+                                    Digital Photo
+                                </button>
+                                <button id="tab-printable" role="tab" aria-controls="panel-printable" aria-selected="false"
+                                        class="tab-button whitespace-nowrap pb-2 pt-3 px-1 border-b-2 font-medium text-sm">
+                                    Printable Sheet
+                                </button>
+                            </nav>
+                        </div>
+
+                        <!-- Панели табов -->
+                        <div>
+                            <!-- Панель Digital Photo -->
+                            <div id="panel-digital" role="tabpanel" aria-labelledby="tab-digital" class="tab-panel">
+                                <div class="flex flex-col items-center p-2">
+                                    <img id="processed-image-preview" src="#" alt="Processed photo preview" class="w-full max-w-[280px] rounded border border-gray-300 shadow-md mb-3">
+                                    <button id="purchase-single-btn" class="bg-blue-600 hover:bg-blue-700 text-white text-center py-2.5 px-5 rounded-md font-semibold flex items-center justify-center space-x-2 w-full max-w-[280px] transition-colors text-sm">
+                                        <i data-lucide="credit-card" class="w-4 h-4"></i>
+                                        <span>Buy Digital for $2.99</span>
+                                    </button>
+                                    <p class="text-xs text-gray-500 mt-1.5 text-center">High quality • Instant download</p>
+                                </div>
+                            </div>
+                            <!-- Панель Printable Sheet -->
+                            <div id="panel-printable" role="tabpanel" aria-labelledby="tab-printable" class="tab-panel hidden">
+                                <div class="flex flex-col items-center p-2">
+                                     <img id="printable-preview-image" src="#" alt="Print preview" class="w-full max-w-[320px] rounded border border-gray-300 shadow-md mb-3">
+                                     <button id="purchase-bundle-btn" class="bg-green-600 hover:bg-green-700 text-white text-center py-2.5 px-5 rounded-md font-semibold flex items-center justify-center space-x-2 w-full max-w-[320px] transition-colors text-sm">
+                                        <i data-lucide="package" class="w-4 h-4"></i>
+                                        <span>Buy Both (Digital + Print) for $4.99</span>
+                                    </button>
+                                     <p class="text-xs text-gray-500 mt-1.5 text-center">Best value: Digital Photo + Printable Layout</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="md:col-span-4">
-                        <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+                    <!-- Правая колонка: Информация (занимает 2/5) -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden sticky top-24">
+                             <h3 class="text-md font-semibold text-gray-700 p-3 border-b bg-gray-50">Photo Details</h3>
                             <table class="w-full info-table">
                                 <tbody id="info-table-body"></tbody>
                             </table>
                         </div>
-                         <div id="compliance-warnings-container" class="mt-4"></div>
+                        <div id="compliance-warnings-container" class="mt-3"></div>
                     </div>
-                </div>
-                
-                <div class="mt-10 pt-6 border-t border-gray-200 text-center">
-                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Printable Version (4x6" Sheet)</h4>
-                    <div class="flex justify-center">
-                         <img id="printable-preview-image" src="#" alt="Print preview" class="max-w-md rounded border border-gray-300 shadow-md mb-4">
-                    </div>
-                    <button id="purchase-bundle-btn" class="bg-green-600 hover:bg-green-700 text-white text-center py-2.5 px-6 rounded-md font-semibold flex items-center justify-center space-x-2 mx-auto max-w-xs transition-colors">
-                        <i data-lucide="package" class="w-5 h-5"></i>
-                        <span>Buy Both for $4.99</span>
-                    </button>
-                     <p class="text-xs text-gray-500 mt-1.5 text-center">Photo + Printable layout • Best value</p>
                 </div>
             </div>
         </div>
@@ -169,11 +211,26 @@
                 printablePreviewImage: document.getElementById('printable-preview-image'),
                 infoTableBody: document.getElementById('info-table-body'),
                 complianceWarningsContainer: document.getElementById('compliance-warnings-container'),
-                countrySelect: document.getElementById('country_select'),
-                documentTypeSelect: document.getElementById('document_type_select')
+                countrySelectEl: document.getElementById('country_select'),
+                documentTypeSelectEl: document.getElementById('document_type_select'),
+                // Tabs and Panels
+                tabDigital: document.getElementById('tab-digital'),
+                tabPrintable: document.getElementById('tab-printable'),
+                panelDigital: document.getElementById('panel-digital'),
+                panelPrintable: document.getElementById('panel-printable'),
+                // Purchase Buttons
+                purchaseSingleBtn: document.getElementById('purchase-single-btn'),
+                purchaseBundleBtn: document.getElementById('purchase-bundle-btn')
             };
 
             let uploadAreaActive = false;
+            let countryTomSelect, documentTypeTomSelect;
+            let lastProcessedData = null;
+
+            // Initialize Tom Select
+            countryTomSelect = new TomSelect(elements.countrySelectEl, { create: false, sortField: { field: "text", direction: "asc" } });
+            documentTypeTomSelect = new TomSelect(elements.documentTypeSelectEl, { create: false, sortField: { field: "text", direction: "asc" } });
+            documentTypeTomSelect.disable();
 
             function updateProgressBar(status) {
                 const progressMap = { 'Processing started':0.05, 'Loading image':0.1, 'Detecting face landmarks':0.2, 'Getting segmentation mask for hair detection':0.3, 'Calculating crop dimensions with mask-based hair detection':0.4, 'Cropping and scaling image':0.55, 'Removing background':0.7, 'Enhancing image':0.8, 'Saving processed image':0.85, 'Creating preview':0.9, 'Creating printable image':0.95, 'Creating printable preview':0.98, 'Processing complete':1.0 };
@@ -181,152 +238,152 @@
                 const progress = progressMap[status] || 0;
                 elements.progressStatus.textContent = messageMap[status] || status;
                 elements.progressBar.style.width = `${progress * 100}%`;
-                elements.progressContainer.classList.toggle('hidden', progress === 0 || progress === 1);
+                elements.progressContainer.classList.toggle('hidden', progress === 0 || progress === 1.0);
                 NProgress.set(progress);
+                 if (progress === 1.0) {
+                    setTimeout(() => NProgress.done(), 200);
+                 }
             }
             socket.on('processing_status', data => updateProgressBar(data.status));
 
             function updateUploadAreaUI() {
-                const icon = elements.uploadArea.querySelector('i');
-                
-                // Safe check for icon existence
-                if (!icon) {
-                    console.warn('Upload area icon not found');
-                    return;
-                }
-                
+                const icon = elements.uploadArea.querySelector('i[data-lucide="image-up"]');
+                if (!icon) return;
                 if (uploadAreaActive) {
                     elements.uploadArea.classList.add('upload-area-active');
                     elements.uploadArea.classList.remove('cursor-not-allowed', 'bg-gray-100', 'opacity-60');
-                    // Safe icon class replacement
-                    if (icon.classList.contains('text-gray-400')) {
-                        icon.classList.replace('text-gray-400', 'text-primary');
-                    } else {
-                        icon.classList.add('text-primary');
-                        icon.classList.remove('text-gray-400');
-                    }
+                    icon.classList.replace('text-gray-400', 'text-primary');
                 } else {
                     elements.uploadArea.classList.remove('upload-area-active');
                     elements.uploadArea.classList.add('cursor-not-allowed', 'bg-gray-100', 'opacity-60');
-                    // Safe icon class replacement
-                    if (icon.classList.contains('text-primary')) {
-                        icon.classList.replace('text-primary', 'text-gray-400');
-                    } else {
-                        icon.classList.add('text-gray-400');
-                        icon.classList.remove('text-primary');
-                    }
+                    icon.classList.replace('text-primary', 'text-gray-400');
                 }
             }
 
             function toggleUploadActiveState() {
-                uploadAreaActive = !!(elements.countrySelect.value && elements.documentTypeSelect.value);
+                uploadAreaActive = !!(countryTomSelect.getValue() && documentTypeTomSelect.getValue());
                 updateUploadAreaUI();
             }
 
-            elements.countrySelect.addEventListener('change', async () => {
-                elements.documentTypeSelect.innerHTML = '<option value="">Loading types...</option>';
-                elements.documentTypeSelect.disabled = true;
+            countryTomSelect.on('change', async (countryCode) => {
+                documentTypeTomSelect.clear();
+                documentTypeTomSelect.clearOptions();
+                documentTypeTomSelect.disable();
+                documentTypeTomSelect.addOption({ value: '', text: 'Loading types...' });
+                documentTypeTomSelect.setValue('');
                 toggleUploadActiveState();
-                if (!elements.countrySelect.value) {
-                    elements.documentTypeSelect.innerHTML = '<option value="">Select document type</option>';
+
+                if (!countryCode) {
+                    documentTypeTomSelect.clearOptions();
+                    documentTypeTomSelect.addOption({ value: '', text: 'Select document type' });
+                    documentTypeTomSelect.disable();
                     return;
                 }
                 try {
-                    const response = await fetch(`/get_document_types/${elements.countrySelect.value}`);
-                    if (!response.ok) throw new Error('Network response was not ok.');
+                    const response = await fetch(`/get_document_types/${countryCode}`);
+                    if (!response.ok) throw new Error(`Network error: ${response.statusText}`);
                     const docTypes = await response.json();
-                    elements.documentTypeSelect.innerHTML = '<option value="">Select document type</option>';
-                    docTypes.forEach(name => elements.documentTypeSelect.add(new Option(name, name)));
-                    elements.documentTypeSelect.disabled = docTypes.length === 0;
-                    if (docTypes.length === 0) elements.documentTypeSelect.innerHTML = '<option value="">No types found</option>';
+                    documentTypeTomSelect.clearOptions();
+                    if (docTypes.length > 0) {
+                        documentTypeTomSelect.addOption({ value: '', text: 'Select document type' });
+                        docTypes.forEach(name => documentTypeTomSelect.addOption({ value: name, text: name }));
+                        documentTypeTomSelect.enable();
+                    } else {
+                        documentTypeTomSelect.addOption({ value: '', text: 'No types found' });
+                    }
                 } catch (err) {
-                    showMessage('error', 'Could not load document types.');
-                    elements.documentTypeSelect.innerHTML = '<option value="">Error loading</option>';
+                    showMessage('error', `Could not load document types: ${err.message}`);
+                    documentTypeTomSelect.clearOptions();
+                    documentTypeTomSelect.addOption({ value: '', text: 'Error loading' });
                 }
+                documentTypeTomSelect.setValue('');
                 toggleUploadActiveState();
             });
-            elements.documentTypeSelect.addEventListener('change', toggleUploadActiveState);
+            documentTypeTomSelect.on('change', toggleUploadActiveState);
+
+            // Tab Functionality
+            const tabs = [elements.tabDigital, elements.tabPrintable];
+            const panels = [elements.panelDigital, elements.panelPrintable];
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => {
+                        t.setAttribute('aria-selected', 'false');
+                        t.classList.remove('active-tab');
+                    });
+                    panels.forEach(p => p.classList.add('hidden'));
+
+                    tab.setAttribute('aria-selected', 'true');
+                    tab.classList.add('active-tab');
+                    const targetPanelId = tab.getAttribute('aria-controls');
+                    document.getElementById(targetPanelId)?.classList.remove('hidden');
+                });
+            });
+
 
             elements.uploadArea.addEventListener('click', () => uploadAreaActive && elements.fileInput.click());
             elements.fileInput.addEventListener('change', () => handleFiles(elements.fileInput.files));
-            ['dragenter','dragover','dragleave','drop'].forEach(e => elements.uploadArea.addEventListener(e, pD, false));
-            function pD(e) { e.preventDefault(); e.stopPropagation(); }
-            ['dragenter','dragover'].forEach(e => elements.uploadArea.addEventListener(e, () => uploadAreaActive && elements.uploadArea.classList.add('border-primary'), false));
-            ['dragleave','drop'].forEach(e => elements.uploadArea.addEventListener(e, () => elements.uploadArea.classList.remove('border-primary'), false));
+            ['dragenter','dragover','dragleave','drop'].forEach(eName => elements.uploadArea.addEventListener(eName, preventDefaults, false));
+            function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+            ['dragenter','dragover'].forEach(eName => elements.uploadArea.addEventListener(eName, () => uploadAreaActive && elements.uploadArea.classList.add('border-primary'), false));
+            ['dragleave','drop'].forEach(eName => elements.uploadArea.addEventListener(eName, () => elements.uploadArea.classList.remove('border-primary'), false));
             elements.uploadArea.addEventListener('drop', e => uploadAreaActive && handleFiles(e.dataTransfer.files));
 
             function handleFiles(files) {
                 if (!files.length) return;
                 const file = files[0];
-                if (!file.type.startsWith('image/')) { showMessage('error', 'Please upload an image.'); return; }
-                if (file.size > 10*1024*1024) { showMessage('error', 'File exceeds 10MB.'); return; }
+                if (!file.type.startsWith('image/')) { showMessage('error', 'Please upload an image file (JPG, PNG).'); return; }
+                if (file.size > 10 * 1024 * 1024) { showMessage('error', 'File size exceeds 10MB limit.'); return; }
                 
                 elements.originalPreviewImage.src = URL.createObjectURL(file);
                 elements.originalPreviewContainer.classList.remove('hidden');
+                elements.processedContainer.classList.add('hidden');
+                elements.messageContainer.innerHTML = '';
                 uploadFile(file);
             }
 
             function uploadFile(file) {
                 const formData = new FormData();
                 formData.append('file', file);
-                formData.append('country_code', elements.countrySelect.value);
-                formData.append('document_name', elements.documentTypeSelect.value);
+                formData.append('country_code', countryTomSelect.getValue());
+                formData.append('document_name', documentTypeTomSelect.getValue());
 
                 NProgress.start();
                 updateProgressBar('Processing started');
-                elements.messageContainer.innerHTML = '';
-                elements.processedContainer.classList.add('hidden');
-                elements.infoTableBody.innerHTML = '';
-                elements.complianceWarningsContainer.innerHTML = '';
-
                 fetch('/upload', { method: 'POST', body: formData })
                     .then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)))
                     .then(data => {
                         if (data.success) {
-                            showMessage('success', data.message || 'Photo processed!');
+                            showMessage('success', data.message || 'Photo processed successfully!');
                             elements.processedImagePreview.src = `/previews/${encodeURIComponent(data.preview_filename)}`;
                             elements.printablePreviewImage.src = `/previews/printable/${encodeURIComponent(data.printable_preview_filename)}`;
                             elements.processedContainer.classList.remove('hidden');
                             updateResultDisplay(data.photo_info);
                             
-                            // Store processed data for payment system
                             lastProcessedData = {
                                 processed_filename: data.download_filename,
                                 printable_filename: data.printable_filename,
                                 preview_filename: data.preview_filename,
                                 photo_info: data.photo_info
                             };
-                            setupPaymentButtons();
+                            // Activate default tab (Digital)
+                            elements.tabDigital.click();
                         } else {
-                            showMessage('error', data.error || 'Processing failed.');
+                            showMessage('error', data.error || 'Photo processing failed.');
                         }
                     })
-                    .catch(err => showMessage('error', err.error || err.message || 'Upload error.'))
-                    .finally(() => { NProgress.done(); updateProgressBar('Processing complete'); });
+                    .catch(err => showMessage('error', err.error || err.message || 'An unexpected upload error occurred.'))
+                    .finally(() => { updateProgressBar('Processing complete'); });
             }
 
             function showMessage(type, text) {
                 const colors = { success: 'green', error: 'red', info: 'blue' };
-                elements.messageContainer.innerHTML = `<div class="p-3 mb-3 rounded-md bg-${colors[type]}-100 text-${colors[type]}-700 border border-${colors[type]}-300">${text}</div>`;
+                const typeClass = `bg-${colors[type]}-100 text-${colors[type]}-700 border-${colors[type]}-300`;
+                elements.messageContainer.innerHTML = `<div class="p-3 mb-3 rounded-md border ${typeClass}">${text}</div>`;
             }
             
             function updateResultDisplay(info) {
-                // Safe document title extraction
                 let docTitle = info.spec_document_name || 'Document';
                 
-                try {
-                    if (info.photo_size_str) {
-                        const match = info.photo_size_str.match(/\(([^)]+)\)/);
-                        if (match && match[1]) {
-                            const parts = match[1].split(', ');
-                            if (parts.length > 1) {
-                                docTitle = `${info.spec_document_name} ${parts[1]}`;
-                            }
-                        }
-                    }
-                } catch (error) {
-                    console.warn('Error parsing photo size string:', error);
-                }
                 if (info.compliance_overall) {
                     elements.resultMainMessage.textContent = `We have formatted the photo according to the requirements of ${docTitle}.`;
                     elements.resultSubMessage.textContent = "Your result photo fully meets the following official requirements.";
@@ -334,20 +391,17 @@
                 } else {
                     elements.resultMainMessage.textContent = `Photo processing for ${docTitle} complete with issues.`;
                     elements.resultSubMessage.textContent = "Please review the details below. Some requirements may not be met.";
-                     elements.resultMainMessage.className = "result-header-text text-red-600";
+                    elements.resultMainMessage.className = "result-header-text text-red-600";
                 }
-
-                // Check required fields
                 if (!info.spec_country || !info.spec_document_name) {
-                    console.error('Missing required fields in photo_info');
-                    showMessage('error', 'Incomplete data received from server');
+                    elements.resultMainMessage.textContent = "Photo processing complete.";
+                    elements.resultSubMessage.textContent = "Review the details below.";
                     return;
                 }
                 
-                // Safe default values
                 const safeBackgroundRgb = info.background_color_rgb || [255, 255, 255];
                 const safeSourceUrls = info.source_urls || [];
-                const safePhotoSizeStr = info.photo_size_str || '';
+                const safePhotoSizeStr = info.photo_size_str || 'N/A';
                 
                 let tableHTML = `
                     <tr><th>Country</th><td>${info.spec_country}</td></tr>
@@ -364,11 +418,11 @@
                         </td>
                     </tr>
                     <tr><th>Resolution (dpi)</th><td>${info.resolution_dpi || '300'}</td></tr>
-                    <tr><th>Printable?</th><td>${info.printable || 'Yes'}</td></tr>
-                    <tr><th>Suitable for online submission?</th><td>${info.suitable_for_online_submission || 'Yes'}</td></tr>
+                    <tr><th>Printable?</th><td>${info.printable === false ? 'No' : 'Yes'}</td></tr>
+                    <tr><th>Suitable for online submission?</th><td>${info.suitable_for_online_submission === false ? 'No' : 'Yes'}</td></tr>
                 `;
                 if(safeSourceUrls && safeSourceUrls.length > 0) {
-                    const linksHTML = safeSourceUrls.map(url => `<a href="${url}" target="_blank" class="text-blue-600 hover:underline block">${url.length > 50 ? url.substring(0,47) + '...' : url}</a>`).join('');
+                    const linksHTML = safeSourceUrls.map(url => `<a href="${url}" target="_blank" class="text-blue-600 hover:underline block break-all">${url.length > 50 ? url.substring(0,47) + '...' : url}</a>`).join('');
                     tableHTML += `<tr><th>Web links to official documents</th><td>${linksHTML}</td></tr>`;
                 }
                 elements.infoTableBody.innerHTML = tableHTML;
@@ -377,80 +431,53 @@
                 if (info.compliance_warnings && info.compliance_warnings.length > 0) {
                     const warningsList = info.compliance_warnings.map(w => `<li class="flex items-start"><i data-lucide="alert-triangle" class="w-4 h-4 text-yellow-500 mr-2 mt-0.5 shrink-0"></i><span class="text-yellow-700">${w}</span></li>`).join('');
                     elements.complianceWarningsContainer.innerHTML = `<div class="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-md"><ul class="list-none space-y-1 text-sm">${warningsList}</ul></div>`;
-                }
-                lucide.createIcons();
-            }
-            
-            // Payment functionality
-            let lastProcessedData = null;
-            
-            // Payment buttons are now set up in the main upload handler
-            
-            function setupPaymentButtons() {
-                const singleBtn = document.getElementById('purchase-single-btn');
-                const bundleBtn = document.getElementById('purchase-bundle-btn');
-                
-                if (singleBtn) {
-                    singleBtn.addEventListener('click', () => {
-                        initiatePayment('single_photo');
-                    });
-                }
-                
-                if (bundleBtn) {
-                    bundleBtn.addEventListener('click', () => {
-                        initiatePayment('photo_with_printable');
-                    });
+                    lucide.createIcons();
                 }
             }
             
+            // Payment Button Event Listeners
+            elements.purchaseSingleBtn.addEventListener('click', () => initiatePayment('single_photo'));
+            elements.purchaseBundleBtn.addEventListener('click', () => initiatePayment('photo_with_printable'));
+
             function initiatePayment(productType) {
                 if (!lastProcessedData) {
-                    showMessage('error', 'No processed image data available');
+                    showMessage('error', 'No processed image data. Please process a photo first.');
                     return;
                 }
-                
-                // Get pricing information
                 fetch('/api/pricing')
                     .then(response => response.json())
                     .then(pricing => {
                         const selectedPricing = pricing[productType];
-                        if (!selectedPricing) {
-                            throw new Error('Invalid product type');
-                        }
-                        
-                        // Prepare payment data
-                        const paymentData = {
+                        if (!selectedPricing) throw new Error(`Pricing not found for: ${productType}`);
+                        const paymentPayload = {
                             processed_filename: lastProcessedData.processed_filename,
                             printable_filename: productType.includes('printable') ? lastProcessedData.printable_filename : null,
                             product_type: productType,
                             pricing: selectedPricing,
                             photo_info: lastProcessedData.photo_info
                         };
-                        
-                        // Store payment data and redirect to payment page
-                        localStorage.setItem('paymentData', JSON.stringify(paymentData));
+                        localStorage.setItem('paymentData', JSON.stringify(paymentPayload));
                         window.location.href = '/payment';
                     })
                     .catch(error => {
                         console.error('Payment initiation error:', error);
-                        showMessage('error', 'Failed to initiate payment. Please try again.');
+                        showMessage('error', `Failed to initiate payment: ${error.message}.`);
                     });
             }
             
-            toggleUploadActiveState(); // Initial UI setup for upload area
+            toggleUploadActiveState();
             lucide.createIcons();
         });
     </script>
     
-    <footer class="mt-12 bg-gray-100 border-t border-gray-200">
-        <div class="container mx-auto px-4 py-6 text-center text-gray-600 text-sm">
+    <footer class="mt-10 bg-gray-100 border-t border-gray-200">
+        <div class="container mx-auto px-4 py-5 text-center text-gray-600 text-sm">
             <p id="copyright-text">© 2025 visapicture. All rights reserved.</p>
             <p class="text-xs mt-1">This tool is for demonstration purposes. Always verify with official sources.</p>
         </div>
     </footer>
     
     <script>
-        // Set copyright year safely
         document.addEventListener('DOMContentLoaded', function() {
             const copyrightElement = document.getElementById('copyright-text');
             if (copyrightElement) {
