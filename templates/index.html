@@ -200,6 +200,13 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const socket = io();
+            let sessionId = null;
+            
+            // Generate unique session ID for this client
+            socket.on('connect', () => {
+                sessionId = socket.id;
+                console.log('Connected with session ID:', sessionId);
+            });
             const elements = {
                 uploadArea: document.getElementById('upload-area'),
                 fileInput: document.getElementById('file-input'),
@@ -353,6 +360,7 @@
                 formData.append('file', file);
                 formData.append('country_code', countryTomSelect.getValue());
                 formData.append('document_name', documentTypeTomSelect.getValue());
+                formData.append('session_id', sessionId); // Add session ID to upload
 
                 NProgress.start();
                 updateProgressBar('Processing started');

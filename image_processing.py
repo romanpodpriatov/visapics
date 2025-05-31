@@ -76,15 +76,21 @@ class VisaPhotoProcessor(ImageProcessor):
         # if you want to keep the process method for compatibility
         return self.process_with_updates(None)
 
-    def process_with_updates(self, socketio):
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Loading image'})
+    def process_with_updates(self, socketio, session_id=None):
+        def emit_status(status):
+            """Helper function to emit status to specific session or globally"""
+            if socketio:
+                if session_id:
+                    socketio.emit('processing_status', {'status': status}, room=session_id)
+                else:
+                    socketio.emit('processing_status', {'status': status})
+        
+        emit_status('Loading image')
         img_cv = cv2.imread(self.input_path)
         if img_cv is None:
             raise ValueError("Failed to read the uploaded image")
 
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Detecting face landmarks'})
+        emit_status('Detecting face landmarks')
         # mp_face_mesh module is still available via 'import mediapipe as mp'
         img_rgb = cv2.cvtColor(img_cv, cv2.COLOR_BGR2RGB)
 
@@ -98,8 +104,7 @@ class VisaPhotoProcessor(ImageProcessor):
         if not face_landmarks:
             raise ValueError("Failed to detect face. Please ensure the face is clearly visible.")
 
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Getting segmentation mask for hair detection'})
+        emit_status('Getting segmentation mask for hair detection')
         
         # Step 1: Get segmentation mask from original image for hair detection
         img_height, img_width = img_cv.shape[:2]
@@ -122,18 +127,15 @@ class VisaPhotoProcessor(ImageProcessor):
         else:
             logging.warning("No ONNX session available for segmentation mask. Using landmark-only hair detection.")
 
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Calculating crop dimensions with mask-based hair detection'})
+        emit_status('Calculating crop dimensions with mask-based hair detection')
         
         # Step 2: Calculate crop dimensions using mask-based hair detection
         crop_data = calculate_mask_based_crop_dimensions(face_landmarks, img_height, img_width, self.photo_spec, segmentation_mask)
 
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Cropping and scaling image'})
+        emit_status('Cropping and scaling image')
         processed_img = self._crop_and_scale_image(img_cv, crop_data)
 
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Removing background'})
+        emit_status('Removing background')
         
         # Step 3: Apply background removal to the cropped image (if ONNX session available)
         if self.ort_session is not None:
@@ -141,12 +143,10 @@ class VisaPhotoProcessor(ImageProcessor):
         else:
             logging.warning("No ONNX session available. Skipping background removal.")
 
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Enhancing image'})
+        emit_status('Enhancing image')
         processed_img = self._enhance_image(processed_img) # Will use self.gfpganer
 
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Saving processed image'})
+        emit_status('Saving processed image')
         # Use DPI from photo_spec for saving
         processed_img.save(self.processed_path, dpi=(self.photo_spec.dpi, self.photo_spec.dpi), quality=95)
 
@@ -285,8 +285,7 @@ class VisaPhotoProcessor(ImageProcessor):
             'photo_height_px': self.photo_spec.photo_height_px,
         }
         
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Creating preview'})
+        emit_status('Creating preview')
         create_preview_with_watermark(
             self.processed_path,
             self.preview_path,
@@ -294,8 +293,7 @@ class VisaPhotoProcessor(ImageProcessor):
             self.fonts_folder
         )
 
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Creating printable image'})
+        emit_status('Creating printable image')
         # Pass photo_spec to printable creators if they need DPI or physical dimensions
         create_printable_image(
             self.processed_path,
@@ -304,8 +302,7 @@ class VisaPhotoProcessor(ImageProcessor):
             photo_spec=self.photo_spec # Pass spec for DPI, dimensions
         )
 
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Creating printable preview'})
+        emit_status('Creating printable preview')
         logging.info("About to call create_printable_preview with new signature")
         create_printable_preview(
             self.processed_path, # Source image for the small photos in preview
@@ -314,8 +311,7 @@ class VisaPhotoProcessor(ImageProcessor):
             photo_spec=self.photo_spec # Pass spec for DPI, dimensions
         )
 
-        if socketio:
-            socketio.emit('processing_status', {'status': 'Processing complete'})
+        emit_status('Processing complete')
         return photo_info
 
     def _crop_and_scale_image(self, img_cv, crop_data_from_analyzer):

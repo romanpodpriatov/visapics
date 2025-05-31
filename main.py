@@ -264,8 +264,9 @@ def upload_file():
         # Retrieve country and document selections
         country_code = request.form.get('country_code')
         document_name = request.form.get('document_name')
+        session_id = request.form.get('session_id')
         
-        logging.info(f"Received upload for Country: {country_code}, Document: {document_name}")
+        logging.info(f"Received upload for Country: {country_code}, Document: {document_name}, Session: {session_id}")
 
         if not country_code or not document_name:
             logging.warning("Country code or document name missing from upload request.")
@@ -316,7 +317,12 @@ def upload_file():
                 # Note: The 240KB upper limit will be checked on the processed file to ensure compliance
 
             # Emit an event to notify the client that the file is being processed
-            socketio.emit('processing_status', {'status': 'Processing started'})
+            # Emit processing status only to the specific session
+            if session_id:
+                socketio.emit('processing_status', {'status': 'Processing started'}, room=session_id)
+            else:
+                # Fallback for clients without session_id (backward compatibility)
+                socketio.emit('processing_status', {'status': 'Processing started'})
 
             # Use VisaPhotoProcessor class for image processing
             processor = VisaPhotoProcessor(
@@ -341,7 +347,7 @@ def upload_file():
                 logging.warning("GFPGANer failed to initialize. Proceeding without image enhancement.")
 
             # Process image and emit status updates
-            photo_info = processor.process_with_updates(socketio)
+            photo_info = processor.process_with_updates(socketio, session_id)
 
             # DV Lottery specific validation for processed file size
             if document_name.lower() == "visa lottery":
