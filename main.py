@@ -628,17 +628,32 @@ def create_payment_intent():
     """Create payment intent for order."""
     try:
         if not payment_service or not order_manager:
+            logging.error("Payment system not available - payment_service or order_manager is None")
             return jsonify({'error': 'Payment system not available'}), 503
         
         data = request.get_json()
+        logging.info(f"Payment intent request data: {data}")
+        
+        if not data:
+            logging.error("No JSON data received in payment intent request")
+            return jsonify({'error': 'No data provided'}), 400
+        
         email = data.get('email')
         processed_filename = data.get('processed_filename')
         printable_filename = data.get('printable_filename')
         product_type = data.get('product_type', 'single_photo')
         photo_info = data.get('photo_info')
         
-        if not email or not processed_filename:
-            return jsonify({'error': 'Email and processed filename required'}), 400
+        logging.info(f"Payment intent params - email: {email}, processed_filename: {processed_filename}, product_type: {product_type}")
+        
+        if not processed_filename:
+            logging.error(f"Missing required fields - processed_filename: {processed_filename}")
+            return jsonify({'error': 'Processed filename required'}), 400
+        
+        # Use fallback email if not provided (for testing/development)
+        if not email:
+            email = 'test@example.com'
+            logging.info(f"Using fallback email: {email}")
         
         # Get pricing
         pricing = PricingService.get_price(product_type)
@@ -824,6 +839,40 @@ def admin_orders():
     except Exception as e:
         logging.error(f"Admin orders error: {str(e)}")
         return jsonify({'error': 'Failed to fetch orders'}), 500
+
+@app.route('/api/send-test-email', methods=['POST'])
+def send_test_email():
+    """Send test email to specified address."""
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        
+        if not email:
+            return jsonify({'error': 'Email required'}), 400
+        
+        # Create a test order for email sending
+        test_order = {
+            'order_number': 'TEST-ORDER',
+            'email': email,
+            'processed_filename': 'test_file.jpg',
+            'printable_filename': None,
+            'amount_cents': 299,
+            'currency': 'usd',
+            'photo_info': {
+                'spec_country': 'US',
+                'spec_document_name': 'Passport',
+                'compliance_overall': True
+            }
+        }
+        
+        # Send test email
+        email_service.send_payment_confirmation(test_order)
+        
+        return jsonify({'message': f'Test email sent to {email}'})
+        
+    except Exception as e:
+        logging.error(f"Failed to send test email: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/health')
 def health_check():

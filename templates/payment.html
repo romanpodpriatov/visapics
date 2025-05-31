@@ -8,16 +8,23 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
-        #payment-element {
+        #payment-element-container {
             border: 1px solid #e5e7eb;
             border-radius: 6px;
             background-color: white;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            min-height: 100px;
+            padding: 1rem;
         }
-        
         .payment-form {
             max-width: 500px;
             margin: 0 auto;
+        }
+        .button-spinner svg {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -38,10 +45,6 @@
                     <div class="flex justify-between">
                         <span class="text-gray-600">Product:</span>
                         <span class="font-medium" id="product-name">Visa Photo Download</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Email:</span>
-                        <span class="font-medium" id="customer-email">customer@example.com</span>
                     </div>
                     <div class="border-t pt-3 flex justify-between text-lg font-bold">
                         <span>Total:</span>
@@ -81,13 +84,16 @@
                     </div>
                     
                     <div class="mb-6">
-                        <label for="payment-element" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="payment-element-container" class="block text-sm font-medium text-gray-700 mb-2">
                             Payment Information *
                         </label>
-                        <div id="payment-element" class="mb-3">
-                            <!-- Stripe Payment Element will create form elements here -->
+                        <div id="payment-element-container">
+                            <div id="payment-element-placeholder" class="text-gray-500 text-center py-4">
+                                <i data-lucide="loader-2" class="w-6 h-6 mx-auto mb-2 text-gray-400 animate-spin"></i>
+                                <p class="text-sm">Loading payment form...</p>
+                            </div>
                         </div>
-                        <div id="payment-message" role="alert" class="text-red-600 text-sm"></div>
+                        <div id="payment-message" role="alert" class="text-red-600 text-sm mt-1"></div>
                     </div>
                     
                     <!-- Security Notice -->
@@ -104,15 +110,15 @@
                     <button 
                         type="submit" 
                         id="submit-button"
+                        disabled
                         class="w-full bg-blue-600 text-white py-3 px-4 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150"
                     >
                         <span id="button-text">Complete Payment</span>
-                        <span id="spinner" class="hidden">
-                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <span id="spinner" class="hidden button-spinner">
+                            <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
-                            Processing...
                         </span>
                     </button>
                 </form>
@@ -155,225 +161,309 @@
         </div>
     </div>
     
-    <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
-        
-        // Payment processing variables
-        let stripe;
-        let elements;
-        let paymentElement;
-        let paymentData = {};
-        
-        // Initialize payment form
-        document.addEventListener('DOMContentLoaded', function() {
-            initializePayment();
-            loadPaymentData();
+<script>
+    // --- Глобальные переменные и состояние ---
+    let stripe;
+    let elements;
+    let paymentElement;
+    let paymentData = {}; // Данные о заказе (email, файлы, тип продукта, цены)
+
+    let isEmailFieldValid = false;
+    let isStripeElementComplete = false;
+
+    // --- DOM элементы (получим их один раз) ---
+    let emailField, submitButton, buttonTextEl, spinnerEl;
+    let productNameEl, totalAmountEl, printableIncludedEl;
+    let paymentElementContainerEl, paymentMessageEl;
+    let paymentSuccessEl, orderNumberEl, paymentErrorEl, errorMessageEl;
+    let paymentElementPlaceholderEl;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        lucide.createIcons(); // Инициализация иконок
+        initializeDOMElements();
+        setupEventListeners();
+        initializePaymentData(); // Загрузка данных и затем инициализация Stripe
+        updateSubmitButtonState(); // Начальное состояние кнопки
+    });
+
+    function initializeDOMElements() {
+        emailField = document.getElementById('email');
+        submitButton = document.getElementById('submit-button');
+        buttonTextEl = document.getElementById('button-text');
+        spinnerEl = document.getElementById('spinner');
+
+        productNameEl = document.getElementById('product-name');
+        totalAmountEl = document.getElementById('total-amount');
+        printableIncludedEl = document.getElementById('printable-included');
+
+        paymentElementContainerEl = document.getElementById('payment-element-container');
+        paymentElementPlaceholderEl = document.getElementById('payment-element-placeholder');
+        paymentMessageEl = document.getElementById('payment-message');
+
+        paymentSuccessEl = document.getElementById('payment-success');
+        orderNumberEl = document.getElementById('order-number');
+        paymentErrorEl = document.getElementById('payment-error');
+        errorMessageEl = document.getElementById('error-message');
+    }
+
+    function setupEventListeners() {
+        emailField.addEventListener('input', () => {
+            isEmailFieldValid = validateEmail(emailField.value);
+            updateSubmitButtonState();
         });
-        
-        function initializePayment() {
-            // Get payment data from URL parameters or localStorage
-            const urlParams = new URLSearchParams(window.location.search);
-            const storedData = localStorage.getItem('paymentData');
-            
-            // Check for URL parameters first (for direct links)
-            const email = urlParams.get('email');
-            const filename = urlParams.get('filename');
-            const printableFilename = urlParams.get('printable_filename');
-            
-            if (storedData) {
-                paymentData = JSON.parse(storedData);
-                updateOrderSummary();
-                initializeStripe();
-            } else if (email && filename) {
-                // Handle direct URL access with parameters
-                fetch('/api/pricing')
-                    .then(response => response.json())
-                    .then(pricing => {
-                        paymentData = {
-                            email: email,
-                            processed_filename: filename,
-                            printable_filename: printableFilename,
-                            product_type: printableFilename ? 'photo_with_printable' : 'single_photo',
-                            pricing: pricing[printableFilename ? 'photo_with_printable' : 'single_photo']
-                        };
-                        updateOrderSummary();
-                        initializeStripe();
-                    })
-                    .catch(error => {
-                        console.error('Error loading pricing:', error);
-                        showError('Failed to load payment information. Please try again.');
-                    });
-            } else {
-                // Show a message instead of immediate error
-                showError('No payment information found. Please process a photo first.');
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 3000);
-            }
+        document.getElementById('payment-form').addEventListener('submit', handlePaymentSubmit);
+    }
+
+    async function initializePaymentData() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const storedData = localStorage.getItem('paymentData');
+        const urlEmail = urlParams.get('email');
+        const urlFilename = urlParams.get('filename');
+        const urlPrintableFilename = urlParams.get('printable_filename');
+
+        let rawData = {};
+
+        if (storedData) {
+            rawData = JSON.parse(storedData);
+            if (urlEmail) rawData.email = urlEmail; // Email из URL имеет приоритет для предзаполнения
+        } else if (urlEmail && urlFilename) {
+            rawData.email = urlEmail;
+            rawData.processed_filename = urlFilename;
+            rawData.printable_filename = urlPrintableFilename;
+        } else {
+            // Test/Fallback: если нет данных, пытаемся загрузить цены для "single_photo"
+            // и использовать тестовые данные. Это полезно для локальной разработки.
+            console.warn("No payment data found in URL or localStorage. Using test data.");
+            rawData.email = 'test@example.com'; // Тестовый email
+            rawData.processed_filename = 'test_file.jpg'; // Обязательное поле для PI
+            rawData.product_type = 'single_photo'; // Чтобы получить правильную цену
         }
         
-        function updateOrderSummary() {
-            if (!paymentData.pricing) return;
-            
-            const amount = paymentData.pricing.amount_cents / 100;
-            document.getElementById('total-amount').textContent = `$${amount.toFixed(2)}`;
-            document.getElementById('product-name').textContent = paymentData.pricing.description;
-            
-            if (paymentData.printable_filename) {
-                document.getElementById('printable-included').classList.remove('hidden');
+        paymentData.email = rawData.email;
+        paymentData.processed_filename = rawData.processed_filename;
+        paymentData.printable_filename = rawData.printable_filename;
+        paymentData.product_type = rawData.printable_filename ? 'photo_with_printable' : (rawData.product_type || 'single_photo');
+        paymentData.photo_info = rawData.photo_info;
+
+        try {
+            const pricingResponse = await fetch('/api/pricing');
+            if (!pricingResponse.ok) throw new Error('Failed to load pricing information.');
+            const allPricing = await pricingResponse.json();
+            paymentData.pricing = allPricing[paymentData.product_type];
+
+            if (!paymentData.pricing) {
+                 throw new Error(`Pricing not available for product type: ${paymentData.product_type}`);
             }
-            
+            if (!paymentData.processed_filename && !rawData.product_type) { // Если даже в fallback не было product_type для получения цены
+                 throw new Error('Essential product information is missing.');
+            }
+
+            updateOrderSummaryUI(); // Обновляем тексты в Order Summary
+
             if (paymentData.email) {
-                document.getElementById('email').value = paymentData.email;
-                document.getElementById('customer-email').textContent = paymentData.email;
+                emailField.value = paymentData.email;
+                isEmailFieldValid = validateEmail(paymentData.email); // Валидируем предзаполненный email
+            }
+            
+            // Если поле email пустое, но у нас есть email в данных, заполняем поле
+            if (!emailField.value && paymentData.email) {
+                emailField.value = paymentData.email;
+                isEmailFieldValid = validateEmail(paymentData.email);
+            }
+            
+            await initializeStripe(); // Инициализируем Stripe ПОСЛЕ получения данных
+
+        } catch (error) {
+            console.error('Data initialization or pricing error:', error);
+            showErrorToUser(`Initialization failed: ${error.message}. Please try refreshing.`);
+            // Отключаем кнопку, если критическая ошибка
+            isEmailFieldValid = false;
+            isStripeElementComplete = false;
+            if (paymentElementPlaceholderEl) {
+                paymentElementPlaceholderEl.innerHTML = `<i data-lucide="alert-triangle" class="w-6 h-6 mx-auto mb-2 text-red-500"></i><p class="text-sm text-red-500">Could not load payment form.</p>`;
+                lucide.createIcons();
             }
         }
-        
-        async function initializeStripe() {
-            try {
-                // Create payment intent
-                const response = await fetch('/api/create-payment-intent', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: paymentData.email,
-                        processed_filename: paymentData.processed_filename,
-                        printable_filename: paymentData.printable_filename,
-                        product_type: paymentData.product_type || 'single_photo',
-                        photo_info: paymentData.photo_info
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.error || 'Failed to initialize payment');
+        updateSubmitButtonState(); // Обновляем состояние кнопки после всех операций
+    }
+
+    function updateOrderSummaryUI() {
+        if (!paymentData.pricing) {
+            productNameEl.textContent = "N/A";
+            totalAmountEl.textContent = "N/A";
+            return;
+        }
+        productNameEl.textContent = paymentData.pricing.description;
+        totalAmountEl.textContent = `$${(paymentData.pricing.amount_cents / 100).toFixed(2)}`;
+        if (paymentData.printable_filename) {
+            printableIncludedEl.classList.remove('hidden');
+        }
+    }
+
+    function validateEmail(email) {
+        const trimmedEmail = email.trim();
+        // Простая проверка, можно улучшить регулярным выражением
+        return trimmedEmail && trimmedEmail.includes('@') && trimmedEmail.includes('.') && trimmedEmail.length > 5;
+    }
+
+    function updateSubmitButtonState() {
+        submitButton.disabled = !(isEmailFieldValid && isStripeElementComplete);
+    }
+
+    async function initializeStripe() {
+        try {
+            // Email для Payment Intent может быть опциональным на бэкенде при создании PI,
+            // но обязателен при confirmPayment.
+            // Если email уже есть и валиден, передаем его.
+            const currentEmail = emailField.value.trim();
+
+            if (!paymentData.processed_filename) {
+                throw new Error('Essential product data (filename) is missing for payment intent.');
+            }
+
+            // Для fallback используем данные из paymentData, для обычной работы - из поля
+            const emailToSend = validateEmail(currentEmail) ? currentEmail : paymentData.email;
+            
+            console.log('Creating payment intent with:', {
+                email: emailToSend,
+                processed_filename: paymentData.processed_filename,
+                product_type: paymentData.product_type
+            });
+
+            const response = await fetch('/api/create-payment-intent', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: emailToSend, // Используем email из поля или fallback
+                    processed_filename: paymentData.processed_filename,
+                    printable_filename: paymentData.printable_filename,
+                    product_type: paymentData.product_type,
+                    photo_info: paymentData.photo_info
+                })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                console.error('Payment intent creation failed:', data);
+                throw new Error(data.error || `Server error: ${response.status}`);
+            }
+            
+            console.log('Payment intent created successfully:', data.order_number);
+
+            stripe = Stripe(data.publishable_key);
+            const appearance = { 
+                theme: 'stripe',
+                variables: {
+                    colorPrimary: '#3b82f6',
+                    colorBackground: '#ffffff',
+                    colorText: '#374151',
+                    colorDanger: '#ef4444',
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                    spacingUnit: '4px',
+                    borderRadius: '6px'
                 }
-                
-                // Initialize Stripe
-                stripe = Stripe(data.publishable_key);
-                
-                // Create elements with client secret
-                const appearance = {
-                    theme: 'stripe',
-                    variables: {
-                        colorPrimary: '#3b82f6',
-                        colorBackground: '#ffffff',
-                        colorText: '#374151',
-                        colorDanger: '#ef4444',
-                        fontFamily: 'Inter, system-ui, sans-serif',
-                        spacingUnit: '4px',
-                        borderRadius: '6px'
-                    }
-                };
-                
-                const options = {
-                    clientSecret: data.client_secret,
-                    appearance: appearance,
-                    layout: {
-                        type: 'tabs',
-                        defaultCollapsed: false
-                    }
-                };
-                
-                elements = stripe.elements(options);
-                
-                // Create payment element
-                paymentElement = elements.create('payment');
-                paymentElement.mount('#payment-element');
-                
-                // Store payment intent data
-                paymentData.clientSecret = data.client_secret;
-                paymentData.orderNumber = data.order_number;
-                
-                // Set up form submission
-                document.getElementById('payment-form').addEventListener('submit', handlePaymentSubmit);
-                
-            } catch (error) {
-                console.error('Payment initialization error:', error);
-                showError(error.message);
+            };
+            elements = stripe.elements({ clientSecret: data.client_secret, appearance });
+            paymentElement = elements.create('payment', { layout: { type: 'tabs', defaultCollapsed: false } });
+            
+            // Очищаем плейсхолдер перед монтированием, если он еще есть
+            if (paymentElementPlaceholderEl) paymentElementPlaceholderEl.innerHTML = '';
+            paymentElement.mount('#payment-element-container'); // Монтируем в контейнер
+
+            paymentElement.on('change', (event) => {
+                isStripeElementComplete = event.complete;
+                paymentMessageEl.textContent = event.error ? event.error.message : '';
+                updateSubmitButtonState();
+            });
+
+            paymentData.clientSecret = data.client_secret;
+            paymentData.orderNumber = data.order_number;
+
+        } catch (error) {
+            console.error('Stripe initialization error:', error);
+            showErrorToUser(`Payment form error: ${error.message}`);
+            isStripeElementComplete = false; // Убедимся, что кнопка неактивна
+            updateSubmitButtonState();
+            if (paymentElementPlaceholderEl) { // Если элемент еще не был заменен Stripe
+                paymentElementPlaceholderEl.innerHTML = `<i data-lucide="alert-triangle" class="w-6 h-6 mx-auto mb-2 text-red-500"></i><p class="text-sm text-red-500">Could not load payment form.</p>`;
+                lucide.createIcons();
             }
         }
-        
-        // Payment Element handles errors automatically
-        
-        async function handlePaymentSubmit(event) {
-            event.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            if (!email) {
-                showError('Please enter your email address');
-                return;
-            }
-            
-            setLoading(true);
-            
-            try {
-                const {error} = await stripe.confirmPayment({
-                    elements,
-                    confirmParams: {
-                        return_url: `${window.location.origin}/payment-success?order=${paymentData.orderNumber}`,
-                        receipt_email: email,
-                    },
-                    redirect: 'if_required'
-                });
-                
-                if (error) {
-                    // This point will only be reached if there is an immediate error when
-                    // confirming the payment. Show error to your customer (for example, payment
-                    // details incomplete)
-                    showError(error.message);
-                } else {
-                    // Payment succeeded
-                    showSuccess(paymentData.orderNumber);
-                    // Clear stored payment data
-                    localStorage.removeItem('paymentData');
-                }
-                
-            } catch (error) {
-                console.error('Payment error:', error);
-                showError(error.message);
-            } finally {
-                setLoading(false);
-            }
+    }
+
+    async function handlePaymentSubmit(event) {
+        event.preventDefault();
+        const currentEmail = emailField.value.trim();
+
+        if (!isEmailFieldValid || !validateEmail(currentEmail)) { // Двойная проверка
+            showErrorToUser('Please enter a valid email address.');
+            emailField.focus();
+            return;
         }
-        
-        function setLoading(loading) {
-            const submitButton = document.getElementById('submit-button');
-            const buttonText = document.getElementById('button-text');
-            const spinner = document.getElementById('spinner');
-            
-            submitButton.disabled = loading;
-            
-            if (loading) {
-                buttonText.classList.add('hidden');
-                spinner.classList.remove('hidden');
+        if (!isStripeElementComplete) {
+            showErrorToUser('Please complete the payment information.');
+            // Попытка сфокусироваться на элементе Stripe (не всегда надежно)
+            if (paymentElement) paymentElement.focus();
+            return;
+        }
+        if (!stripe || !elements) {
+            showErrorToUser('Payment system is not ready. Please refresh.');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const { error } = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    return_url: `${window.location.origin}/payment-success?order=${paymentData.orderNumber}`,
+                    receipt_email: currentEmail,
+                },
+                redirect: 'if_required'
+            });
+
+            if (error) {
+                showErrorToUser(error.message);
             } else {
-                buttonText.classList.remove('hidden');
-                spinner.classList.add('hidden');
+                // Если redirect: 'if_required' и нет ошибки, но нет и редиректа,
+                // это обычно означает, что платеж успешен (или требует асинхронного подтверждения,
+                // которое будет обработано через webhook и/или на return_url).
+                // Для простоты здесь считаем успехом.
+                showSuccessScreen(paymentData.orderNumber);
+                localStorage.removeItem('paymentData');
             }
+        } catch (e) {
+            console.error('Payment submission error:', e);
+            showErrorToUser('An unexpected error occurred during payment.');
+        } finally {
+            setLoading(false);
+            updateSubmitButtonState(); // Убедимся, что состояние кнопки корректно после операции
         }
-        
-        function showSuccess(orderNumber) {
-            document.getElementById('payment-form').classList.add('hidden');
-            document.getElementById('payment-error').classList.add('hidden');
-            document.getElementById('order-number').textContent = orderNumber;
-            document.getElementById('payment-success').classList.remove('hidden');
+    }
+
+    function setLoading(loading) {
+        submitButton.disabled = loading;
+        if (loading) {
+            buttonTextEl.classList.add('hidden');
+            spinnerEl.classList.remove('hidden');
+        } else {
+            buttonTextEl.classList.remove('hidden');
+            spinnerEl.classList.add('hidden');
         }
-        
-        function showError(message) {
-            document.getElementById('payment-success').classList.add('hidden');
-            document.getElementById('error-message').textContent = message;
-            document.getElementById('payment-error').classList.remove('hidden');
-        }
-        
-        function loadPaymentData() {
-            // This would be called from the main page when redirecting to payment
-            // For now, we'll just check if we have the data
-        }
-    </script>
+    }
+
+    function showSuccessScreen(orderNum) {
+        document.getElementById('payment-form').classList.add('hidden');
+        paymentErrorEl.classList.add('hidden');
+        if (orderNumberEl) orderNumberEl.textContent = orderNum;
+        paymentSuccessEl.classList.remove('hidden');
+    }
+
+    function showErrorToUser(message) { // Переименовал для ясности, что это для пользователя
+        paymentSuccessEl.classList.add('hidden');
+        if (errorMessageEl) errorMessageEl.textContent = message;
+        paymentErrorEl.classList.remove('hidden');
+    }
+
+</script>
 </body>
 </html>

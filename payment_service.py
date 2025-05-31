@@ -117,6 +117,15 @@ class StripePaymentService:
         # Get order details for email
         order = self.order_manager.get_order(order_number)
         if order:
+            # Use receipt_email from payment_intent if available, otherwise use order email
+            receipt_email = payment_intent.get('receipt_email')
+            if receipt_email and receipt_email != order['email']:
+                logging.info(f"Using receipt_email {receipt_email} instead of order email {order['email']}")
+                # Update order with real email for confirmation
+                order['email'] = receipt_email
+                # Also update in database
+                self.order_manager.update_order_email(order_number, receipt_email)
+            
             # Send confirmation email
             self._send_payment_confirmation_email(order)
         

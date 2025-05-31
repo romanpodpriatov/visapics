@@ -165,6 +165,17 @@ class Order:
         
         logging.info(f"Updated order {order_number} status to {status}")
     
+    def update_order_email(self, order_number, email):
+        """Update email address for order."""
+        with self.db_manager.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                UPDATE orders SET email = ? WHERE order_number = ?
+            ''', (email, order_number))
+            conn.commit()
+        
+        logging.info(f"Updated order {order_number} email to {email}")
+    
     def can_download(self, order_number):
         """Check if order can be downloaded."""
         order = self.get_order(order_number)
