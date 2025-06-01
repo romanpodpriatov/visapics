@@ -89,4 +89,6 @@ models/*.onnx
 payments.db
 
 # Payment system files
-stripe_logs/
+stripe_logs/ssl/
+*.pem
+*.key
