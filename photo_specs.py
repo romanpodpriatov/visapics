@@ -204,7 +204,7 @@ DOCUMENT_SPECIFICATIONS.append(
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
         background_color="white", glasses_allowed="no",
-        source_urls=["https://travel.state.gov/content/travel/en/passports/how-apply/photos.html"]
+        source_urls=["https://travel.state.gov/content/travel/en/passports/need-passport/card.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://travel.state.gov/content/passports/en/passports/photos/photo-composition-template.html"]
     )
 )
 
@@ -221,8 +221,7 @@ DOCUMENT_SPECIFICATIONS.append(
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
         background_color="white", glasses_allowed="no",
         file_size_max_kb=240, # Typical for digital visa photos
-        source_urls=["https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos.html",
-                     "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos/photo-composition-template.html"]
+        source_urls=["https://travel.state.gov/content/travel/en/us-visas.html"]
     )
 )
 
@@ -241,7 +240,7 @@ DOCUMENT_SPECIFICATIONS.append(
         eye_min_from_bottom_mm=28.4, eye_max_from_bottom_mm=35.1,
         background_color="white", glasses_allowed="no",
         file_size_min_kb=10, file_size_max_kb=240, # Official DV spec
-        source_urls=["https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa/dv-photo.html"]
+        source_urls=["https://travel.state.gov/content/travel/en/us-visas/diversity-visa.html"]
     )
 )
 
@@ -257,8 +256,7 @@ DOCUMENT_SPECIFICATIONS.append(
         eye_min_from_bottom_mm=28.4, eye_max_from_bottom_mm=35.1,
         head_top_min_dist_from_photo_top_mm=5.0, head_top_max_dist_from_photo_top_mm=12.0,
         background_color="white", glasses_allowed="no",
-        file_size_max_kb=240,
-        source_urls=["https://www.uscis.gov/green-card/after-we-grant-your-green-card/replace-green-card"]
+        file_size_max_kb=240,    source_urls=["https://travel.state.gov/content/travel/en/passports/need-passport/card.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.uscis.gov/greencard"]
     )
 )
 
@@ -289,7 +287,7 @@ DOCUMENT_SPECIFICATIONS.append(
         glasses_allowed="yes", # Generally yes, if no reflections and eyes clearly visible. "no" is safest if unsure.
         neutral_expression_required=True,
         other_requirements="Mouth closed. No shadows on face or background. Good contrast and sharpness.",
-        source_url="General ICAO recommendations / specific Schengen country guidelines",
+        source_urls=["https://www.auswaertiges-amt.de/en/einreiseundaufenthalt/schengenvisum"],
         min_visual_head_margin_px=0  # Allow zero head margin to prioritize eye positioning
     )
 )
@@ -318,7 +316,7 @@ DOCUMENT_SPECIFICATIONS.append(
         glasses_allowed="yes", # "if you need to wear them ... no glare"
         neutral_expression_required=True,
         other_requirements="Plain light-coloured background (cream or light grey). No patterns or shadows.",
-        source_url="https://www.gov.uk/photos-for-passports"
+        source_urls=["https://www.gov.uk/browse/abroad/passports"]
     )
 )
 
@@ -331,8 +329,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.uscis.gov/n-400"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://www.gov.uk/browse/abroad/passports"]
     )
 )
 
@@ -344,8 +341,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.uscis.gov/i-765"]
+        background_color="white", glasses_allowed="no",    source_urls=["http://www.uscis.gov/sites/default/files/files/form/i-765instr.pdf", "http://www.uscis.gov/working-united-states/temporary-workers/employment-authorization-certain-h-4-dependent-spouses", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
     )
 )
 
@@ -357,8 +353,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=38.1, photo_height_mm=38.1, dpi=300,
         head_min_percentage=0.65, head_max_percentage=0.80,
         eye_min_from_bottom_mm=20.0, eye_max_from_bottom_mm=25.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.ny.gov/services/apply-pistol-permit"]
+        background_color="white", glasses_allowed="no",    source_urls=["http://www.nyc.gov/html/nypd/html/permits/handgun_licensing_information.shtml", "http://www.nyc.gov/html/nypd/html/permits/rifle_licensing_information.shtml", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
     )
 )
 
@@ -370,8 +365,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://travel.state.gov/content/travel/en/us-visas/"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/crewmember-visa.html", "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos.html"]
     )
 )
 
@@ -383,8 +377,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.uscis.gov/i-130"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://photos.state.gov/libraries/unitedkingdom/164203/dhs/i130-checklist_for_spouse.pdf", "https://jp.usembassy.gov/visas/immigrant-visas/130-petition-checklist/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
     )
 )
 
@@ -396,8 +389,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=25.4, photo_height_mm=25.4, dpi=300, # 1x1 inch at 300dpi = 300x300px
         head_min_percentage=0.60, head_max_percentage=0.75,
         eye_min_from_bottom_mm=13.0, eye_max_from_bottom_mm=17.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.ncbex.org/"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
     )
 )
 
@@ -409,8 +401,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=45.0, photo_height_mm=57.0, dpi=300,
         head_min_mm=30.0, head_max_mm=40.0,
         eye_min_from_bottom_mm=30.0, eye_max_from_bottom_mm=40.0,
-        background_color="white", glasses_allowed="if_no_glare",
-        source_urls=["https://www.padi.com/"]
+        background_color="white", glasses_allowed="if_no_glare",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
     )
 )
 
@@ -422,8 +413,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.ncsbn.org/"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://www.rn.ca.gov/applicants/lic-exam.shtml", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.rn.ca.gov/applicants/lic-exam.shtmlhttps://www.pcshq.com/?page=NurseExamOnlineAPPInstructions5-17-17.pdf"]
     )
 )
 
@@ -435,8 +425,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.uscis.gov/i-131"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://www.uscis.gov/sites/default/files/document/forms/i-131instr.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
     )
 )
 
@@ -448,8 +437,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.aws.org/"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
     )
 )
 
@@ -461,8 +449,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=31.75, photo_height_mm=38.1, dpi=300, # 1.25x1.5 inch
         head_min_percentage=0.65, head_max_percentage=0.80,
         eye_min_from_bottom_mm=20.0, eye_max_from_bottom_mm=25.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.illinois.gov/ISP/"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://travel.state.gov/content/travel/en/passports/need-passport/card.html", "https://www.uscis.gov/greencard"]
     )
 )
 
@@ -474,8 +461,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.uscis.gov/i-131"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://www.uscis.gov/i-131", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
     )
 )
 
@@ -487,8 +473,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.va.gov/records/get-veteran-id-cards/"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://travel.state.gov/content/travel/en/passports/need-passport/card.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.uscis.gov/greencard"]
     )
 )
 
@@ -501,7 +486,7 @@ DOCUMENT_SPECIFICATIONS.append(
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
         background_color="white", glasses_allowed="no",
-        source_urls=["https://travel.state.gov/content/travel/en/passports/how-apply/photos.html"]
+        source_urls=["https://travel.state.gov/content/travel/en/passports/need-passport/card.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://travel.state.gov/content/passports/en/passports/photos/photo-composition-template.html"]
     )
 )
 
@@ -513,8 +498,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="if_no_glare",
-        source_urls=["https://collegereadiness.collegeboard.org/sat"]
+        background_color="white", glasses_allowed="if_no_glare",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
     )
 )
 
@@ -526,8 +510,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.atf.gov/"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://www.atf.gov/file/11281/download", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://photos.state.gov/libraries/unitedkingdom/164203/dhs/i130-checklist_for_spouse.pdf"]
     )
 )
 
@@ -539,8 +522,7 @@ DOCUMENT_SPECIFICATIONS.append(
         photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
         head_min_mm=25.0, head_max_mm=35.0,
         eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
-        background_color="white", glasses_allowed="no",
-        source_urls=["https://www.uscis.gov/"]
+        background_color="white", glasses_allowed="no",    source_urls=["https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
     )
 )
 
@@ -616,8 +598,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/crewmember-visa.html", "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos.html"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -635,8 +616,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://travel.state.gov/content/travel/en/passports/need-passport/card.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://travel.state.gov/content/passports/en/passports/photos/photo-composition-template.html"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -655,7 +635,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     glasses_allowed="no",
     neutral_expression_required=True,
     other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    source_urls=["https://www.uscis.gov/green-card"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -673,8 +653,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.uscis.gov/files/article/M-476.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -692,8 +671,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.uscis.gov/sites/default/files/files/form/i-765instr.pdf", "http://www.uscis.gov/working-united-states/temporary-workers/employment-authorization-certain-h-4-dependent-spouses", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -711,8 +689,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://travel.state.gov/content/travel/en/passports/need-passport/card.html", "https://www.uscis.gov/greencard"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -730,8 +707,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/crewmember-visa.html", "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos.html"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -749,8 +725,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://photos.state.gov/libraries/unitedkingdom/164203/dhs/i130-checklist_for_spouse.pdf", "https://jp.usembassy.gov/visas/immigrant-visas/130-petition-checklist/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -768,8 +743,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.uscis.gov/sites/default/files/document/forms/i-131instr.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -787,8 +761,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.uscis.gov/i-131", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -806,8 +779,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://travel.state.gov/content/travel/en/passports/need-passport/card.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://travel.state.gov/content/passports/en/passports/photos/photo-composition-template.html"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -825,8 +797,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -844,8 +815,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -863,8 +833,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.canada.ca/en/immigration-refugees-citizenship/services/new-immigrants/pr-card/apply-renew-replace/photo.html", "https://www.canada.ca/en/department-national-defence/services/benefits-military/transition/service-card.html"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -882,8 +851,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-passports/photos.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -901,8 +869,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.canada.ca/en/department-national-defence/services/benefits-military/transition/service-card.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.canada.ca/en/immigration-refugees-citizenship/services/new-immigrants/pr-card/apply-renew-replace/photo.html"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -920,8 +887,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -939,8 +905,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.norfolk.gov.uk/roads-and-transport/public-transport/buses/concessionary-travel-pass/photo-guidance", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.gov.uk/get-a-child-passport"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -958,8 +923,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.ukba.homeoffice.gov.uk/sitecontent/applicationforms/flr/photoguidance0409.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -977,8 +941,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://photocard.tfl.gov.uk/tfl/showLogon.do?selection=16plus", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.londoncouncils.gov.uk/services/taxicard"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -996,8 +959,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/855728/MSF_4509_Rev_0819_Application_for_a_DB_and-or_BSC.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/900882/Hong_Kong_BNO_English.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1015,8 +977,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://photocard.tfl.gov.uk/tfl/showLogon.do?selection=16plus", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/900882/Hong_Kong_BNO_English.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1034,8 +995,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://malta.mid.ru/ru/grazdanstvo", "https://indonesia.mid.ru/konsulskie-uslugi/grazhdanstvo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1053,8 +1013,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://malta.mid.ru/ru/grazdanstvo", "https://indonesia.mid.ru/konsulskie-uslugi/grazhdanstvo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1072,8 +1031,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://malta.mid.ru/ru/grazdanstvo", "https://indonesia.mid.ru/konsulskie-uslugi/grazhdanstvo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1091,8 +1049,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://malta.mid.ru/ru/grazdanstvo", "https://indonesia.mid.ru/konsulskie-uslugi/grazhdanstvo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1110,8 +1067,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://malta.mid.ru/ru/grazdanstvo", "https://indonesia.mid.ru/konsulskie-uslugi/grazhdanstvo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1129,8 +1085,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://consular.rfembassy.ru/tm/grazhdanstvo_rf/?cid=0&rid=157", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1148,8 +1103,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1167,8 +1121,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://consular.rfembassy.ru/tm/grazhdanstvo_rf/?cid=0&rid=157", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1186,8 +1139,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://consular.rfembassy.ru/tm/grazhdanstvo_rf/?cid=0&rid=157", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1205,8 +1157,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://consular.rfembassy.ru/tm/grazhdanstvo_rf/?cid=0&rid=157"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1224,8 +1175,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1243,8 +1193,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://evisa.kdmid.ru/", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://malta.mid.ru/ru/grazdanstvo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1262,8 +1211,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://evisa.kdmid.ru/", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://visa.kdmid.ru/PetitionChoice.aspx"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1281,8 +1229,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://evisa.kdmid.ru/", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://malta.mid.ru/ru/grazdanstvo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1300,8 +1247,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://consular.rfembassy.ru/tm/grazhdanstvo_rf/?cid=0&rid=157", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://malta.mid.ru/ru/grazdanstvo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1319,8 +1265,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://consular.rfembassy.ru/tm/grazhdanstvo_rf/?cid=0&rid=157", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://malta.mid.ru/ru/grazdanstvo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1338,8 +1283,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://consular.rfembassy.ru/tm/grazhdanstvo_rf/?cid=0&rid=157", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1357,8 +1301,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1376,8 +1319,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://consular.rfembassy.ru/tm/grazhdanstvo_rf/?cid=0&rid=157", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1395,8 +1337,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://consular.rfembassy.ru/tm/grazhdanstvo_rf/?cid=0&rid=157", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1414,8 +1355,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.passports.gov.au/getting-passport-how-it-works/photo-guidelines", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.qld.gov.au/transport/licensing/proof-of-age#step2"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1433,8 +1373,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.immi.gov.au/allforms/pdf/1419.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.qld.gov.au/transport/licensing/proof-of-age#step2"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1452,8 +1391,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.qld.gov.au/transport/licensing/proof-of-age#step2", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1471,8 +1409,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.qld.gov.au/transport/licensing/proof-of-age#step2", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://immi.homeaffairs.gov.au/form-listing/forms/1195.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1490,8 +1427,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.passports.govt.nz/passport-photos/passport-photo-requirements/", "https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/tools-and-information/acceptable-photos"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1509,8 +1445,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/tools-and-information/acceptable-photos", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1528,8 +1463,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/tools-and-information/acceptable-photos", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1547,8 +1481,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.govt.nz/assets/Documents/Passports-citizenship-and-identity/Application-for-NZ-citizenship-Samoan-adult-and-child.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1566,8 +1499,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.passports.govt.nz/assets/Uploads/Forms/COI-RTD-form.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.18plus.org.nz/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1585,8 +1517,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.passports.govt.nz/assets/Uploads/Forms/COI-RTD-form.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.18plus.org.nz/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1604,8 +1535,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.passports.govt.nz/assets/Uploads/Forms/COI-RTD-form.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.18plus.org.nz/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1623,8 +1553,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.immigration.govt.nz/new-zealand-visas/apply-for-a-visa/tools-and-information/acceptable-photos"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1642,8 +1571,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.passports.govt.nz/assets/Uploads/Forms/COI-RTD-form.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.18plus.org.nz/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1661,8 +1589,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.london.diplo.de/contentblob/3401106/Daten/178573/PhotosIDPassport.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1680,8 +1607,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1699,8 +1625,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.germany.info/Vertretung/usa/en/05__Legal/02__Directory__Services/01__Visa/__Visa__Photo__Instructions.html", "http://www.germany.info/contentblob/1965686/Daten/178573/Visa_Foto_Mustertafel_L.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1718,8 +1643,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1737,8 +1661,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1756,8 +1679,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1775,8 +1697,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1794,8 +1715,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.diplomatie.gouv.fr/en/IMG/pdf/sample_photos_france.pdf", "http://www.diplomatie.gouv.fr/en/IMG/pdf/sample_photos_france.pdfhttp://www.consulfrance-losangeles.org/IMG/pdf/Caracteristiques_photos_ENG.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1813,8 +1733,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1832,8 +1751,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.diplomatie.gouv.fr/en/IMG/pdf/sample_photos_france.pdf", "http://www.diplomatie.gouv.fr/en/IMG/pdf/sample_photos_france.pdfhttp://www.consulfrance-losangeles.org/IMG/pdf/Caracteristiques_photos_ENG.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1851,8 +1769,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1870,8 +1787,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.cartaidentita.interno.gov.it/modalita-acquisizione-foto/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1889,8 +1805,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.cartaidentita.interno.gov.it/modalita-acquisizione-foto/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1908,8 +1823,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.ambwashingtondc.esteri.it/Ambasciata_Washington/Menu/In_linea_con_utente/Domande_frequenti/Visti_faq/Visa_Requirements.htm", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.cartaidentita.interno.gov.it/modalita-acquisizione-foto/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1927,8 +1841,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1946,8 +1859,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.cartaidentita.interno.gov.it/modalita-acquisizione-foto/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1965,8 +1877,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.cartaidentita.interno.gov.it/modalita-acquisizione-foto/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -1984,8 +1895,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2003,8 +1913,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.interior.gob.es/web/servicios-al-ciudadano/seguridad/armas-y-explosivos/documentacion-de-la-titularidad-de-armas", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.interior.gob.es/web/servicios-al-ciudadano/dni/documentacion-necesaria-para-su-tramitacion"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2022,8 +1931,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.interior.gob.es/web/servicios-al-ciudadano/seguridad/armas-y-explosivos/documentacion-de-la-titularidad-de-armas", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.interior.gob.es/web/servicios-al-ciudadano/dni/documentacion-necesaria-para-su-tramitacion"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2041,8 +1949,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.interior.gob.es/web/servicios-al-ciudadano/seguridad/armas-y-explosivos/documentacion-de-la-titularidad-de-armas", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.interior.gob.es/web/servicios-al-ciudadano/dni/documentacion-necesaria-para-su-tramitacion"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2060,8 +1967,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.interior.gob.es/web/servicios-al-ciudadano/seguridad/armas-y-explosivos/documentacion-de-la-titularidad-de-armas", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.interior.gob.es/web/servicios-al-ciudadano/dni/documentacion-necesaria-para-su-tramitacion"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2079,8 +1985,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2098,8 +2003,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.exteriores.gob.es/Consulados/LOSANGELES/es/InformacionParaExtranjeros/Documents/Especificaciones%20foto%20visado.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2117,8 +2021,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.interior.gob.es/web/servicios-al-ciudadano/seguridad/armas-y-explosivos/documentacion-de-la-titularidad-de-armas", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.interior.gob.es/web/servicios-al-ciudadano/dni/documentacion-necesaria-para-su-tramitacion"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2136,8 +2039,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.gov.pl/web/gov/zdjecie-do-prawa-jazdy", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.paszporty.mswia.gov.pl/portal/content/pdf/plakat_nowe_zdjecia_do_paszportu.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2155,8 +2057,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://obywatel.gov.pl/dokumenty-i-dane-osobowe/zdjecie-do-dowodu-lub-paszportu", "https://www.gov.pl/web/gov/zdjecie-do-dowodu-lub-paszportu", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2174,8 +2075,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.gov.pl/web/gov/zdjecie-do-prawa-jazdy", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://obywatel.gov.pl/dokumenty-i-dane-osobowe/zdjecie-do-dowodu-lub-paszportu"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2193,8 +2093,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2212,8 +2111,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.gov.pl/web/gov/zdjecie-do-prawa-jazdy", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://obywatel.gov.pl/dokumenty-i-dane-osobowe/zdjecie-do-dowodu-lub-paszportu"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2231,8 +2129,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.gov.pl/web/gov/zdjecie-do-prawa-jazdy", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://obywatel.gov.pl/dokumenty-i-dane-osobowe/zdjecie-do-dowodu-lub-paszportu"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2250,8 +2147,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.gov.pl/web/gov/zdjecie-do-prawa-jazdy", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://obywatel.gov.pl/dokumenty-i-dane-osobowe/zdjecie-do-dowodu-lub-paszportu"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2269,8 +2165,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.gov.pl/web/gov/zdjecie-do-prawa-jazdy", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://obywatel.gov.pl/dokumenty-i-dane-osobowe/zdjecie-do-dowodu-lub-paszportu"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2288,8 +2183,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.government.nl/binaries/government/documenten/publications/2020/06/18/photo-specification-guidelines-2020/RvIG-Fotomatrix-ENG+DEF_20200908.pdf", "https://www.government.nl/binaries/government/documenten/publications/2020/06/18/photo-specification-guidelines-2020/RvIG-Fotomatrix-ENG+DEF_20200908.pdfhttps://www.rvig.nl/sites/default/files/2023-02/Fotomatrix%202020.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2307,8 +2201,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://unitedkingdom.nlembassy.org/passports-visas--consular/visas"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2326,8 +2219,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2345,8 +2237,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://diplomatie.belgium.be/sites/default/files/downloads/eid_fr_0.pdf", "https://diplomatie.belgium.be/fr/Services/services_a_letranger/passeport_belge/passeport_biometrique/belge_en_belgique/qualite_exigee_pour_la_photo", "https://diplomatie.belgium.be/sites/default/files/downloads/2016_matrice_fr.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2364,8 +2255,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://diplomatie.belgium.be/sites/default/files/downloads/eid_fr_0.pdf", "https://diplomatie.belgium.be/fr/Services/services_a_letranger/passeport_belge/passeport_biometrique/belge_en_belgique/qualite_exigee_pour_la_photo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2383,8 +2273,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://diplomatie.belgium.be/en/binaries/SchengenEN_tcm312-69379.pdf", "http://countries.diplomatie.belgium.be/en/south_africa/travel_belgium/visa_belgium/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2402,8 +2291,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://diplomatie.belgium.be/fr/Services/services_a_letranger/passeport_belge/passeport_biometrique/belge_en_belgique/qualite_exigee_pour_la_photo", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2421,8 +2309,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.belgium.be/fr/famille/international/etrangers/documents_de_sejour", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://diplomatie.belgium.be/sites/default/files/downloads/eid_fr_0.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2440,8 +2327,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.mzv.cz/manila/en/visa_and_consular_services/visa_information/schengen_visa_stay_of_up_to_90_days/list_of_reguirements_for/tourism.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2459,8 +2345,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2478,8 +2363,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.mzv.cz/telaviv/en/visa_and_consular_services/passports/index.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.mzv.cz/london/en/visa_and_consular_information/consular_information/czech_passport/index.html"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2497,8 +2381,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.mzv.cz/telaviv/en/visa_and_consular_services/passports/index.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.mzv.cz/london/en/visa_and_consular_information/consular_information/czech_passport/index.html"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2516,8 +2399,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2535,8 +2417,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2554,8 +2435,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.swedenabroad.com/en-GB/Embassies/New-Delhi/Visit-Sweden/Visa-for-visiting-Sweden/Tourist-visa/", "http://www.swedenabroad.com/en-GB/Embassies/Kyiv/Visit-Sweden/Visa-for-visiting-Sweden/Schengen-visa-for-visiting-friends--relatives/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2573,8 +2453,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.swedenabroad.com/en-GB/Embassies/New-Delhi/Visit-Sweden/Visa-for-visiting-Sweden/Tourist-visa/", "http://www.swedenabroad.com/en-GB/Embassies/Kyiv/Visit-Sweden/Visa-for-visiting-Sweden/Schengen-visa-for-visiting-friends--relatives/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2592,8 +2471,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.swedenabroad.com/en-GB/Embassies/New-Delhi/Visit-Sweden/Visa-for-visiting-Sweden/Tourist-visa/", "http://www.swedenabroad.com/en-GB/Embassies/Kyiv/Visit-Sweden/Visa-for-visiting-Sweden/Schengen-visa-for-visiting-friends--relatives/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2611,8 +2489,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.bmeia.gv.at/fileadmin/user_upload/Vertretungen/London/Dokumente/Passport_Photographs_Criteria.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2630,8 +2507,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.bmeia.gv.at/fileadmin/user_upload/Vertretungen/London/Dokumente/Passport_Photographs_Criteria.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2649,8 +2525,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.bmeia.gv.at/fileadmin/user_upload/bmeia/media/Vertretungsbehoerden/Pretoria/Fotokriterien_fuer_Visa.pdf", "http://www.bmeia.gv.at/en/embassy/london/practical-advice/schengen-visa-residence-permits/schengen-visa-application-requirements.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2668,8 +2543,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.bmeia.gv.at/fileadmin/user_upload/Vertretungen/London/Dokumente/Passport_Photographs_Criteria.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2687,8 +2561,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.bmeia.gv.at/fileadmin/user_upload/Vertretungen/London/Dokumente/Passport_Photographs_Criteria.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2706,8 +2579,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.eda.admin.ch/etc/medialib/downloads/edactr/rus.Par.0083.File.tmp/Photograph_Guidelines_en.pdf", "http://www.eda.admin.ch/etc/medialib/downloads/edactr/lka.Par.0024.File.tmp/Guidelines%20for%20Passport%20Photos.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2725,8 +2597,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.fedlex.admin.ch/eli/cc/2010/96/de#a12", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2744,8 +2615,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.fedlex.admin.ch/eli/cc/2010/96/de#a12", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2763,8 +2633,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.sem.admin.ch/dam/data/pass/ausweise/fotomustertafel.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2782,8 +2651,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://usa.um.dk/en/travel-and-residence/visa/photo-requirements/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2801,8 +2669,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2820,8 +2687,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2839,8 +2705,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2858,8 +2723,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2877,8 +2741,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://usa.um.dk/en/travel-and-residence/visa/photo-requirements/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2896,8 +2759,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.poliisi.fi/licences/passport/dimensions_and_positioning", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2915,8 +2777,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://visa.finland.eu/Saintpeterburg/medical_photospecs.html", "http://www.finland.org.in/public/default.aspx?nodeid=34946&contentlan=2&culture=en-US", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2934,8 +2795,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.poliisi.fi/licences/passport/dimensions_and_positioning", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2953,8 +2813,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.poliisi.fi/licences/passport/dimensions_and_positioning", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2972,8 +2831,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.poliisi.fi/licences/passport/dimensions_and_positioning", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -2991,8 +2849,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.poliisi.fi/licences/passport/dimensions_and_positioning"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3010,8 +2867,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.udi.no/Norwegian-Directorate-of-Immigration/Oversiktsider/Common-pages/Photo-requirements/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3029,8 +2885,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3048,8 +2903,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.dha.gov.za/index.php/travel-documents2", "http://www.southafrica-canada.ca/Consular/passport-application.htm", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3067,8 +2921,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3086,8 +2939,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.ebeijing.gov.cn/feature_2/Sino_ltaly_culture_year/Info/Beijing/t921029.htm", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.fmprc.gov.cn/ce/cenp/eng/ConsularService/t1068494.htm"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3105,8 +2957,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://ppt.mfa.gov.cn/appo/page/agreement.html", "http://www.fmprc.gov.cn/ce/cenp/eng/ConsularService/t1068494.htm"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3124,8 +2975,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://ppt.mfa.gov.cn/appo/page/agreement.html", "http://www.fmprc.gov.cn/ce/cgny/eng/lsyw/lszjx/sbqz/cccbu/t895733.htm"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3143,8 +2993,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://ppt.mfa.gov.cn/appo/page/agreement.html", "http://www.fmprc.gov.cn/ce/cgny/eng/lsyw/lszjx/sbqz/cccbu/t895733.htm"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3162,8 +3011,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.ebeijing.gov.cn/feature_2/Sino_ltaly_culture_year/Info/Beijing/t921029.htm", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://ppt.mfa.gov.cn/appo/page/agreement.html"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3181,8 +3029,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.ebeijing.gov.cn/feature_2/Sino_ltaly_culture_year/Info/Beijing/t921029.htm", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://ppt.mfa.gov.cn/appo/page/agreement.html"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3200,8 +3047,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3219,8 +3065,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.ebeijing.gov.cn/feature_2/Sino_ltaly_culture_year/Info/Beijing/t921029.htm", "https://www.gov.cn/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3238,8 +3083,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.ebeijing.gov.cn/feature_2/Sino_ltaly_culture_year/Info/Beijing/t921029.htm", "https://www.gov.cn/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3257,8 +3101,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.ebeijing.gov.cn/feature_2/Sino_ltaly_culture_year/Info/Beijing/t921029.htm", "https://www.gov.cn/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3276,8 +3119,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.ebeijing.gov.cn/feature_2/Sino_ltaly_culture_year/Info/Beijing/t921029.htm", "https://www.gov.cn/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3295,8 +3137,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://indianvisaonline.gov.in", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3314,8 +3155,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://indianvisaonline.gov.in", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3333,8 +3173,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://passport.gov.in/oci/welcome", "https://passport.gov.in/oci/Photo-Spec-FINAL.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3352,8 +3191,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://passport.gov.in/oci/welcome", "https://passport.gov.in/oci/Photo-Spec-FINAL.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3371,8 +3209,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://passport.gov.in/oci/welcome", "https://passport.gov.in/oci/Photo-Spec-FINAL.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3390,8 +3227,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://passport.gov.in/oci/welcome", "https://passport.gov.in/oci/Photo-Spec-FINAL.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3409,8 +3245,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://passport.gov.in/oci/welcome", "https://passport.gov.in/oci/Photo-Spec-FINAL.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3428,8 +3263,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://passport.gov.in/oci/welcome", "https://passport.gov.in/oci/Photo-Spec-FINAL.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3447,8 +3281,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://passport.gov.in/oci/welcome", "https://passport.gov.in/oci/Photo-Spec-FINAL.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3466,8 +3299,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://indianvisaonline.gov.in", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://aponline.gov.in/Apportal_MessageBoard/DOCUMENTSFORSDPRSDPsUSDPs/pancardprocessdoc.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3485,8 +3317,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://indianvisaonline.gov.in", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://embassyofindiabangkok.gov.in/pages.php?id=19"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3504,8 +3335,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://indianvisaonline.gov.in", "https://embassyofindiabangkok.gov.in/pages.php?id=19"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3523,8 +3353,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://passport.gov.in/oci/welcome", "https://passport.gov.in/oci/Photo-Spec-FINAL.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3542,8 +3371,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://passport.gov.in/oci/welcome", "https://passport.gov.in/oci/Photo-Spec-FINAL.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3561,8 +3389,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.mofa.go.jp/mofaj/gaiko/apec/btc.html#section4", "https://www.mofa.go.jp/mofaj/files/000149961.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3580,8 +3407,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.mofa.go.jp", "https://japanevisa.net/requirements-and-sizes-of-a-japan-visa/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3599,8 +3425,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.mofa.go.jp", "https://japanevisa.net/requirements-and-sizes-of-a-japan-visa/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3618,8 +3443,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.mofa.go.jp/mofaj/gaiko/apec/btc.html#section4", "https://www.mofa.go.jp/mofaj/files/000149961.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3637,8 +3461,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.mofa.go.jp", "https://japanevisa.net/requirements-and-sizes-of-a-japan-visa/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3656,8 +3479,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.mofa.go.jp/j_info/visit/visa/index.html", "https://www.mofa.go.jp/files/000124528.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3675,8 +3497,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.mofa.go.jp/j_info/visit/visa/index.html", "https://www.mofa.go.jp/files/000124528.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3694,8 +3515,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.mofa.go.jp/j_info/visit/visa/index.html", "https://www.mofa.go.jp/files/000124528.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3713,8 +3533,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.mofa.go.jp/mofaj/gaiko/apec/btc.html#section4", "https://www.mofa.go.jp/mofaj/files/000149961.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3732,8 +3551,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.mofa.go.jp", "https://japanevisa.net/requirements-and-sizes-of-a-japan-visa/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3751,8 +3569,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.passport.go.kr/new/issue/photo.php", "http://www.passport.go.kr/img/download/document_1.pdf", "http://www.passport.go.kr/issue/document.php"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3770,8 +3587,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.passport.go.kr/new/issue/photo.php", "http://www.passport.go.kr/img/download/document_1.pdf", "http://www.passport.go.kr/issue/document.php"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3789,8 +3605,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.immigration.go.kr/HP/IMM80/imm_04/imm_0405/imm_405010.jsp", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.passport.go.kr/new/issue/photo.php"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3808,8 +3623,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.immigration.go.kr/HP/IMM80/imm_04/imm_0405/imm_405010.jsp", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3827,8 +3641,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.immigration.go.kr/HP/IMM80/imm_04/imm_0405/imm_405010.jsp", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.passport.go.kr/new/issue/photo.php"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3846,8 +3659,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.ica.gov.ae", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.dubaivisa.net"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3865,8 +3677,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.ica.gov.ae", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.dubaivisa.net"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3884,8 +3695,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://smartservices.icp.gov.ae/", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.ica.gov.ae"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3903,8 +3713,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3922,8 +3731,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://smartservices.icp.gov.ae/", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.ica.gov.ae"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3941,8 +3749,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.ica.gov.ae", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://smartservices.icp.gov.ae/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3960,8 +3767,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://ica.gov.ae/en/service/issue-family-book/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3979,8 +3785,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.gov.il/en/service/new_id", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -3998,8 +3803,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://embassies.gov.il/stockholm-en/ConsularServices/Pages/Passport-information.aspx", "https://www.gov.il/en/service/new_id", "https://www.gov.il"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4017,8 +3821,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://embassies.gov.il/stockholm-en/ConsularServices/Pages/Passport-information.aspx", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.gov.il/en/service/new_id"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4036,8 +3839,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://embassies.gov.il/stockholm-en/ConsularServices/Pages/Passport-information.aspx", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://embassies.gov.il/montreal/ConsularServices/Pages/Passports-and-Travel-Documents.aspx"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4055,8 +3857,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.israelvisa-india.com/photo.aspx", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.gov.il/en/service/new_id"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4074,8 +3875,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.israelvisa-india.com/photo.aspx", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4093,8 +3893,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.imi.gov.my/index.php/en/main-services/passport/malaysian-international-passport.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.malaysia.gov.my/media/uploads/fa0d2f5c-e465-41cd-b865-820d79c97dd4.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4112,8 +3911,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://educationmalaysia.gov.my/how-to-apply/online-photo-checker.html/", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.malaysia.gov.my/media/uploads/fa0d2f5c-e465-41cd-b865-820d79c97dd4.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4131,8 +3929,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="blue",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.imi.gov.my/index.php/en/main-services/passport/malaysian-international-passport.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.malaysia.gov.my/media/uploads/fa0d2f5c-e465-41cd-b865-820d79c97dd4.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4150,8 +3947,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="blue",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.malaysia.gov.my/media/uploads/fa0d2f5c-e465-41cd-b865-820d79c97dd4.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://malaysiavisa.imi.gov.my/evisa/evisa.jsp"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4169,8 +3965,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="blue",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4188,8 +3983,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://www.imi.gov.my/index.php/en/main-services/passport/malaysian-international-passport.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.malaysia.gov.my/media/uploads/fa0d2f5c-e465-41cd-b865-820d79c97dd4.pdf"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4207,8 +4001,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="blue",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://malaysiavisa.imi.gov.my/evisa/evisa.jsp"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4226,8 +4019,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.imi.gov.my/index.php/en/main-services/passport/malaysian-international-passport.html", "https://malaysiavisa.imi.gov.my/evisa/evisa.jsp"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4245,8 +4037,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://educationmalaysia.gov.my/how-to-apply/online-photo-checker.html/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4264,8 +4055,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.lam.gov.my/apec/files/ABTC-Application.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4283,8 +4073,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://vfsglobal.com/brazil-evisa/prepare-your-application.html", "http://www.vfsglobal.com/Brazil-eVisa/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4302,8 +4091,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://vfsglobal.com/brazil-evisa/prepare-your-application.html", "http://www.vfsglobal.com/Brazil-eVisa/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4321,8 +4109,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://mg.gov.br/servico/emissao-da-carteira-de-identidade-1a", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4340,8 +4127,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://vfsglobal.com/brazil-evisa/prepare-your-application.html", "http://www.vfsglobal.com/Brazil-eVisa/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4359,8 +4145,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://vfsglobal.com/brazil-evisa/prepare-your-application.html", "http://www.vfsglobal.com/Brazil-eVisa/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4378,8 +4163,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://ierevan.itamaraty.gov.br/pt-br/passaportes.xml", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://formulario-mre.serpro.gov.br"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4397,8 +4181,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://mg.gov.br/servico/emissao-da-carteira-de-identidade-1a", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4416,8 +4199,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://apples.ica.gov.sg/apples/index.xhtml", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4435,8 +4217,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.ica.gov.sg/common/passport_photo_guidelines", "http://www.ica.gov.sg/page.aspx?pageid=123", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4454,8 +4235,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.ica.gov.sg/documents/ic/registration", "https://www.ica.gov.sg/documents/ic/re-registration", "https://www.ica.gov.sg/common/photo-guidelines"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4473,8 +4253,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.ica.gov.sg/common/passport_photo_guidelines", "http://www.ica.gov.sg/page.aspx?pageid=123", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4492,8 +4271,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.ica.gov.sg/common/passport_photo_guidelines", "http://www.ica.gov.sg/page.aspx?pageid=123", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4511,8 +4289,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.mfa.gov.sg/Overseas-Mission/Cairo/Consular-Services/Photocard-Driving-Licence", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.ica.gov.sg/documents/citizencert/replacement"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4530,8 +4307,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://marinet.mpa.gov.sg/sdb/dispatch-newapp", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4549,8 +4325,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://consulmex.sre.gob.mx/nuevayork/index.php/en/visas-foreigners", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4568,8 +4343,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://consulmex.sre.gob.mx/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4588,7 +4362,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     glasses_allowed="no",
     neutral_expression_required=True,
     other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    source_urls=["https://consulmex.sre.gob.mx/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4606,8 +4380,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://embamex.sre.gob.mx/canada_eng/index.php/consular-fees/5337-permanent-resident-visa-2012", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://consulmex.sre.gob.mx/nuevayork/index.php/en/visas-foreigners"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4625,8 +4398,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://consulmex.sre.gob.mx/"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4644,8 +4416,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.konsolosluk.gov.tr", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4663,8 +4434,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://www.konsolosluk.gov.tr", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4682,8 +4452,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["https://randevu.nvi.gov.tr/pages/sss", "https://www.konsolosluk.gov.tr", "https://e-ikamet.goc.gov.tr/Ikamet/IstenenBelgeler/BasvuruFormuBelgelerIliskinAciklamalar"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4701,8 +4470,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="light_grey",
     glasses_allowed="if_no_glare",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://cancilleria.gob.ar/visa-para-turismo", "http://cnyor.mrecic.gov.ar/en/node/1817", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4720,8 +4488,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://eeeuu.mrecic.gov.ar/es/pasaporte-provisorio-serie", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://cancilleria.gob.ar/visa-para-turismo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4739,8 +4506,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://cnyor.mrecic.gov.ar/en/node/2258", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://cancilleria.gob.ar/visa-para-turismo"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4758,8 +4524,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://eeeuu.mrecic.gov.ar/es/pasaporte-provisorio-serie", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://cnyor.mrecic.gov.ar/en/node/2258"]
 ))
 
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
@@ -4777,8 +4542,7 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     background_color="white",
     glasses_allowed="no",
     neutral_expression_required=True,
-    other_requirements="Auto-generated from visafoto.com data",
-    source_urls=["https://visafoto.com/"]
+    other_requirements="Auto-generated from visafoto.com data",    source_urls=["http://eeeuu.mrecic.gov.ar/es/pasaporte-provisorio-serie", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://cnyor.mrecic.gov.ar/en/node/2258"]
 ))
 
 # TODO: Add more specifications as needed.
@@ -4810,7 +4574,7 @@ DOCUMENT_SPECIFICATIONS.append(
         glasses_allowed="no", # Generally discouraged/not allowed for recent photos
         neutral_expression_required=True,
         other_requirements="Face should be centered. Neutral expression, mouth closed. Both ears visible.",
-        source_url="Placeholder - official source verification needed (e.g., Indian Passport Office website)"
+        source_urls=["https://www.passportindia.gov.in/"]
     )
 )
 
@@ -4843,7 +4607,7 @@ DOCUMENT_SPECIFICATIONS.append(
         glasses_allowed="no", # Generally no, unless for medical reasons with a signed note.
         neutral_expression_required=True,
         other_requirements="Photos must be taken by a commercial photographer. Stamped or handwritten date on back is required for physical photos.",
-        source_url="https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-passports/photos.html (official site, values interpreted)"
+        source_urls=["https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-passports.html"]
     )
 )
 
@@ -4864,6 +4628,477 @@ DOCUMENT_SPECIFICATIONS.append(
 # if gb_passport_spec:
 # print(f"GB Passport Head Min (px): {gb_passport_spec.head_min_px}")
 # print(f"GB Passport Head Max (px): {gb_passport_spec.head_max_px}")
+
+# Thailand Visa 
+# Source: https://visafoto.com/requirements - Thailand visa requirements
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="TH",
+        document_name="Visa",
+        photo_width_mm=40.0, photo_height_mm=60.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=36.0, eye_max_from_bottom_mm=42.0,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,
+        other_requirements="Photo should be taken within 6 months",    source_urls=["https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-passports.html"]
+    )
+)
+
+# Thailand Online Visa 
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="TH",
+        document_name="Online Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://thaievisa.go.th/static/media/sample-photo.3e754e63.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://www.thaicgny.com/app/download/544568204/visa+form.pdf"]
+    )
+)
+
+# Philippines Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="PH",
+        document_name="Visa",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://riyadhpe.dfa.gov.ph/consular-services/visa-services", "http://www.philippineembassy-usa.org/philippines-dc/consular-services-dc/faq-dc/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Philippines Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="PH",
+        document_name="Passport",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://www.philippine-embassy.de/bln/images/ConsularSection/PassportServices/pdf/info%20bulletin%20on%20the%20implementation%20of%20mrp-22%20dec%2008.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Indonesia Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="ID",
+        document_name="Passport",
+        photo_width_mm=50.8, photo_height_mm=50.8, dpi=300,
+        head_min_mm=25.0, head_max_mm=35.0,
+        eye_min_from_bottom_mm=28.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,
+        other_requirements="Red or white background accepted",    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Indonesia Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="ID",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://consular.embassyofindonesia.org/visa/genv/TVV/getstarted.html", "http://evisa.kbri-newdelhi.go.id/visa/f/2311e713382d87057619d5cca5fba208"]
+    )
+)
+
+# Vietnam Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="VN",
+        document_name="Visa",
+        photo_width_mm=40.0, photo_height_mm=60.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=36.0, eye_max_from_bottom_mm=42.0,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://evisa.xuatnhapcanh.gov.vn/en_US/web/guest/khai-thi-thuc-dien-tu/cap-thi-thuc-dien-tu"]
+    )
+)
+
+# Vietnam ID Card
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="VN",
+        document_name="ID Card",
+        photo_width_mm=30.0, photo_height_mm=40.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=24.0, eye_max_from_bottom_mm=28.0,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://evisa.xuatnhapcanh.gov.vn/en_US/web/guest/khai-thi-thuc-dien-tu/cap-thi-thuc-dien-tu", "http://www.moj.gov.vn/vbpq/en/lists/vn%20bn%20php%20lut/view_detail.aspx?itemid=1200"]
+    )
+)
+
+# Egypt Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="EG",
+        document_name="Passport",
+        photo_width_mm=40.0, photo_height_mm=60.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=36.0, eye_max_from_bottom_mm=42.0,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://www.egypt.gov.eg/services/listServicesCategory.aspx?ID=350§ion=citizens", "http://www.egyptembassy.net/consular-services/passports-travel/issuing-egyptian-passport/", "http://www.egyptembassy.net/ar/%D8%A7%D8%B3%D8%AA%D8%AE%D8%B1%D8%A7%D8%AC-%D8%AC%D9%88%D8%A7%D8%B2-%D8%B3%D9%81%D8%B1-%D9%85%D8%B5%D8%B1%D9%8A-%D8%AC%D8%AF%D9%8A%D8%AF-%D9%85%D9%85%D9%8A%D9%83%D9%86-%D9%85%D9%82%D8%B1%D9%88%D8%A1/"]
+    )
+)
+
+# Egypt Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="EG",
+        document_name="Visa",
+        photo_width_mm=40.0, photo_height_mm=60.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=36.0, eye_max_from_bottom_mm=42.0,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://www.egyptembassy.net/consular-services/passports-travel/visa-requirements/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Nigeria Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="NG",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://www.immigration.gov.ng/", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://www.nigerianembassy.ru/index.php/consular-immigration/visa-application.html"]
+    )
+)
+
+# Nigeria Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="NG",
+        document_name="Passport",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://immigration.gov.ng/passport-learn_more", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://portal.immigration.gov.ng/pages/faq"]
+    )
+)
+
+# Pakistan National ID
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="PK",
+        document_name="National ID",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://id.nadra.gov.pk/photo-requirements/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Pakistan Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="PK",
+        document_name="Passport",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://onlinemrp.dgip.gov.pk/photo-requirements/", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Pakistan Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="PK",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://www.pakconsulatela.org/tourist-visa/", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://visa.nadra.gov.pk/photograph-guide/"]
+    )
+)
+
+# Bangladesh E-Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="BD",
+        document_name="E-Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://www.visa.gov.bd/", "https://apps.apple.com/app/7id-passport-photos/id6447795199", "http://new.bangladeshembassy.ru/images/Forms/Visa_Forms/machine_readable_visa__form.pdf"]
+    )
+)
+
+# Bangladesh Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="BD",
+        document_name="Passport",
+        photo_width_mm=40.0, photo_height_mm=50.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=30.0, eye_max_from_bottom_mm=35.0,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://www.bangladeshembassy.de/wp-content/uploads/2016/12/NHP-Form.pdf", "http://new.bangladeshembassy.ru/images/Forms/Dual_Nationality_Forms/dual_nationality_application_form.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Iran Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="IR",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://evisatraveller.mfa.ir/en/request/digital_image_requirement/?title_name=photo", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Iraq Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="IQ",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://www.iraqiembassy.us/page/visas-to-iraq", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Saudi Arabia Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="SA",
+        document_name="Visa",
+        photo_width_mm=40.0, photo_height_mm=60.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=36.0, eye_max_from_bottom_mm=42.0,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://visa.visitsaudi.com/Home/PhotoSpecifications"]
+    )
+)
+
+# Morocco Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="MA",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Morocco Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="MA",
+        document_name="Passport",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://www.moroccanconsulate.com/pass.cfm", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Algeria Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="DZ",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Algeria Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="DZ",
+        document_name="Passport",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://passeport.interieur.gov.dz/ar/Informations/Normes_Photographie", "https://www.algerian-consulate.org.uk/consulaire/passport/passport-photo-requirements", "http://www.embassyalgeria.ca/passeport"]
+    )
+)
+
+# Romania Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="RO",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199", "https://romania-e-visa.com/photo-specifications-and-guidelines-for-romania-visa-application/"]
+    )
+)
+
+# Romania Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="RO",
+        document_name="Passport",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://pasapoarte.mai.gov.ro/indexActe2.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Bulgaria Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="BG",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://www.mfa.bg/en/pages/109/index.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Bulgaria Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="BG",
+        document_name="Passport",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://www.mfa.bg", "http://www.bulgaria-embassy.org/Consular%20Information/passport/Passport%20Procedures.htm", "http://www.bulgaria-embassy.org/Consular%20Information/passport/pas_samp.pdf"]
+    )
+)
+
+# Croatia Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="HR",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://za.mfa.hr/?mh=331&mv=2046", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Croatia Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="HR",
+        document_name="Passport",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Lithuania Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="LT",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://uk.mfa.lt/uk/en/travel-and-residence/consular-issues/lithuanian-passport", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Lithuania Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="LT",
+        document_name="Passport",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://uk.mfa.lt/uk/en/travel-and-residence/consular-issues/lithuanian-passport", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Latvia Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="LV",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://www.mfa.gov.lv/en/london/consular-information/documents-required-when-applying-for-a-short-stay-visa-to-enter-latvia", "https://www.mfa.gov.lv/images/KD_faili/Vizas/Mat_RU.pdf", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Latvia Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="LV",
+        document_name="Passport",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://www.pmlp.gov.lv/ru/home-ru/uslugi/pasporta/dokumentyi.html", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Estonia Visa
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="EE",
+        document_name="Visa",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["http://vm.ee/en/long-stay-d-visa", "https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
+
+# Estonia Passport
+DOCUMENT_SPECIFICATIONS.append(
+    PhotoSpecification(
+        country_code="EE",
+        document_name="Passport",
+        photo_width_mm=35.0, photo_height_mm=45.0, dpi=300,
+        head_min_percentage=0.65, head_max_percentage=0.75,
+        eye_min_from_bottom_mm=27.0, eye_max_from_bottom_mm=33.8,
+        background_color="white", glasses_allowed="no",
+        neutral_expression_required=True,    source_urls=["https://apps.apple.com/app/7id-passport-photos/id6447795199"]
+    )
+)
 
 # Check for potential issues if head_min/max_mm and head_min/max_percentage are both None
 # for spec_item in DOCUMENT_SPECIFICATIONS:
