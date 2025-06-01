@@ -189,15 +189,16 @@ else:
         logging.error(f"Error initializing ONNX Runtime session: {e}")
         ort_session_instance = None
 
-# Initialize MediaPipe FaceMesh
+# Initialize MediaPipe FaceMesh with enhanced configuration
 try:
     face_mesh_instance = mp.solutions.face_mesh.FaceMesh(
-        max_num_faces=1,
-        refine_landmarks=True,
-        min_detection_confidence=0.5,
-        min_tracking_confidence=0.5
+        static_image_mode=True,       # Оптимизация для статических изображений
+        max_num_faces=1,              # Обрабатываем только одно лицо
+        refine_landmarks=True,        # Включаем дополнительные лендмарки радужки
+        min_detection_confidence=0.3, # Понижен для лучшей детекции сложных случаев
+        min_tracking_confidence=0.3   # Понижен для лучшего отслеживания
     )
-    logging.info("MediaPipe FaceMesh initialized successfully.")
+    logging.info("MediaPipe FaceMesh initialized with enhanced configuration for detailed eye detection.")
 except Exception as e:
     logging.error(f"Error initializing MediaPipe FaceMesh: {e}")
     face_mesh_instance = None

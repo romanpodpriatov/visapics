@@ -88,9 +88,43 @@ The core innovation of this system:
 - Falls back gracefully to landmark-only detection when ONNX session unavailable
 - Measurements preserved through entire pipeline via crop_data to prevent re-analysis drift
 
+### Compliance Optimization Algorithm
+Advanced coefficient-based system for automatic compliance adjustment:
+- **Intelligent Priority System**: Eye position > Head size > Head margins > Safety margins
+- **Coefficient-Based Corrections**: 95% adjustment for eye positioning, 70% for head margins
+- **Multi-Stage Processing**: Initial positioning → compliance analysis → intelligent adjustment
+- **Safety Mechanisms**: Prevents head/chin cropping with 5px safety margins
+- **Adaptive Logic**: Different strategies for different photo specifications (Schengen vs standard)
+- **Real-time Feedback**: Detailed logging of adjustment reasons and amounts
+- **Performance Metrics**: Tracks adjustment success rates and compliance improvements
+
+### Enhanced Eye Detection System
+Advanced eye landmark detection for improved positioning accuracy:
+- **176 eye-specific landmarks** across 20 regions (vs previous 4 basic points)
+- **Hierarchical landmark selection**: pupil → iris → contour → center with quality scoring
+- **Detailed eye regions**: iris, pupil, upper/lower lids, eyebrows, complete contours
+- **Quality assessment**: `_analyze_eye_detection_quality()` scores available landmarks
+- **MediaPipe optimization**: `static_image_mode=True`, `refine_landmarks=True`, lowered confidence thresholds
+- **Face centering refinement**: uses detailed eye landmarks to correct face center positioning
+- **Improved robustness**: better handling of glasses, makeup, partial occlusion, and various angles
+
+### Enhanced Head Contour Detection System
+Comprehensive head boundary detection with 429 total landmarks for millimeter precision:
+- **217 head contour landmarks** across 20 regions (vs previous basic face contour)
+- **Detailed forehead mapping**: 28 landmarks including left/right boundaries, temples, complete contour
+- **Precise chin/jaw detection**: 21 landmarks covering center, left/right jaw, angles, complete jawline
+- **Cheekbone and temple areas**: 10+ landmarks each for left/right cheekbones and detailed temple regions
+- **Hierarchical boundary selection**: complete head contour → detailed regions → basic fallbacks
+- **Multi-region face width calculation**: head_contour_complete → cheekbones → eye span weighting
+- **Enhanced mask integration**: 30% larger search areas with detailed landmark-guided boundaries
+- **Improved positioning algorithms**: separate forehead and chin detection with weighted center correction
+
 ### Photo Specification Extensions
+The application now supports 249 countries and document types with enhanced compliance validation.
+
 When adding new countries/documents:
 1. Add PhotoSpecification entry to DOCUMENT_SPECIFICATIONS in `photo_specs.py`
 2. Update COUNTRY_DISPLAY_NAMES mapping in `main.py` if needed
 3. Ensure background_color maps to BACKGROUND_COLOR_MAP in `image_processing.py`
 4. Consider adding head positioning control fields for fine-tuning mask-based detection
+5. Use official government sources for source_urls to ensure authenticity

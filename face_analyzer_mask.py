@@ -11,13 +11,71 @@ FACE_MESH_POINTS = {
     'forehead_center': [9, 10, 151],
     'temple_left': [234, 127, 162], 
     'temple_right': [454, 356, 389],
-    'left_eye_center': [468, 470], 
-    'right_eye_center': [473, 475],
+    
+    # Расширенные лендмарки для левого глаза
+    'left_eye_center': [468, 470],  # Центр радужки
+    'left_eye_pupil': [468],        # Центр зрачка
+    'left_eye_iris': [468, 469, 470, 471, 472],  # Контур радужки
     'left_eye_inner': [133],
     'left_eye_outer': [33],
+    'left_eye_upper_lid': [157, 158, 159, 160, 161, 163, 144, 145, 153, 154, 155],  # Верхнее веко
+    'left_eye_lower_lid': [173, 133, 155, 154, 153, 145, 144, 163, 7],              # Нижнее веко
+    'left_eye_contour': [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161, 246],  # Полный контур
+    'left_eyebrow': [46, 53, 52, 51, 48, 115, 131, 134, 102, 49, 220, 285, 336],  # Бровь (исправлено)
+    
+    # Расширенные лендмарки для правого глаза
+    'right_eye_center': [473, 475], # Центр радужки
+    'right_eye_pupil': [473],       # Центр зрачка
+    'right_eye_iris': [473, 474, 475, 476, 477],  # Контур радужки
     'right_eye_inner': [362],
     'right_eye_outer': [263],
-    'chin_bottom': [152],
+    'right_eye_upper_lid': [384, 385, 386, 387, 388, 390, 373, 374, 380, 381, 382],  # Верхнее веко
+    'right_eye_lower_lid': [398, 362, 382, 381, 380, 374, 373, 390, 249],              # Нижнее веко
+    'right_eye_contour': [263, 249, 390, 373, 374, 380, 381, 382, 362, 398, 384, 385, 386, 387, 388, 466],  # Полный контур
+    'right_eyebrow': [276, 283, 282, 281, 278, 344, 360, 363, 331, 279, 440],  # Бровь (исправлено)
+    
+    # Дополнительные детализированные области вокруг глаз (только валидные индексы)
+    'left_eye_detailed': [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161, 246, 
+                         468, 469, 470, 471, 472, 130, 25, 110, 24, 23, 22, 26, 112, 243],
+    'right_eye_detailed': [263, 249, 390, 373, 374, 380, 381, 382, 362, 398, 384, 385, 386, 387, 388, 466,
+                          473, 474, 475, 476, 477, 359, 255, 339, 254, 253, 252, 256, 341, 463],
+    
+    # Расширенные лендмарки контуров головы
+    
+    # МАКУШКА И ЛОБ (детализированная верхняя граница)
+    'forehead_top_detailed': [9, 10, 151],  # Центральная ось
+    'forehead_left_boundary': [68, 104, 69, 108, 71, 139, 34, 127],  # Левая граница лба
+    'forehead_right_boundary': [299, 333, 298, 337, 301, 368, 264, 356],  # Правая граница лба
+    'forehead_temples': [21, 54, 103, 67, 109, 338, 297, 332, 284],  # Височные области
+    'forehead_complete': [9, 10, 151, 68, 104, 69, 108, 71, 139, 34, 127, 299, 333, 298, 337, 301, 368, 264, 356, 21, 54, 103, 67, 109, 338, 297, 332, 284],  # Полный контур лба
+    
+    # ПОДБОРОДОК И ЧЕЛЮСТЬ (детализированная нижняя граница)
+    'chin_bottom': [152],  # Основная точка подбородка (для совместимости)
+    'chin_center_detailed': [152, 175, 199, 200, 171],  # Центральный подбородок
+    'jaw_left': [172, 136, 150, 149, 176, 148],  # Левая челюсть
+    'jaw_right': [377, 400, 378, 379, 365, 397],  # Правая челюсть
+    'jaw_angles': [172, 132, 162, 397, 361, 323],  # Углы челюсти
+    'jaw_complete': [152, 175, 199, 200, 171, 172, 136, 150, 149, 176, 148, 377, 400, 378, 379, 365, 397, 132, 162, 361, 323],  # Полная челюсть
+    
+    # БОКОВЫЕ КОНТУРЫ (скулы и височные области)
+    'cheekbone_left': [123, 116, 117, 118, 119, 120, 121, 128, 126, 142],  # Левые скулы
+    'cheekbone_right': [352, 345, 346, 347, 348, 349, 350, 451, 452, 453],  # Правые скулы
+    'temple_left_detailed': [234, 127, 162, 21, 54, 103, 67, 109],  # Левый висок детализированный
+    'temple_right_detailed': [454, 356, 389, 251, 284, 332, 297, 338],  # Правый висок детализированный
+    
+    # ПОЛНЫЙ КОНТУР ГОЛОВЫ (объединенный)
+    'head_contour_complete': [
+        # Верхняя часть (лоб)
+        9, 10, 151, 68, 104, 69, 108, 71, 139, 34, 127, 299, 333, 298, 337, 301, 368, 264, 356,
+        # Боковые части
+        234, 127, 162, 21, 54, 103, 67, 109, 454, 356, 389, 251, 284, 332, 297, 338,
+        # Скулы
+        123, 116, 117, 118, 119, 120, 121, 128, 352, 345, 346, 347, 348, 349, 350, 451,
+        # Нижняя часть (челюсть)
+        152, 175, 199, 200, 171, 172, 136, 150, 149, 176, 148, 377, 400, 378, 379, 365, 397, 361, 323
+    ],
+    
+    # Исходный face_contour для совместимости
     'face_contour': [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288,
                      397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136,
                      172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109],
@@ -38,6 +96,7 @@ class MaskBasedFaceAnalyzer:
         self.segmentation_mask = segmentation_mask 
         self.normalized_points = self._normalize_landmarks()
         self.refined_actual_head_top_y = None
+        self.eye_detection_quality = self._analyze_eye_detection_quality()
         self._determine_actual_head_top()
 
     def _normalize_landmarks(self):
@@ -90,16 +149,33 @@ class MaskBasedFaceAnalyzer:
             logging.error(f"Failed to find chin_bottom. Available regions: {list(n for n in normalized if normalized[n])}")
             raise ValueError("Essential 'chin_bottom' cannot be determined.")
 
+        # Улучшенное определение центра глаз с приоритетом радужки/зрачка
         for eye_side in ['left', 'right']:
             center_key = f'{eye_side}_eye_center'
+            pupil_key = f'{eye_side}_eye_pupil'
+            iris_key = f'{eye_side}_eye_iris'
             inner_key = f'{eye_side}_eye_inner'
             outer_key = f'{eye_side}_eye_outer'
-            if center_key not in normalized and inner_key in normalized and outer_key in normalized and \
-               normalized[inner_key] and normalized[outer_key]: # check if lists are not empty
-                p_in = normalized[inner_key][0]
-                p_out = normalized[outer_key][0]
-                normalized[center_key] = [((p_in[0] + p_out[0])/2, (p_in[1] + p_out[1])/2)]
-                logging.warning(f"Fallback: Used inner/outer for '{center_key}'.")
+            
+            if center_key not in normalized:
+                # Приоритет 1: Зрачок (самая точная точка)
+                if pupil_key in normalized and normalized[pupil_key]:
+                    normalized[center_key] = normalized[pupil_key]
+                    logging.info(f"Enhanced: Used pupil for '{center_key}'.")
+                # Приоритет 2: Центр радужки
+                elif iris_key in normalized and normalized[iris_key] and len(normalized[iris_key]) >= 2:
+                    iris_points = normalized[iris_key]
+                    center_x = np.mean([pt[0] for pt in iris_points])
+                    center_y = np.mean([pt[1] for pt in iris_points])
+                    normalized[center_key] = [(center_x, center_y)]
+                    logging.info(f"Enhanced: Used iris center for '{center_key}'.")
+                # Приоритет 3: Исходный fallback через inner/outer
+                elif inner_key in normalized and outer_key in normalized and \
+                     normalized[inner_key] and normalized[outer_key]:
+                    p_in = normalized[inner_key][0]
+                    p_out = normalized[outer_key][0]
+                    normalized[center_key] = [((p_in[0] + p_out[0])/2, (p_in[1] + p_out[1])/2)]
+                    logging.warning(f"Fallback: Used inner/outer for '{center_key}'.")
         
         if ('left_eye_center' not in normalized or not normalized['left_eye_center']) or \
            ('right_eye_center' not in normalized or not normalized['right_eye_center']):
@@ -110,40 +186,116 @@ class MaskBasedFaceAnalyzer:
 
         logging.debug(f"Normalized {len(normalized)} landmark regions.")
         return normalized
+    
+    def _analyze_eye_detection_quality(self):
+        """Анализ качества детекции глаз для выбора оптимальных лендмарков"""
+        quality = {
+            'left_eye_quality': 0,
+            'right_eye_quality': 0,
+            'overall_confidence': 0,
+            'available_landmarks': []
+        }
+        
+        # Проверка наличия различных типов лендмарков глаз
+        eye_landmarks_priority = [
+            ('detailed', ['left_eye_detailed', 'right_eye_detailed']),
+            ('iris', ['left_eye_iris', 'right_eye_iris']),
+            ('pupil', ['left_eye_pupil', 'right_eye_pupil']),
+            ('contour', ['left_eye_contour', 'right_eye_contour']),
+            ('center', ['left_eye_center', 'right_eye_center'])
+        ]
+        
+        for landmark_type, (left_key, right_key) in eye_landmarks_priority:
+            left_available = left_key in self.normalized_points and self.normalized_points[left_key]
+            right_available = right_key in self.normalized_points and self.normalized_points[right_key]
+            
+            if left_available:
+                quality['left_eye_quality'] += 1
+                quality['available_landmarks'].append(left_key)
+            if right_available:
+                quality['right_eye_quality'] += 1
+                quality['available_landmarks'].append(right_key)
+        
+        # Дополнительные баллы за наличие бровей и век
+        additional_features = [
+            'left_eyebrow', 'right_eyebrow',
+            'left_eye_upper_lid', 'right_eye_upper_lid',
+            'left_eye_lower_lid', 'right_eye_lower_lid'
+        ]
+        
+        for feature in additional_features:
+            if feature in self.normalized_points and self.normalized_points[feature]:
+                quality['overall_confidence'] += 0.5
+                quality['available_landmarks'].append(feature)
+        
+        # Общая уверенность в детекции
+        total_possible = len(eye_landmarks_priority) * 2 + len(additional_features) * 0.5
+        total_actual = quality['left_eye_quality'] + quality['right_eye_quality'] + quality['overall_confidence']
+        quality['overall_confidence'] = min(1.0, total_actual / total_possible)
+        
+        logging.info(f"👁️ Качество детекции глаз: L={quality['left_eye_quality']}/5, R={quality['right_eye_quality']}/5, "
+                    f"Общее={quality['overall_confidence']:.2f}, Доступно лендмарков: {len(quality['available_landmarks'])}")
+        
+        return quality
         
     def _determine_actual_head_top(self):
-        landmark_forehead_top_y = min(pt[1] for pt in self.normalized_points['forehead_top'])
+        # Усовершенствованное определение верхней границы головы с использованием детализированных лендмарков
+        
+        # Приоритет 1: Детализированный контур лба
+        if 'forehead_complete' in self.normalized_points and self.normalized_points['forehead_complete']:
+            forehead_y_coords = [pt[1] for pt in self.normalized_points['forehead_complete']]
+            landmark_forehead_top_y = min(forehead_y_coords)
+            logging.info(f"🔝 Используется детализированный контур лба ({len(forehead_y_coords)} точек)")
+        elif 'forehead_top_detailed' in self.normalized_points and self.normalized_points['forehead_top_detailed']:
+            forehead_y_coords = [pt[1] for pt in self.normalized_points['forehead_top_detailed']]
+            landmark_forehead_top_y = min(forehead_y_coords)
+            logging.info(f"🔝 Используется детализированная макушка ({len(forehead_y_coords)} точек)")
+        else:
+            # Fallback к базовой точке
+            landmark_forehead_top_y = min(pt[1] for pt in self.normalized_points['forehead_top'])
+            logging.info("🔝 Используется базовая точка лба")
+            
         self.refined_actual_head_top_y = landmark_forehead_top_y 
 
         if self.segmentation_mask is not None and isinstance(self.segmentation_mask, np.ndarray):
-            logging.info("🎯 Refining head top using BiRefNet segmentation mask.")
+            logging.info("🎯 Refining head top using BiRefNet segmentation mask with enhanced landmarks.")
             mask_h, mask_w = self.segmentation_mask.shape[:2]
             if mask_h != self.img_height or mask_w != self.img_width:
                 logging.warning(f"Mask dimensions ({mask_w}x{mask_h}) differ from image ({self.img_width}x{self.img_height}).")
 
+            # Улучшенное определение области поиска с использованием детализированных контуров
             face_x_coords = []
-            for region_key in ['temple_left', 'temple_right', 'face_contour']:
+            search_regions = [
+                'temple_left_detailed', 'temple_right_detailed', 
+                'forehead_left_boundary', 'forehead_right_boundary',
+                'head_contour_complete', 'face_contour'
+            ]
+            
+            for region_key in search_regions:
                 if region_key in self.normalized_points and self.normalized_points[region_key]:
                     face_x_coords.extend([pt[0] for pt in self.normalized_points[region_key]])
+                    break  # Используем первый доступный регион по приоритету
             
             if not face_x_coords:
                 search_x_start, search_x_end = 0, self.img_width
+                logging.info("   Используется полная ширина изображения для поиска")
             else:
                 min_face_x, max_face_x = min(face_x_coords), max(face_x_coords)
                 face_width = max_face_x - min_face_x
-                padding_x = face_width * 0.25 # Increased padding for wider hair search
+                padding_x = face_width * 0.30  # Увеличено для лучшего покрытия волос
                 search_x_start = max(0, int(min_face_x - padding_x))
                 search_x_end = min(self.img_width, int(max_face_x + padding_x))
+                logging.info(f"   Область поиска: X[{search_x_start}:{search_x_end}] (ширина лица: {face_width:.1f}px)")
             
             if search_x_start >= search_x_end:
                 search_x_start, search_x_end = 0, self.img_width
 
             scan_y_upper_limit = 0 
-            scan_y_lower_limit = int(landmark_forehead_top_y + (self.img_height * 0.10)) # Scan a bit lower
+            scan_y_lower_limit = int(landmark_forehead_top_y + (self.img_height * 0.12))  # Увеличена область сканирования
             scan_y_lower_limit = min(scan_y_lower_limit, self.img_height)
 
             roi_mask = self.segmentation_mask[scan_y_upper_limit:scan_y_lower_limit, search_x_start:search_x_end]
-            foreground_pixels_y_in_roi, _ = np.where(roi_mask > 128) # Threshold mask if it's not binary
+            foreground_pixels_y_in_roi, _ = np.where(roi_mask > 128)
 
             if foreground_pixels_y_in_roi.size > 0:
                 mask_refined_head_top_y = float(np.min(foreground_pixels_y_in_roi) + scan_y_upper_limit)
@@ -152,9 +304,9 @@ class MaskBasedFaceAnalyzer:
                 if landmark_forehead_top_y - mask_refined_head_top_y > 5:
                     logging.info(f"   📏 Hair detected: {(landmark_forehead_top_y - mask_refined_head_top_y):.1f}px above landmark forehead")
             else:
-                logging.warning("No foreground pixels found in mask ROI. Using landmark-based head top.")
+                logging.warning("No foreground pixels found in mask ROI. Using enhanced landmark-based head top.")
         else:
-            logging.info("🎯 No segmentation mask. Using landmark-based head top.")
+            logging.info("🎯 No segmentation mask. Using enhanced landmark-based head top.")
         logging.info(f"✅ Final head top Y: {self.refined_actual_head_top_y:.1f}px")
 
     def analyze_face_dimensions(self):
@@ -162,26 +314,111 @@ class MaskBasedFaceAnalyzer:
             raise RuntimeError("refined_actual_head_top_y was not set.")
             
         actual_head_top_y = self.refined_actual_head_top_y
-        chin_bottom_y = max(pt[1] for pt in self.normalized_points['chin_bottom'])
+        
+        # Усовершенствованное определение нижней границы подбородка
+        if 'jaw_complete' in self.normalized_points and self.normalized_points['jaw_complete']:
+            chin_y_coords = [pt[1] for pt in self.normalized_points['jaw_complete']]
+            chin_bottom_y = max(chin_y_coords)
+            logging.info(f"📍 Используется полная челюсть ({len(chin_y_coords)} точек) для определения подбородка")
+        elif 'chin_center_detailed' in self.normalized_points and self.normalized_points['chin_center_detailed']:
+            chin_y_coords = [pt[1] for pt in self.normalized_points['chin_center_detailed']]
+            chin_bottom_y = max(chin_y_coords)
+            logging.info(f"📍 Используется детализированный центр подбородка ({len(chin_y_coords)} точек)")
+        else:
+            # Fallback к базовой точке
+            chin_bottom_y = max(pt[1] for pt in self.normalized_points['chin_bottom'])
+            logging.info("📍 Используется базовая точка подбородка")
 
-        if ('left_eye_center' in self.normalized_points and self.normalized_points['left_eye_center']) and \
-           ('right_eye_center' in self.normalized_points and self.normalized_points['right_eye_center']):
+        # Улучшенное определение позиции глаз с использованием дополнительных лендмарков
+        left_eye_y = None
+        right_eye_y = None
+        
+        # Попытка 1: Использование детализированных лендмарков для более точного расчета
+        if 'left_eye_detailed' in self.normalized_points and self.normalized_points['left_eye_detailed']:
+            left_eye_contour_y = [pt[1] for pt in self.normalized_points['left_eye_detailed']]
+            left_eye_y = np.mean(left_eye_contour_y)
+            logging.info(f"   Левый глаз: используются детализированные лендмарки ({len(left_eye_contour_y)} точек)")
+        elif 'left_eye_contour' in self.normalized_points and self.normalized_points['left_eye_contour']:
+            left_eye_contour_y = [pt[1] for pt in self.normalized_points['left_eye_contour']]
+            left_eye_y = np.mean(left_eye_contour_y)
+            logging.info(f"   Левый глаз: используется контур ({len(left_eye_contour_y)} точек)")
+        elif 'left_eye_center' in self.normalized_points and self.normalized_points['left_eye_center']:
             left_eye_y = np.mean([pt[1] for pt in self.normalized_points['left_eye_center']])
+            logging.info("   Левый глаз: используется базовый центр")
+        
+        if 'right_eye_detailed' in self.normalized_points and self.normalized_points['right_eye_detailed']:
+            right_eye_contour_y = [pt[1] for pt in self.normalized_points['right_eye_detailed']]
+            right_eye_y = np.mean(right_eye_contour_y)
+            logging.info(f"   Правый глаз: используются детализированные лендмарки ({len(right_eye_contour_y)} точек)")
+        elif 'right_eye_contour' in self.normalized_points and self.normalized_points['right_eye_contour']:
+            right_eye_contour_y = [pt[1] for pt in self.normalized_points['right_eye_contour']]
+            right_eye_y = np.mean(right_eye_contour_y)
+            logging.info(f"   Правый глаз: используется контур ({len(right_eye_contour_y)} точек)")
+        elif 'right_eye_center' in self.normalized_points and self.normalized_points['right_eye_center']:
             right_eye_y = np.mean([pt[1] for pt in self.normalized_points['right_eye_center']])
+            logging.info("   Правый глаз: используется базовый центр")
+        
+        if left_eye_y is not None and right_eye_y is not None:
             eye_level_y = (left_eye_y + right_eye_y) / 2
-        else: 
-            logging.warning("Eye center landmarks missing. Estimating eye_level_y as 40% down from head top to chin.") # Changed to warning
+            logging.info(f"📍 Позиция глаз: Левый={left_eye_y:.1f}px, Правый={right_eye_y:.1f}px, Средний={eye_level_y:.1f}px")
+        else:
+            logging.warning("Eye landmarks missing. Estimating eye_level_y as 40% down from head top to chin.")
             eye_level_y = actual_head_top_y + (chin_bottom_y - actual_head_top_y) * 0.40 
             
-        if 'face_contour' in self.normalized_points and self.normalized_points['face_contour']:
-            face_contour_x_coords = [pt[0] for pt in self.normalized_points['face_contour']]
+        # Значительно улучшенное определение ширины лица с использованием детализированных лендмарков
+        face_width_regions = [
+            'head_contour_complete',  # Приоритет 1: Полный контур головы
+            'face_contour',           # Приоритет 2: Базовый контур лица
+        ]
+        
+        face_contour_x_coords = []
+        used_region = None
+        
+        for region in face_width_regions:
+            if region in self.normalized_points and self.normalized_points[region]:
+                face_contour_x_coords = [pt[0] for pt in self.normalized_points[region]]
+                used_region = region
+                break
+        
+        if face_contour_x_coords:
             face_min_x, face_max_x = min(face_contour_x_coords), max(face_contour_x_coords)
             face_center_x = (face_min_x + face_max_x) / 2
             face_width_px = face_max_x - face_min_x
+            logging.info(f"📏 Ширина лица определена по {used_region} ({len(face_contour_x_coords)} точек)")
+            
+            # Дополнительные корректировки с использованием скул и височных областей
+            if ('cheekbone_left' in self.normalized_points and self.normalized_points['cheekbone_left'] and
+                'cheekbone_right' in self.normalized_points and self.normalized_points['cheekbone_right']):
+                
+                left_cheek_x_coords = [pt[0] for pt in self.normalized_points['cheekbone_left']]
+                right_cheek_x_coords = [pt[0] for pt in self.normalized_points['cheekbone_right']]
+                cheek_min_x = min(left_cheek_x_coords)
+                cheek_max_x = max(right_cheek_x_coords)
+                cheek_based_center_x = (cheek_min_x + cheek_max_x) / 2
+                cheek_width = cheek_max_x - cheek_min_x
+                
+                # Корректировка с учетом скул
+                face_center_x = (face_center_x + cheek_based_center_x) / 2
+                face_width_px = max(face_width_px, cheek_width)  # Используем максимальную ширину
+                logging.info(f"📏 Корректировка на основе скул: ширина {cheek_width:.1f}px")
+            
+            # Дополнительная валидация с использованием глазных областей
+            if ('left_eye_detailed' in self.normalized_points and self.normalized_points['left_eye_detailed'] and 
+                'right_eye_detailed' in self.normalized_points and self.normalized_points['right_eye_detailed']):
+                left_eye_x_coords = [pt[0] for pt in self.normalized_points['left_eye_detailed']]
+                right_eye_x_coords = [pt[0] for pt in self.normalized_points['right_eye_detailed']]
+                eye_span_min_x = min(left_eye_x_coords + right_eye_x_coords)
+                eye_span_max_x = max(left_eye_x_coords + right_eye_x_coords)
+                eye_based_center_x = (eye_span_min_x + eye_span_max_x) / 2
+                
+                # Финальная корректировка центра лица на основе позиции глаз
+                face_center_x = (face_center_x * 0.7 + eye_based_center_x * 0.3)  # Взвешенное среднее
+                logging.info(f"📏 Финальная корректировка центра лица на основе детализированных глазных лендмарков")
+                
         else:
-            logging.warning("Face contour not available for width. Using image center and estimated width.")
+            logging.warning("Enhanced face contours not available. Using image center and estimated width.")
             face_center_x = self.img_width / 2
-            face_width_px = self.img_width * 0.5 # Estimate, can be tuned
+            face_width_px = self.img_width * 0.5
 
         actual_head_height_px = chin_bottom_y - actual_head_top_y
         if actual_head_height_px <= 1:
@@ -302,9 +539,11 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
     scaled_eye_level_y = dims['eye_level_y'] * scale_factor
     scaled_face_center_x = dims['face_center_x'] * scale_factor
     
-    # --- 2. VERTICAL POSITIONING ---
+    # --- 2. VERTICAL POSITIONING WITH COMPLIANCE ADJUSTMENT ---
     crop_top = 0
     positioning_method = "NotSet"
+    compliance_adjustment_applied = False
+    compliance_adjustment = 0.0
 
     schengen_spec_active = "DE_SCHENGEN" in photo_spec.country_code.upper()
 
@@ -379,6 +618,103 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
             logging.info(f"   Positioning (Non-Schengen): DefaultMargin. Margin: {default_margin_px:.1f}px. crop_top: {crop_top:.1f}px")
     
     logging.info(f"📍 Positioning by {positioning_method}, initial crop_top: {crop_top:.1f}")
+
+    # --- COMPLIANCE OPTIMIZATION ALGORITHM ---
+    def apply_compliance_adjustment(current_crop_top, eye_pos_y, head_top_y, chin_bottom_y, photo_spec, target_height, target_width):
+        """
+        Оптимальный алгоритм коррекции комплаенса с коэффициентом
+        Приоритет: позиция глаз > размер головы > отступы головы
+        """
+        adjusted_crop_top = current_crop_top
+        adjustment_reasons = []
+        
+        # Предварительный расчет позиций
+        temp_eye_from_bottom = target_height - (eye_pos_y - current_crop_top)
+        temp_head_top_margin = head_top_y - current_crop_top
+        temp_chin_bottom_margin = (current_crop_top + target_height) - chin_bottom_y
+        
+        # Приоритет 1: Коррекция позиции глаз (критичная)
+        if photo_spec.eye_min_from_bottom_px is not None and photo_spec.eye_max_from_bottom_px is not None:
+            eye_target_center = (photo_spec.eye_min_from_bottom_px + photo_spec.eye_max_from_bottom_px) / 2.0
+            eye_deviation = temp_eye_from_bottom - eye_target_center
+            
+            # Коэффициент коррекции для глаз (агрессивная коррекция)
+            EYE_CORRECTION_COEFFICIENT = 0.95  # 95% от необходимой коррекции
+            
+            if temp_eye_from_bottom < photo_spec.eye_min_from_bottom_px:
+                # Глаза слишком близко к низу - нужно сдвинуть crop_top вниз
+                # Добавляем буферную зону +10px для надежного соблюдения минимума
+                SAFETY_BUFFER_PX = 10
+                target_eye_position = photo_spec.eye_min_from_bottom_px + SAFETY_BUFFER_PX
+                needed_adjustment = target_eye_position - temp_eye_from_bottom
+                eye_adjustment = needed_adjustment * EYE_CORRECTION_COEFFICIENT
+                adjusted_crop_top += eye_adjustment
+                adjustment_reasons.append(f"EyeTooLow: +{eye_adjustment:.1f}px (target min+buffer: {target_eye_position:.1f}px)")
+                
+            elif temp_eye_from_bottom > photo_spec.eye_max_from_bottom_px:
+                # Глаза слишком далеко от низа - нужно сдвинуть crop_top вверх
+                needed_adjustment = temp_eye_from_bottom - photo_spec.eye_max_from_bottom_px
+                eye_adjustment = needed_adjustment * EYE_CORRECTION_COEFFICIENT
+                adjusted_crop_top -= eye_adjustment
+                adjustment_reasons.append(f"EyeTooHigh: -{eye_adjustment:.1f}px (target max: {photo_spec.eye_max_from_bottom_px:.1f}px)")
+        
+        # Приоритет 2: Коррекция отступов головы (если есть спецификация)
+        if hasattr(photo_spec, 'head_top_min_dist_from_photo_top_px') and photo_spec.head_top_min_dist_from_photo_top_px is not None:
+            # Пересчет после коррекции глаз
+            temp_head_top_margin = head_top_y - adjusted_crop_top
+            
+            HEAD_MARGIN_CORRECTION_COEFFICIENT = 0.7  # 70% от необходимой коррекции для отступов
+            
+            if temp_head_top_margin < photo_spec.head_top_min_dist_from_photo_top_px:
+                # Голова слишком близко к верху
+                needed_adjustment = photo_spec.head_top_min_dist_from_photo_top_px - temp_head_top_margin
+                head_adjustment = needed_adjustment * HEAD_MARGIN_CORRECTION_COEFFICIENT
+                adjusted_crop_top -= head_adjustment
+                adjustment_reasons.append(f"HeadTooClose: -{head_adjustment:.1f}px (target min: {photo_spec.head_top_min_dist_from_photo_top_px:.1f}px)")
+                
+            elif hasattr(photo_spec, 'head_top_max_dist_from_photo_top_px') and photo_spec.head_top_max_dist_from_photo_top_px is not None:
+                if temp_head_top_margin > photo_spec.head_top_max_dist_from_photo_top_px:
+                    # Голова слишком далеко от верха
+                    needed_adjustment = temp_head_top_margin - photo_spec.head_top_max_dist_from_photo_top_px
+                    head_adjustment = needed_adjustment * HEAD_MARGIN_CORRECTION_COEFFICIENT
+                    adjusted_crop_top += head_adjustment
+                    adjustment_reasons.append(f"HeadTooFar: +{head_adjustment:.1f}px (target max: {photo_spec.head_top_max_dist_from_photo_top_px:.1f}px)")
+        
+        # Приоритет 3: Защитные коррекции (предотвращение обрезания)
+        SAFETY_MARGIN = 5  # Минимальный защитный отступ в пикселях
+        
+        # Проверка, что голова не обрезается сверху
+        final_head_top_margin = head_top_y - adjusted_crop_top
+        if final_head_top_margin < SAFETY_MARGIN:
+            safety_adjustment = SAFETY_MARGIN - final_head_top_margin
+            adjusted_crop_top -= safety_adjustment
+            adjustment_reasons.append(f"SafetyTop: -{safety_adjustment:.1f}px")
+        
+        # Проверка, что подбородок не обрезается снизу
+        final_chin_margin = (adjusted_crop_top + target_height) - chin_bottom_y
+        if final_chin_margin < SAFETY_MARGIN:
+            safety_adjustment = SAFETY_MARGIN - final_chin_margin
+            adjusted_crop_top += safety_adjustment
+            adjustment_reasons.append(f"SafetyBottom: +{safety_adjustment:.1f}px")
+        
+        total_adjustment = adjusted_crop_top - current_crop_top
+        return adjusted_crop_top, total_adjustment, adjustment_reasons
+    
+    # Применяем алгоритм коррекции комплаенса
+    adjusted_crop_top, compliance_adjustment, adjustment_reasons = apply_compliance_adjustment(
+        crop_top, scaled_eye_level_y, scaled_actual_head_top_y, scaled_chin_bottom_y, 
+        photo_spec, target_photo_height_px, target_photo_width_px
+    )
+    
+    if abs(compliance_adjustment) > 1.0:  # Применяем коррекцию только если она значительная
+        crop_top = adjusted_crop_top
+        compliance_adjustment_applied = True
+        positioning_method += f" +ComplianceAdj({compliance_adjustment:+.1f}px)"
+        logging.info(f"🎯 COMPLIANCE ADJUSTMENT applied: {compliance_adjustment:+.1f}px")
+        for reason in adjustment_reasons:
+            logging.info(f"   📝 {reason}")
+    else:
+        logging.info(f"🎯 No significant compliance adjustment needed ({compliance_adjustment:+.1f}px)")
 
     # --- 3. HORIZONTAL POSITIONING ---
     crop_left = scaled_face_center_x - (target_photo_width_px / 2.0)
@@ -493,9 +829,15 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
         for w in warnings: logging.warning(f"   {w}")
 
     if positioning_success:
-        logging.info("✅ Mask-based positioning successful!")
+        if compliance_adjustment_applied:
+            logging.info("✅ Mask-based positioning successful with compliance optimization!")
+        else:
+            logging.info("✅ Mask-based positioning successful!")
     else:
-        logging.error("❌ Mask-based positioning failed one or more critical requirements.")
+        if compliance_adjustment_applied:
+            logging.warning("⚠️ Mask-based positioning with compliance adjustment still has issues.")
+        else:
+            logging.error("❌ Mask-based positioning failed one or more critical requirements.")
 
     return {
         'scale_factor': float(scale_factor),
@@ -511,5 +853,7 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
         'achieved_head_top_from_crop_top_px': int(round(final_head_top_from_crop_top_px)),
         'positioning_method': positioning_method,
         'positioning_success': positioning_success,
-        'warnings': warnings
+        'warnings': warnings,
+        'compliance_adjustment_applied': compliance_adjustment_applied,
+        'compliance_adjustment_px': float(compliance_adjustment)
     }
