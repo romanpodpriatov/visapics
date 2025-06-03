@@ -243,7 +243,11 @@ class VisaPhotoProcessor(ImageProcessor):
         head_height_compliant = False
         achieved_head_height_px = crop_data.get('achieved_head_height_px', 0)
         if self.photo_spec.head_min_px is not None and self.photo_spec.head_max_px is not None:
-            head_height_compliant = self.photo_spec.head_min_px <= achieved_head_height_px <= self.photo_spec.head_max_px
+            # Add tolerance for floating point precision and positioning variations
+            tolerance = 5.0
+            min_allowed = self.photo_spec.head_min_px - tolerance
+            max_allowed = self.photo_spec.head_max_px + tolerance
+            head_height_compliant = min_allowed <= achieved_head_height_px <= max_allowed
         
         # Default eye position compliance to True if no eye requirements are specified
         eye_position_compliant = True

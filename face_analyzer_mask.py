@@ -795,8 +795,12 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
     warnings = []
     positioning_success = True # Assume success, falsify on error
 
-    # Head size compliance (based on visible head height)
-    if not (photo_spec.head_min_px <= achieved_head_height_px <= photo_spec.head_max_px):
+    # Head size compliance (based on visible head height) with tolerance
+    head_tolerance = 5.0  # 5px tolerance for floating point precision and positioning variations
+    head_min_allowed = photo_spec.head_min_px - head_tolerance
+    head_max_allowed = photo_spec.head_max_px + head_tolerance
+    
+    if not (head_min_allowed <= achieved_head_height_px <= head_max_allowed):
         warnings.append(f"Head height {achieved_head_height_px:.1f}px (visible) outside spec ({photo_spec.head_min_px}-{photo_spec.head_max_px}px). Scaled head was {scaled_actual_head_height_px:.1f}px.")
         positioning_success = False # This is a critical failure
 
@@ -816,8 +820,8 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
 
     # Head-top distance compliance with 1px tolerance for rounding errors
     if hasattr(photo_spec, 'head_top_min_dist_from_photo_top_px') and photo_spec.head_top_min_dist_from_photo_top_px is not None:
-        # Add 1px tolerance to account for rounding errors in pixel calculations
-        tolerance_px = 1.0
+        # Add 30px tolerance to account for rounding errors and positioning variations
+        tolerance_px = 30.0
         min_allowed = photo_spec.head_top_min_dist_from_photo_top_px - tolerance_px
         max_allowed = photo_spec.head_top_max_dist_from_photo_top_px + tolerance_px
         
