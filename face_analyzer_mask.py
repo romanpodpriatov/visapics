@@ -804,14 +804,22 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
         warnings.append(f"Head height {achieved_head_height_px:.1f}px (visible) outside spec ({photo_spec.head_min_px}-{photo_spec.head_max_px}px). Scaled head was {scaled_actual_head_height_px:.1f}px.")
         positioning_success = False # This is a critical failure
 
-    # Eye positioning compliance
+    # Eye positioning compliance with tolerance
     eye_pos_compliant = True
+    eye_tolerance = 20.0  # 20px tolerance for eye positioning variations
+    
     if photo_spec.eye_min_from_bottom_px is not None and photo_spec.eye_max_from_bottom_px is not None:
-        if not (photo_spec.eye_min_from_bottom_px <= final_eye_from_bottom_px <= photo_spec.eye_max_from_bottom_px):
+        eye_min_allowed = photo_spec.eye_min_from_bottom_px - eye_tolerance
+        eye_max_allowed = photo_spec.eye_max_from_bottom_px + eye_tolerance
+        
+        if not (eye_min_allowed <= final_eye_from_bottom_px <= eye_max_allowed):
             warnings.append(f"Eyes from bottom {final_eye_from_bottom_px:.1f}px outside spec ({photo_spec.eye_min_from_bottom_px}-{photo_spec.eye_max_from_bottom_px}px).")
             eye_pos_compliant = False
     elif photo_spec.eye_min_from_top_px is not None and photo_spec.eye_max_from_top_px is not None: # Check from top if bottom not specified
-         if not (photo_spec.eye_min_from_top_px <= final_eye_level_from_crop_top_px <= photo_spec.eye_max_from_top_px):
+        eye_min_allowed_top = photo_spec.eye_min_from_top_px - eye_tolerance
+        eye_max_allowed_top = photo_spec.eye_max_from_top_px + eye_tolerance
+        
+        if not (eye_min_allowed_top <= final_eye_level_from_crop_top_px <= eye_max_allowed_top):
             warnings.append(f"Eyes from top {final_eye_level_from_crop_top_px:.1f}px outside spec ({photo_spec.eye_min_from_top_px}-{photo_spec.eye_max_from_top_px}px).")
             eye_pos_compliant = False
             

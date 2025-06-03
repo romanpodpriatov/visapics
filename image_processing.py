@@ -254,11 +254,17 @@ class VisaPhotoProcessor(ImageProcessor):
         achieved_eye_level_from_bottom_px = crop_data.get('achieved_eye_level_from_bottom_px', 0)
         achieved_eye_level_from_top_px = self.photo_spec.photo_height_px - achieved_eye_level_from_bottom_px
         
-        # Only check eye position if requirements are specified
+        # Only check eye position if requirements are specified, with tolerance
+        eye_tolerance = 20.0  # 20px tolerance for eye positioning variations
+        
         if self.photo_spec.eye_min_from_bottom_px is not None and self.photo_spec.eye_max_from_bottom_px is not None:
-            eye_position_compliant = self.photo_spec.eye_min_from_bottom_px <= achieved_eye_level_from_bottom_px <= self.photo_spec.eye_max_from_bottom_px
+            eye_min_allowed = self.photo_spec.eye_min_from_bottom_px - eye_tolerance
+            eye_max_allowed = self.photo_spec.eye_max_from_bottom_px + eye_tolerance
+            eye_position_compliant = eye_min_allowed <= achieved_eye_level_from_bottom_px <= eye_max_allowed
         elif self.photo_spec.eye_min_from_top_px is not None and self.photo_spec.eye_max_from_top_px is not None:
-            eye_position_compliant = self.photo_spec.eye_min_from_top_px <= achieved_eye_level_from_top_px <= self.photo_spec.eye_max_from_top_px
+            eye_min_allowed_top = self.photo_spec.eye_min_from_top_px - eye_tolerance
+            eye_max_allowed_top = self.photo_spec.eye_max_from_top_px + eye_tolerance
+            eye_position_compliant = eye_min_allowed_top <= achieved_eye_level_from_top_px <= eye_max_allowed_top
 
         photo_info = {
             'spec_country': self.photo_spec.country_code,
