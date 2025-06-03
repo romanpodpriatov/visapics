@@ -234,12 +234,18 @@ def create_preview_with_watermark(
     ratio = spec.photo_height_inches / h_px if h_px else 0.0
     head_px = int(round(preview_drawing_data['achieved_head_height_px']))
     head_in = head_px * ratio
-    head_label = f"{head_in:.2f}in\n({spec.head_min_inches:.2f}–{spec.head_max_inches:.2f}in)"
+    if spec.head_min_inches is not None and spec.head_max_inches is not None:
+        head_label = f"{head_in:.2f}in\n({spec.head_min_inches:.2f}–{spec.head_max_inches:.2f}in)"
+    else:
+        head_label = f"{head_in:.2f}in"
 
     eye_py = int(round(preview_drawing_data['achieved_eye_level_y_on_photo_px']))
     eye_to_bot_px = h_px - eye_py
     eye_to_bot_in = eye_to_bot_px * ratio
-    eye_label = f"{eye_to_bot_in:.2f}in\n({spec.eye_min_from_bottom_inches:.2f}–{spec.eye_max_from_bottom_inches:.2f}in)"
+    if spec.eye_min_from_bottom_inches is not None and spec.eye_max_from_bottom_inches is not None:
+        eye_label = f"{eye_to_bot_in:.2f}in\n({spec.eye_min_from_bottom_inches:.2f}–{spec.eye_max_from_bottom_inches:.2f}in)"
+    else:
+        eye_label = f"{eye_to_bot_in:.2f}in"
 
     # compute text heights (which become widths when rotated) for right margin calculation
     try:

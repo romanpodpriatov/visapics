@@ -49,6 +49,53 @@ class PhotoSpecification:
         if self.photo_height_mm == 0 or self.dpi == 0: return 0
         return int(self.photo_height_mm / self.MM_PER_INCH * self.dpi)
 
+    @property
+    def photo_width_inches(self) -> float:
+        return self.photo_width_mm / self.MM_PER_INCH
+
+    @property
+    def photo_height_inches(self) -> float:
+        return self.photo_height_mm / self.MM_PER_INCH
+
+    @property
+    def required_size_kb_str(self) -> str:
+        if self.file_size_min_kb and self.file_size_max_kb:
+            return f"{self.file_size_min_kb}-{self.file_size_max_kb} KB"
+        elif self.file_size_max_kb:
+            return f"Max {self.file_size_max_kb} KB"
+        elif self.file_size_min_kb:
+            return f"Min {self.file_size_min_kb} KB"
+        else:
+            return "No specific requirements"
+
+    @property
+    def head_min_inches(self) -> Optional[float]:
+        if self.head_min_mm is not None:
+            return self.head_min_mm / self.MM_PER_INCH
+        elif self.head_min_percentage is not None:
+            return (self.head_min_percentage * self.photo_height_mm) / self.MM_PER_INCH
+        return None
+
+    @property
+    def head_max_inches(self) -> Optional[float]:
+        if self.head_max_mm is not None:
+            return self.head_max_mm / self.MM_PER_INCH
+        elif self.head_max_percentage is not None:
+            return (self.head_max_percentage * self.photo_height_mm) / self.MM_PER_INCH
+        return None
+
+    @property
+    def eye_min_from_bottom_inches(self) -> Optional[float]:
+        if self.eye_min_from_bottom_mm is not None:
+            return self.eye_min_from_bottom_mm / self.MM_PER_INCH
+        return None
+
+    @property
+    def eye_max_from_bottom_inches(self) -> Optional[float]:
+        if self.eye_max_from_bottom_mm is not None:
+            return self.eye_max_from_bottom_mm / self.MM_PER_INCH
+        return None
+
     # Head height in pixels, derived primarily from mm if available, else from percentage
     @property
     def head_min_px(self) -> Optional[int]:
