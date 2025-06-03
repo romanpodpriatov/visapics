@@ -132,13 +132,16 @@ print_status "Restarting Docker service..."
 systemctl restart docker
 sleep 5
 
-# 10. Build and deploy
+# 10. Build and deploy production and development environments
 print_status "Building Docker containers..."
 cd $APP_DIR
 docker-compose build
 
-print_status "Starting services..."
+print_status "Starting production services..."
 docker-compose up -d
+
+print_status "Starting development services..."
+docker-compose -f docker-compose.dev.yml up -d
 
 # 11. Wait for services to be ready
 print_status "Waiting for services to start..."
@@ -158,7 +161,8 @@ print_status "Setting up monitoring and backup..."
 cd $APP_DIR && ./scripts/setup-monitoring.sh
 
 print_success "🎉 VisaPics deployment completed successfully!"
-print_status "Application is running at: https://visapics.org"
+print_status "Production environment: https://visapics.org"
+print_status "Development environment: https://dev.visapics.org (ports 8080/8443)"
 print_status "Admin panel: https://visapics.org/admin/orders"
 print_status "Health check: https://visapics.org/health"
 
@@ -172,8 +176,10 @@ echo "5. Test email delivery: check Brevo logs at https://app.brevo.com/sms-camp
 
 echo ""
 print_status "📋 Useful commands:"
-echo "  - View logs: docker-compose logs -f"
-echo "  - Restart: docker-compose restart"
+echo "  - View production logs: docker-compose logs -f"
+echo "  - View dev logs: docker-compose -f docker-compose.dev.yml logs -f"
+echo "  - Restart production: docker-compose restart"
+echo "  - Restart dev: docker-compose -f docker-compose.dev.yml restart"
 echo "  - Update: ./scripts/update.sh"
 echo "  - Test email: ./scripts/test-email.sh"
 echo "  - Environment: ./scripts/setup-env.sh"

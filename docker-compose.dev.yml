@@ -1,0 +1,55 @@
+# Docker Compose configuration for VisaPics development deployment
+# Use: docker-compose -f docker-compose.dev.yml up -d
+
+services:
+  visapics-dev:
+    image: visapics-visapics:latest  # Use the existing production image
+    ports:
+      - "8001:8000"  # Different port for dev
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - SECRET_KEY=${SECRET_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - MAIL_SERVER=${MAIL_SERVER:-smtp-relay.brevo.com}
+      - MAIL_PORT=${MAIL_PORT:-587}
+      - MAIL_USE_TLS=${MAIL_USE_TLS:-True}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_DEFAULT_SENDER=${MAIL_DEFAULT_SENDER}
+      - MAIL_API=${MAIL_API}
+      - DOMAIN=${DOMAIN:-dev.visapics.org}
+    volumes:
+      # Mount source code for hot reload
+      - .:/app:rw
+      - ./uploads:/app/uploads
+      - ./processed:/app/processed
+      - ./previews:/app/previews
+      - ./models:/app/models
+      - ./gfpgan/weights:/app/gfpgan/weights
+      - payment_db_dev:/app/payment_data
+    restart: unless-stopped
+    command: ["python", "main.py"]  # Direct Python execution for hot reload
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  nginx-dev:
+    image: nginx:alpine
+    ports:
+      - "8080:80"   # Different port for dev nginx
+      - "8443:443"  # Different port for dev SSL
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - visapics-dev
+    restart: unless-stopped
+
+volumes:
+  payment_db_dev:
