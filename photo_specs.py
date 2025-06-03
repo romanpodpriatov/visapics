@@ -23948,6 +23948,36 @@ DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
 ))
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     country_code='US',
+    document_name='US Diversity Visa (DV) Lottery 2x2 inch (600x600 px)',
+    dpi=300,
+    photo_width_mm=50.800,
+    photo_height_mm=50.800,
+    head_min_percentage=None,
+    head_max_percentage=None,
+    head_min_mm=25.400,  # 1 inch minimum
+    head_max_mm=34.925,  # 1 3/8 inches maximum
+    eye_min_from_bottom_mm=28.575,  # 1 1/8 inches minimum
+    eye_max_from_bottom_mm=34.925,  # 1 3/8 inches maximum
+    distance_top_of_head_to_top_of_photo_min_mm=None,
+    distance_top_of_head_to_top_of_photo_max_mm=None,
+    head_top_min_dist_from_photo_top_mm=None,
+    head_top_max_dist_from_photo_top_mm=None,
+    background_color='white',
+    glasses_allowed='no',
+    neutral_expression_required=True,
+    other_requirements='600x600 pixels (2x2 inches) with plain white background. Head size: 1 inch to 1 3/8 inches. Eye height: 1 1/8 inches to 1 3/8 inches from bottom. Max file size: 240KB.',
+    default_head_top_margin_percent=0.12,
+    min_visual_head_margin_px=5,
+    min_visual_chin_margin_px=5,
+    file_size_min_kb=None,
+    file_size_max_kb=240,
+    source_urls=[
+        'https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos.html',
+        'https://dvlottery.state.gov/',
+    ],
+))
+DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
+    country_code='US',
     document_name='US Employment Authorization 2x2 inch (51x51 mm)',
     dpi=300,
     photo_width_mm=50.800,

@@ -318,25 +318,41 @@
                 documentTypeTomSelect.clear();
                 documentTypeTomSelect.clearOptions();
                 documentTypeTomSelect.disable();
-                documentTypeTomSelect.addOption({ value: '', text: 'Loading types...' });
-                documentTypeTomSelect.setValue('');
                 toggleUploadActiveState();
 
                 if (!countryCode) {
                     documentTypeTomSelect.clearOptions();
-                    documentTypeTomSelect.addOption({ value: '', text: 'Select document type' });
                     documentTypeTomSelect.disable();
                     return;
                 }
+                
+                // Keep empty during loading to avoid adding loading text to options
+                
                 try {
                     const response = await fetch(`/get_document_types/${countryCode}`);
                     if (!response.ok) throw new Error(`Network error: ${response.statusText}`);
                     const docTypes = await response.json();
+                    
+                    // Clear loading state and add real options
                     documentTypeTomSelect.clearOptions();
                     if (docTypes.length > 0) {
-                        documentTypeTomSelect.addOption({ value: '', text: 'Select document type' });
+                        // Add only real document types, no placeholder text
                         docTypes.forEach(name => documentTypeTomSelect.addOption({ value: name, text: name }));
                         documentTypeTomSelect.enable();
+                        
+                        // Auto-select US Diversity Visa if country is US
+                        if (countryCode === 'US') {
+                            const dvLotteryOption = docTypes.find(name => 
+                                name.includes('US Diversity Visa (DV) Lottery')
+                            );
+                            if (dvLotteryOption) {
+                                documentTypeTomSelect.setValue(dvLotteryOption);
+                                toggleUploadActiveState();
+                                return;
+                            }
+                        }
+                        
+                        // If no auto-selection happened, leave first option selected
                     } else {
                         documentTypeTomSelect.addOption({ value: '', text: 'No types found' });
                     }
@@ -345,10 +361,14 @@
                     documentTypeTomSelect.clearOptions();
                     documentTypeTomSelect.addOption({ value: '', text: 'Error loading' });
                 }
-                documentTypeTomSelect.setValue('');
                 toggleUploadActiveState();
             });
             documentTypeTomSelect.on('change', toggleUploadActiveState);
+
+            // Set US as default country (document will be auto-selected in change handler)
+            setTimeout(() => {
+                countryTomSelect.setValue('US');
+            }, 500);
 
             // Tab Functionality
             const tabs = [elements.tabDigital, elements.tabPrintable];
