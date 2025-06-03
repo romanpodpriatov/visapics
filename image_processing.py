@@ -245,10 +245,12 @@ class VisaPhotoProcessor(ImageProcessor):
         if self.photo_spec.head_min_px is not None and self.photo_spec.head_max_px is not None:
             head_height_compliant = self.photo_spec.head_min_px <= achieved_head_height_px <= self.photo_spec.head_max_px
         
-        eye_position_compliant = False
+        # Default eye position compliance to True if no eye requirements are specified
+        eye_position_compliant = True
         achieved_eye_level_from_bottom_px = crop_data.get('achieved_eye_level_from_bottom_px', 0)
         achieved_eye_level_from_top_px = self.photo_spec.photo_height_px - achieved_eye_level_from_bottom_px
         
+        # Only check eye position if requirements are specified
         if self.photo_spec.eye_min_from_bottom_px is not None and self.photo_spec.eye_max_from_bottom_px is not None:
             eye_position_compliant = self.photo_spec.eye_min_from_bottom_px <= achieved_eye_level_from_bottom_px <= self.photo_spec.eye_max_from_bottom_px
         elif self.photo_spec.eye_min_from_top_px is not None and self.photo_spec.eye_max_from_top_px is not None:

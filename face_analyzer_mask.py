@@ -814,10 +814,14 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
     if not eye_pos_compliant and (photo_spec.eye_min_from_bottom_px or photo_spec.eye_min_from_top_px): # If eye spec exists and not compliant
         positioning_success = False # Eye position is also critical
 
-    # Head-top distance compliance
+    # Head-top distance compliance with 1px tolerance for rounding errors
     if hasattr(photo_spec, 'head_top_min_dist_from_photo_top_px') and photo_spec.head_top_min_dist_from_photo_top_px is not None:
-        # This check is on final_head_top_from_crop_top_px
-        if not (photo_spec.head_top_min_dist_from_photo_top_px <= final_head_top_from_crop_top_px <= photo_spec.head_top_max_dist_from_photo_top_px):
+        # Add 1px tolerance to account for rounding errors in pixel calculations
+        tolerance_px = 1.0
+        min_allowed = photo_spec.head_top_min_dist_from_photo_top_px - tolerance_px
+        max_allowed = photo_spec.head_top_max_dist_from_photo_top_px + tolerance_px
+        
+        if not (min_allowed <= final_head_top_from_crop_top_px <= max_allowed):
             warnings.append(f"Head-top distance {final_head_top_from_crop_top_px:.1f}px outside spec ({photo_spec.head_top_min_dist_from_photo_top_px}-{photo_spec.head_top_max_dist_from_photo_top_px}px).")
             # This might be a non-critical warning for some specs, but can be critical for others like Green Card.
             # For now, let's assume it's critical if specified.
