@@ -1,6 +1,7 @@
 # Auto-generated PhotoSpecification entries from visafoto.com/requirements
 from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Tuple
+import logging
 
 @dataclass
 class PhotoSpecification:
@@ -99,16 +100,42 @@ class PhotoSpecification:
     # Head height in pixels, derived primarily from mm if available, else from percentage
     @property
     def head_min_px(self) -> Optional[int]:
+        # Для российских документов с некорректными мм значениями используем проценты
+        if (self.country_code == 'RU' and self.head_min_percentage is not None and 
+            self.photo_height_px > 0):
+            return int(self.photo_height_px * self.head_min_percentage)
+        
         if self.head_min_mm is not None and self.dpi != 0:
-            return int(self.head_min_mm / self.MM_PER_INCH * self.dpi)
+            # Проверка на физическую возможность (мм не должно превышать высоту фото)
+            max_possible_mm = self.photo_height_mm * 0.95  # 95% от высоты фото как максимум
+            if self.head_min_mm > max_possible_mm:
+                logging.warning(f"head_min_mm ({self.head_min_mm}) exceeds photo height ({self.photo_height_mm}), using percentage instead")
+                if self.head_min_percentage is not None and self.photo_height_px > 0:
+                    return int(self.photo_height_px * self.head_min_percentage)
+            else:
+                return int(self.head_min_mm / self.MM_PER_INCH * self.dpi)
+        
         if self.head_min_percentage is not None and self.photo_height_px > 0:
             return int(self.photo_height_px * self.head_min_percentage)
         return None
 
     @property
     def head_max_px(self) -> Optional[int]:
+        # Для российских документов с некорректными мм значениями используем проценты
+        if (self.country_code == 'RU' and self.head_max_percentage is not None and 
+            self.photo_height_px > 0):
+            return int(self.photo_height_px * self.head_max_percentage)
+        
         if self.head_max_mm is not None and self.dpi != 0:
-            return int(self.head_max_mm / self.MM_PER_INCH * self.dpi)
+            # Проверка на физическую возможность (мм не должно превышать высоту фото)
+            max_possible_mm = self.photo_height_mm * 0.95  # 95% от высоты фото как максимум
+            if self.head_max_mm > max_possible_mm:
+                logging.warning(f"head_max_mm ({self.head_max_mm}) exceeds photo height ({self.photo_height_mm}), using percentage instead")
+                if self.head_max_percentage is not None and self.photo_height_px > 0:
+                    return int(self.photo_height_px * self.head_max_percentage)
+            else:
+                return int(self.head_max_mm / self.MM_PER_INCH * self.dpi)
+        
         if self.head_max_percentage is not None and self.photo_height_px > 0:
             return int(self.photo_height_px * self.head_max_percentage)
         return None

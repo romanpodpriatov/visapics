@@ -638,13 +638,20 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
             eye_target_center = (photo_spec.eye_min_from_bottom_px + photo_spec.eye_max_from_bottom_px) / 2.0
             eye_deviation = temp_eye_from_bottom - eye_target_center
             
-            # Коэффициент коррекции для глаз (агрессивная коррекция)
-            EYE_CORRECTION_COEFFICIENT = 0.95  # 95% от необходимой коррекции
+            # Адаптивный коэффициент коррекции для глаз
+            # Для российских документов с жесткими требованиями используем 100% коррекцию
+            if photo_spec.country_code == 'RU':
+                EYE_CORRECTION_COEFFICIENT = 1.0  # 100% для всех российских документов
+            else:
+                EYE_CORRECTION_COEFFICIENT = 0.95  # 95% для остальных документов
             
             if temp_eye_from_bottom < photo_spec.eye_min_from_bottom_px:
                 # Глаза слишком близко к низу - нужно сдвинуть crop_top вниз
-                # Добавляем буферную зону +10px для надежного соблюдения минимума
-                SAFETY_BUFFER_PX = 10
+                # Адаптивная буферная зона: меньше для российских документов с точными требованиями
+                if photo_spec.country_code == 'RU':
+                    SAFETY_BUFFER_PX = 2  # Минимальный буфер для всех российских документов
+                else:
+                    SAFETY_BUFFER_PX = 10  # Стандартный буфер
                 target_eye_position = photo_spec.eye_min_from_bottom_px + SAFETY_BUFFER_PX
                 needed_adjustment = target_eye_position - temp_eye_from_bottom
                 eye_adjustment = needed_adjustment * EYE_CORRECTION_COEFFICIENT
@@ -663,7 +670,12 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
             # Пересчет после коррекции глаз
             temp_head_top_margin = head_top_y - adjusted_crop_top
             
-            HEAD_MARGIN_CORRECTION_COEFFICIENT = 0.7  # 70% от необходимой коррекции для отступов
+            # Адаптивный коэффициент коррекции для отступов головы
+            # Для российских документов с точными требованиями используем 95% коррекцию
+            if photo_spec.country_code == 'RU':
+                HEAD_MARGIN_CORRECTION_COEFFICIENT = 0.95  # 95% для всех российских документов
+            else:
+                HEAD_MARGIN_CORRECTION_COEFFICIENT = 0.7  # 70% для остальных документов
             
             if temp_head_top_margin < photo_spec.head_top_min_dist_from_photo_top_px:
                 # Голова слишком близко к верху
@@ -826,7 +838,10 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
     if not eye_pos_compliant and (photo_spec.eye_min_from_bottom_px or photo_spec.eye_min_from_top_px): # If eye spec exists and not compliant
         positioning_success = False # Eye position is also critical
 
-    # Head-top distance compliance with 1px tolerance for rounding errors
+    # Head-top distance compliance with tolerance for rounding errors
+    # Check both head_top_min_dist_from_photo_top_px and distance_top_of_head_to_top_of_photo_min_px
+    head_top_distance_checked = False
+    
     if hasattr(photo_spec, 'head_top_min_dist_from_photo_top_px') and photo_spec.head_top_min_dist_from_photo_top_px is not None:
         # Add 30px tolerance to account for rounding errors and positioning variations
         tolerance_px = 30.0
@@ -835,8 +850,17 @@ def calculate_mask_based_crop_dimensions(face_landmarks, img_height: int, img_wi
         
         if not (min_allowed <= final_head_top_from_crop_top_px <= max_allowed):
             warnings.append(f"Head-top distance {final_head_top_from_crop_top_px:.1f}px outside spec ({photo_spec.head_top_min_dist_from_photo_top_px}-{photo_spec.head_top_max_dist_from_photo_top_px}px).")
-            # This might be a non-critical warning for some specs, but can be critical for others like Green Card.
-            # For now, let's assume it's critical if specified.
+            positioning_success = False
+        head_top_distance_checked = True
+    
+    # Also check distance_top_of_head_to_top_of_photo fields if not already checked
+    if not head_top_distance_checked and photo_spec.distance_top_of_head_to_top_of_photo_min_px is not None:
+        tolerance_px = 30.0
+        min_allowed = photo_spec.distance_top_of_head_to_top_of_photo_min_px - tolerance_px
+        max_allowed = photo_spec.distance_top_of_head_to_top_of_photo_max_px + tolerance_px
+        
+        if not (min_allowed <= final_head_top_from_crop_top_px <= max_allowed):
+            warnings.append(f"Head-top distance {final_head_top_from_crop_top_px:.1f}px outside spec ({photo_spec.distance_top_of_head_to_top_of_photo_min_px}-{photo_spec.distance_top_of_head_to_top_of_photo_max_px}px).")
             positioning_success = False
 
 
