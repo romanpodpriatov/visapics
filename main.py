@@ -15,6 +15,17 @@ import json
 from dotenv import load_dotenv
 load_dotenv()
 
+# Fix torchvision compatibility issue with basicsr
+import sys
+try:
+    import torchvision.transforms.functional_tensor
+except ImportError:
+    # Create a mock functional_tensor module for backward compatibility
+    import torchvision.transforms.functional as F
+    class MockFunctionalTensor:
+        rgb_to_grayscale = F.rgb_to_grayscale
+    sys.modules['torchvision.transforms.functional_tensor'] = MockFunctionalTensor()
+
 from flask_socketio import SocketIO, emit
 from image_processing import VisaPhotoProcessor
 from utils import allowed_file, is_allowed_file, clean_filename, ALLOWED_EXTENSIONS

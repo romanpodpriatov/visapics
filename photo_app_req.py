@@ -124,16 +124,6 @@ class PhotoSpecification:
 
 DOCUMENT_SPECIFICATIONS: List[PhotoSpecification] = []
 
-def get_photo_specification(country_code: str, document_name: str) -> Optional[PhotoSpecification]:
-    """
-    Retrieves a photo specification based on country code and document name.
-    """
-    for spec in DOCUMENT_SPECIFICATIONS:
-        if spec.country_code.lower() == country_code.lower() and \
-           spec.document_name.lower() == document_name.lower():
-            return spec
-    return None
-
 DOCUMENT_SPECIFICATIONS.append(PhotoSpecification(
     country_code='AF',
     document_name='Afghanistan passport 4x4.5 cm (40x45 mm)',
