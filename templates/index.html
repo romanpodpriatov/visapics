@@ -240,9 +240,45 @@
             let countryTomSelect, documentTypeTomSelect;
             let lastProcessedData = null;
 
-            // Initialize Tom Select
-            countryTomSelect = new TomSelect(elements.countrySelectEl, { create: false, sortField: { field: "text", direction: "asc" } });
-            documentTypeTomSelect = new TomSelect(elements.documentTypeSelectEl, { create: false, sortField: { field: "text", direction: "asc" } });
+            // Check if elements exist before initializing Tom Select
+            if (!elements.countrySelectEl) {
+                console.error('Country select element not found');
+                return;
+            }
+            if (!elements.documentTypeSelectEl) {
+                console.error('Document type select element not found');
+                return;
+            }
+            
+            console.log('Country select options count:', elements.countrySelectEl.options.length);
+            
+            // Initialize Tom Select with simplified config
+            try {
+                countryTomSelect = new TomSelect(elements.countrySelectEl, { 
+                    create: false, 
+                    sortField: { field: "text", direction: "asc" },
+                    maxOptions: 500,
+                    maxItems: 1,
+                    searchField: ['text', 'value'],
+                    allowEmptyOption: true,
+                    hideSelected: false
+                });
+                console.log('Country Tom Select initialized with', countryTomSelect.options);
+                
+                documentTypeTomSelect = new TomSelect(elements.documentTypeSelectEl, { 
+                    create: false, 
+                    sortField: { field: "text", direction: "asc" },
+                    maxOptions: 500,
+                    maxItems: 1,
+                    searchField: ['text', 'value'],
+                    allowEmptyOption: true,
+                    hideSelected: false
+                });
+                console.log('Document Tom Select initialized successfully');
+            } catch (error) {
+                console.error('Tom Select initialization failed:', error);
+                console.log('Falling back to regular select elements');
+            }
             documentTypeTomSelect.disable();
 
             function updateProgressBar(status) {
