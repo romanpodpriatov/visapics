@@ -5,6 +5,111 @@ from typing import Dict, Any, Tuple
 
 from photo_specs import PhotoSpecification  # For type hinting
 
+def get_preferred_measurement_units(spec: PhotoSpecification) -> dict:
+    """Определяет предпочтительные единицы измерения на основе спецификации"""
+    units = {
+        'head_height': 'in',  # по умолчанию дюймы
+        'eye_distance': 'in',
+        'photo_dimensions': 'in'
+    }
+    
+    # Для размера головы: приоритет мм если указаны, иначе проценты, иначе дюймы
+    if spec.head_min_mm is not None and spec.head_max_mm is not None:
+        units['head_height'] = 'mm'
+    elif spec.head_min_percentage is not None and spec.head_max_percentage is not None:
+        units['head_height'] = '%'
+    
+    # Для расстояния глаз: приоритет мм если указаны
+    if spec.eye_min_from_bottom_mm is not None and spec.eye_max_from_bottom_mm is not None:
+        units['eye_distance'] = 'mm'
+    elif spec.eye_min_from_top_mm is not None and spec.eye_max_from_top_mm is not None:
+        units['eye_distance'] = 'mm'
+    
+    # Для размеров фото: мм если документ указан в мм
+    if hasattr(spec, 'document_name') and 'mm' in spec.document_name.lower():
+        units['photo_dimensions'] = 'mm'
+    elif hasattr(spec, 'document_name') and ('px' in spec.document_name.lower() or 'pixel' in spec.document_name.lower()):
+        units['photo_dimensions'] = 'px'
+    
+    return units
+
+def format_measurement_value(value_px: float, spec: PhotoSpecification, unit_type: str, units: dict) -> str:
+    """Форматирует значение в нужных единицах измерения"""
+    unit = units.get(unit_type, 'in')
+    
+    if unit == 'mm':
+        # Конвертируем пиксели в мм
+        value_mm = (value_px / spec.dpi) * 25.4
+        return f"{value_mm:.1f}mm"
+    elif unit == '%':
+        # Для процентов от высоты фото
+        if unit_type == 'head_height':
+            percentage = (value_px / spec.photo_height_px) * 100
+            return f"{percentage:.1f}%"
+        else:
+            # Для других типов возвращаемся к мм
+            value_mm = (value_px / spec.dpi) * 25.4
+            return f"{value_mm:.1f}mm"
+    elif unit == 'px':
+        return f"{int(value_px)}px"
+    else:  # дюймы по умолчанию
+        value_in = value_px / spec.dpi  # px to inches
+        return f"{value_in:.2f}in"
+
+def format_requirement_range(spec: PhotoSpecification, measurement_type: str, units: dict) -> str:
+    """Форматирует диапазон требований в нужных единицах"""
+    unit = units.get(measurement_type, 'in')
+    
+    if measurement_type == 'head_height':
+        if unit == 'mm' and spec.head_min_mm is not None and spec.head_max_mm is not None:
+            return f"({spec.head_min_mm:.1f}–{spec.head_max_mm:.1f}mm)"
+        elif unit == '%' and spec.head_min_percentage is not None and spec.head_max_percentage is not None:
+            return f"({spec.head_min_percentage*100:.1f}–{spec.head_max_percentage*100:.1f}%)"
+        elif spec.head_min_inches is not None and spec.head_max_inches is not None:
+            return f"({spec.head_min_inches:.2f}–{spec.head_max_inches:.2f}in)"
+    elif measurement_type == 'eye_distance':
+        if unit == 'mm' and spec.eye_min_from_bottom_mm is not None and spec.eye_max_from_bottom_mm is not None:
+            return f"({spec.eye_min_from_bottom_mm:.1f}–{spec.eye_max_from_bottom_mm:.1f}mm)"
+        elif spec.eye_min_from_bottom_inches is not None and spec.eye_max_from_bottom_inches is not None:
+            return f"({spec.eye_min_from_bottom_inches:.2f}–{spec.eye_max_from_bottom_inches:.2f}in)"
+    elif measurement_type == 'head_top_distance':
+        if spec.distance_top_of_head_to_top_of_photo_min_mm is not None:
+            if unit == 'mm':
+                return f"({spec.distance_top_of_head_to_top_of_photo_min_mm:.1f}–{spec.distance_top_of_head_to_top_of_photo_max_mm:.1f}mm)"
+            else:
+                # Конвертируем в дюймы
+                min_in = spec.distance_top_of_head_to_top_of_photo_min_mm / 25.4
+                max_in = spec.distance_top_of_head_to_top_of_photo_max_mm / 25.4
+                return f"({min_in:.2f}–{max_in:.2f}in)"
+        elif spec.head_top_min_dist_from_photo_top_mm is not None:
+            if unit == 'mm':
+                return f"({spec.head_top_min_dist_from_photo_top_mm:.1f}–{spec.head_top_max_dist_from_photo_top_mm:.1f}mm)"
+            else:
+                min_in = spec.head_top_min_dist_from_photo_top_mm / 25.4
+                max_in = spec.head_top_max_dist_from_photo_top_mm / 25.4
+                return f"({min_in:.2f}–{max_in:.2f}in)"
+    
+    return ""  # Пустая строка если нет требований
+
+def should_show_measurement(spec: PhotoSpecification, measurement_type: str) -> bool:
+    """Определяет нужно ли показывать конкретное измерение"""
+    if measurement_type == 'head_height':
+        # Показываем если есть любые требования к размеру головы
+        return (spec.head_min_mm is not None or spec.head_max_mm is not None or
+                spec.head_min_percentage is not None or spec.head_max_percentage is not None or
+                spec.head_min_inches is not None or spec.head_max_inches is not None)
+    elif measurement_type == 'eye_distance':
+        # Показываем если есть требования к позиции глаз
+        return (spec.eye_min_from_bottom_mm is not None or spec.eye_max_from_bottom_mm is not None or
+                spec.eye_min_from_top_mm is not None or spec.eye_max_from_top_mm is not None or
+                spec.eye_min_from_bottom_inches is not None or spec.eye_max_from_bottom_inches is not None)
+    elif measurement_type == 'head_top_distance':
+        # Показываем если есть требования к расстоянию от верха головы
+        return (spec.distance_top_of_head_to_top_of_photo_min_mm is not None or
+                spec.head_top_min_dist_from_photo_top_mm is not None)
+    
+    return True  # По умолчанию показываем
+
 # Watermark and default measurement colors
 WATERMARK_TEXT = "visapicture"
 WATERMARK_COLOR_WITH_ALPHA = (225, 225, 225, 225)
@@ -230,41 +335,82 @@ def create_preview_with_watermark(
     margin_top    = int(round(h_px * 0.05))
     margin_bottom = int(round(tx_h_f + arrow + pad + h_px * 0.02))
 
+    # Определяем единицы измерения и что показывать
+    units = get_preferred_measurement_units(spec)
+    show_head = should_show_measurement(spec, 'head_height')
+    show_eye = should_show_measurement(spec, 'eye_distance')
+    show_head_top = should_show_measurement(spec, 'head_top_distance')
+    
     # compute labels
-    ratio = spec.photo_height_inches / h_px if h_px else 0.0
     head_px = int(round(preview_drawing_data['achieved_head_height_px']))
-    head_in = head_px * ratio
-    if spec.head_min_inches is not None and spec.head_max_inches is not None:
-        head_label = f"{head_in:.2f}in\n({spec.head_min_inches:.2f}–{spec.head_max_inches:.2f}in)"
-    else:
-        head_label = f"{head_in:.2f}in"
-
     eye_py = int(round(preview_drawing_data['achieved_eye_level_y_on_photo_px']))
     eye_to_bot_px = h_px - eye_py
-    eye_to_bot_in = eye_to_bot_px * ratio
-    if spec.eye_min_from_bottom_inches is not None and spec.eye_max_from_bottom_inches is not None:
-        eye_label = f"{eye_to_bot_in:.2f}in\n({spec.eye_min_from_bottom_inches:.2f}–{spec.eye_max_from_bottom_inches:.2f}in)"
+    head_top_y = int(round(preview_drawing_data['achieved_head_top_y_on_photo_px']))
+    head_top_distance_px = head_top_y  # расстояние от верха фото до верха головы
+    
+    # Создаем лейблы с правильными единицами измерения
+    if show_head:
+        head_value = format_measurement_value(head_px, spec, 'head_height', units)
+        head_range = format_requirement_range(spec, 'head_height', units)
+        if head_range:
+            head_label = f"{head_value}\n{head_range}"
+        else:
+            head_label = head_value
     else:
-        eye_label = f"{eye_to_bot_in:.2f}in"
+        head_label = ""
+    
+    if show_eye:
+        eye_value = format_measurement_value(eye_to_bot_px, spec, 'eye_distance', units)
+        eye_range = format_requirement_range(spec, 'eye_distance', units)
+        if eye_range:
+            eye_label = f"{eye_value}\n{eye_range}"
+        else:
+            eye_label = eye_value
+    else:
+        eye_label = ""
+    
+    if show_head_top:
+        head_top_value = format_measurement_value(head_top_distance_px, spec, 'head_top_distance', units)
+        head_top_range = format_requirement_range(spec, 'head_top_distance', units)
+        if head_top_range:
+            head_top_label = f"{head_top_value}\n{head_top_range}"
+        else:
+            head_top_label = head_top_value
+    else:
+        head_top_label = ""
 
     # compute text heights (which become widths when rotated) for right margin calculation
-    try:
-        b1 = dummy.multiline_textbbox((0,0), head_label, font=meas_font, align='center')
-        # h1_f это высота не повернутого текста (станет шириной повернутого)
-        rotated_head_label_width_f = b1[3] - b1[1] 
-    except AttributeError:
-        _, _h1 = dummy.multiline_textsize(head_label, font=meas_font)
-        rotated_head_label_width_f = _h1 * 1.2 # Original factor
+    # Только для тех измерений, которые нужно показать
+    rotated_head_label_width = 0
+    rotated_eye_label_width = 0
+    rotated_head_top_label_width = 0
     
-    try:
-        b2 = dummy.multiline_textbbox((0,0), eye_label, font=meas_font, align='center')
-        rotated_eye_label_width_f = b2[3] - b2[1]
-    except AttributeError:
-        _, _h2 = dummy.multiline_textsize(eye_label, font=meas_font)
-        rotated_eye_label_width_f = _h2 * 1.2 # Original factor
-
-    rotated_head_label_width = int(round(rotated_head_label_width_f))
-    rotated_eye_label_width = int(round(rotated_eye_label_width_f))
+    if show_head and head_label:
+        try:
+            b1 = dummy.multiline_textbbox((0,0), head_label, font=meas_font, align='center')
+            rotated_head_label_width_f = b1[3] - b1[1] 
+        except AttributeError:
+            _, _h1 = dummy.multiline_textsize(head_label, font=meas_font)
+            rotated_head_label_width_f = _h1 * 1.2
+        rotated_head_label_width = int(round(rotated_head_label_width_f))
+    
+    if show_eye and eye_label:
+        try:
+            b2 = dummy.multiline_textbbox((0,0), eye_label, font=meas_font, align='center')
+            rotated_eye_label_width_f = b2[3] - b2[1]
+        except AttributeError:
+            _, _h2 = dummy.multiline_textsize(eye_label, font=meas_font)
+            rotated_eye_label_width_f = _h2 * 1.2
+        rotated_eye_label_width = int(round(rotated_eye_label_width_f))
+    
+    if show_head_top and head_top_label:
+        try:
+            b3 = dummy.multiline_textbbox((0,0), head_top_label, font=meas_font, align='center')
+            rotated_head_top_label_width_f = b3[3] - b3[1]
+        except AttributeError:
+            _, _h3 = dummy.multiline_textsize(head_top_label, font=meas_font)
+            rotated_head_top_label_width_f = _h3 * 1.2
+        rotated_head_top_label_width = int(round(rotated_head_top_label_width_f))
 
     # --- ИЗМЕНЕНИЕ: Расчет позиций для правой колонки ---
     initial_gap_from_photo_edge = int(round(w_px * 0.03)) # Отступ от края фото до первой линии
@@ -272,21 +418,47 @@ def create_preview_with_watermark(
     text_block_spacing = pad * 2                         # Горизонтальный отступ между первым текстом и второй линией
     final_right_padding = pad                            # Финальный отступ справа на холсте
 
-    # Координаты для измерения высоты головы (зеленый)
-    xr_head_line = margin_left + w_px + initial_gap_from_photo_edge # X для верт. линии
-    head_label_center_x = xr_head_line + line_to_text_gap + rotated_head_label_width // 2
-    head_label_block_end_x = xr_head_line + line_to_text_gap + rotated_head_label_width
-
-    # Координаты для измерения от глаз до низа (синий)
-    xr_eye_line = head_label_block_end_x + text_block_spacing # X для верт. линии
-    eye_label_center_x = xr_eye_line + line_to_text_gap + rotated_eye_label_width // 2
-    eye_label_block_end_x = xr_eye_line + line_to_text_gap + rotated_eye_label_width
+    # Динамически определяем позиции на основе того, что показываем
+    current_x = margin_left + w_px + initial_gap_from_photo_edge
     
-    # Пересчитываем margin_right на основе новых позиций
-    # margin_right - это ширина области справа от фотографии (x0+w_px)
-    # до правого края холста.
-    # (eye_label_block_end_x - (margin_left + w_px)) это расстояние от края фото до конца второго лейбла
-    margin_right = (eye_label_block_end_x - (margin_left + w_px)) + final_right_padding
+    # Координаты для измерения высоты головы (если показываем)
+    if show_head and head_label:
+        xr_head_line = current_x
+        head_label_center_x = xr_head_line + line_to_text_gap + rotated_head_label_width // 2
+        head_label_block_end_x = xr_head_line + line_to_text_gap + rotated_head_label_width
+        current_x = head_label_block_end_x + text_block_spacing
+    else:
+        xr_head_line = head_label_center_x = head_label_block_end_x = 0
+
+    # Координаты для измерения от глаз до низа (если показываем)
+    if show_eye and eye_label:
+        xr_eye_line = current_x
+        eye_label_center_x = xr_eye_line + line_to_text_gap + rotated_eye_label_width // 2
+        eye_label_block_end_x = xr_eye_line + line_to_text_gap + rotated_eye_label_width
+        current_x = eye_label_block_end_x + text_block_spacing
+    else:
+        xr_eye_line = eye_label_center_x = eye_label_block_end_x = 0
+    
+    # Координаты для измерения head-top distance (если показываем)
+    if show_head_top and head_top_label:
+        xr_head_top_line = current_x
+        head_top_label_center_x = xr_head_top_line + line_to_text_gap + rotated_head_top_label_width // 2
+        head_top_label_block_end_x = xr_head_top_line + line_to_text_gap + rotated_head_top_label_width
+        final_end_x = head_top_label_block_end_x
+    else:
+        xr_head_top_line = head_top_label_center_x = head_top_label_block_end_x = 0
+        if show_eye and eye_label:
+            final_end_x = eye_label_block_end_x
+        elif show_head and head_label:
+            final_end_x = head_label_block_end_x
+        else:
+            final_end_x = margin_left + w_px
+    
+    # Пересчитываем margin_right на основе того, что действительно показываем
+    if show_head or show_eye or show_head_top:
+        margin_right = (final_end_x - (margin_left + w_px)) + final_right_padding
+    else:
+        margin_right = int(round(w_px * 0.05))  # Минимальный отступ если ничего не показываем
     # --- Конец ИЗМЕНЕНИЯ для правой колонки ---
 
     # create canvas
@@ -315,9 +487,12 @@ def create_preview_with_watermark(
     dr.line([(x0, y0), (x0, bot_y)], fill=HEAD_MEASUREMENT_COLOR, width=1)
     draw_filled_arrowhead(dr, (x0,y0), 'up', arrow, HEAD_MEASUREMENT_COLOR)
     draw_filled_arrowhead(dr, (x0,bot_y), 'down', arrow, HEAD_MEASUREMENT_COLOR)
+    
+    # Форматируем размер фото в нужных единицах
+    photo_height_label = format_measurement_value(h_px, spec, 'photo_dimensions', units)
     canvas = draw_rotated_text_on_canvas(
         canvas,
-        f"{spec.photo_height_inches:.2f}in",
+        photo_height_label,
         (x0 - line_to_text_gap - int(round(tx_w_f/2)), y0 + h_px//2), # Используем line_to_text_gap вместо pad
         dim_font,
         HEAD_TEXT_COLOR, # Цвет текста для размеров слева/снизу
@@ -328,47 +503,70 @@ def create_preview_with_watermark(
     dr.line([(x0, bot_y), (x0+w_px, bot_y)], fill=HEAD_MEASUREMENT_COLOR, width=1)
     draw_filled_arrowhead(dr, (x0,bot_y), 'left', arrow, HEAD_MEASUREMENT_COLOR)
     draw_filled_arrowhead(dr, (x0+w_px,bot_y), 'right', arrow, HEAD_MEASUREMENT_COLOR)
+    
+    # Форматируем размер фото в нужных единицах
+    photo_width_label = format_measurement_value(w_px, spec, 'photo_dimensions', units)
     canvas = draw_rotated_text_on_canvas(
         canvas,
-        f"{spec.photo_width_inches:.2f}in",
+        photo_width_label,
         (x0 + w_px//2, bot_y + line_to_text_gap + int(round(tx_h_f/2))), # Используем line_to_text_gap
         dim_font,
         HEAD_TEXT_COLOR, # Цвет текста для размеров слева/снизу
         0
     )
 
-    # --- ИЗМЕНЕНИЕ: правая колонка с двумя линиями ---
-    # 1. Head measurement (Green)
-    dr.line([(xr_head_line, top_y), (xr_head_line, chin_y)], fill=HEAD_MEASUREMENT_COLOR, width=1)
-    draw_filled_arrowhead(dr, (xr_head_line,top_y), 'up', arrow, HEAD_MEASUREMENT_COLOR)
-    draw_filled_arrowhead(dr, (xr_head_line,chin_y), 'down', arrow, HEAD_MEASUREMENT_COLOR)
-    # Горизонтальные соединительные линии от фото к размерной линии
-    dr.line([(x0+w_px, top_y), (xr_head_line - arrow//2, top_y)], fill=HEAD_MEASUREMENT_COLOR, width=1)
-    dr.line([(x0+w_px, chin_y), (xr_head_line - arrow//2, chin_y)], fill=HEAD_MEASUREMENT_COLOR, width=1)
-    canvas = draw_rotated_text_on_canvas(
-        canvas,
-        head_label,
-        (head_label_center_x, (top_y+chin_y)//2), # Новый X центр
-        meas_font,
-        HEAD_TEXT_COLOR,
-        -90
-    )
+    # --- ИЗМЕНЕНИЕ: правая колонка с условными измерениями ---
+    # 1. Head measurement (Green) - только если нужно показывать
+    if show_head and head_label:
+        dr.line([(xr_head_line, top_y), (xr_head_line, chin_y)], fill=HEAD_MEASUREMENT_COLOR, width=1)
+        draw_filled_arrowhead(dr, (xr_head_line,top_y), 'up', arrow, HEAD_MEASUREMENT_COLOR)
+        draw_filled_arrowhead(dr, (xr_head_line,chin_y), 'down', arrow, HEAD_MEASUREMENT_COLOR)
+        # Горизонтальные соединительные линии от фото к размерной линии
+        dr.line([(x0+w_px, top_y), (xr_head_line - arrow//2, top_y)], fill=HEAD_MEASUREMENT_COLOR, width=1)
+        dr.line([(x0+w_px, chin_y), (xr_head_line - arrow//2, chin_y)], fill=HEAD_MEASUREMENT_COLOR, width=1)
+        canvas = draw_rotated_text_on_canvas(
+            canvas,
+            head_label,
+            (head_label_center_x, (top_y+chin_y)//2),
+            meas_font,
+            HEAD_TEXT_COLOR,
+            -90
+        )
 
-    # 2. Eye-to-bottom measurement (Blue)
-    dr.line([(xr_eye_line, eye_y), (xr_eye_line, bot_y)], fill=EYE_MEASUREMENT_COLOR, width=1)
-    draw_filled_arrowhead(dr, (xr_eye_line,eye_y), 'up', arrow, EYE_MEASUREMENT_COLOR)
-    draw_filled_arrowhead(dr, (xr_eye_line,bot_y), 'down', arrow, EYE_MEASUREMENT_COLOR)
-    # Горизонтальные соединительные линии
-    dr.line([(x0+w_px, eye_y), (xr_eye_line - arrow//2, eye_y)], fill=EYE_MEASUREMENT_COLOR, width=1)
-    dr.line([(x0+w_px, bot_y), (xr_eye_line - arrow//2, bot_y)], fill=EYE_MEASUREMENT_COLOR, width=1)
-    canvas = draw_rotated_text_on_canvas(
-        canvas,
-        eye_label,
-        (eye_label_center_x, (eye_y+bot_y)//2), # Новый X центр
-        meas_font,
-        EYE_TEXT_COLOR,
-        -90
-    )
+    # 2. Eye-to-bottom measurement (Blue) - только если нужно показывать
+    if show_eye and eye_label:
+        dr.line([(xr_eye_line, eye_y), (xr_eye_line, bot_y)], fill=EYE_MEASUREMENT_COLOR, width=1)
+        draw_filled_arrowhead(dr, (xr_eye_line,eye_y), 'up', arrow, EYE_MEASUREMENT_COLOR)
+        draw_filled_arrowhead(dr, (xr_eye_line,bot_y), 'down', arrow, EYE_MEASUREMENT_COLOR)
+        # Горизонтальные соединительные линии
+        dr.line([(x0+w_px, eye_y), (xr_eye_line - arrow//2, eye_y)], fill=EYE_MEASUREMENT_COLOR, width=1)
+        dr.line([(x0+w_px, bot_y), (xr_eye_line - arrow//2, bot_y)], fill=EYE_MEASUREMENT_COLOR, width=1)
+        canvas = draw_rotated_text_on_canvas(
+            canvas,
+            eye_label,
+            (eye_label_center_x, (eye_y+bot_y)//2),
+            meas_font,
+            EYE_TEXT_COLOR,
+            -90
+        )
+
+    # 3. Head-top distance measurement (Orange) - только если нужно показывать
+    HEAD_TOP_MEASUREMENT_COLOR = (255, 165, 0, 255)  # Orange color
+    if show_head_top and head_top_label:
+        dr.line([(xr_head_top_line, y0), (xr_head_top_line, top_y)], fill=HEAD_TOP_MEASUREMENT_COLOR, width=1)
+        draw_filled_arrowhead(dr, (xr_head_top_line, y0), 'up', arrow, HEAD_TOP_MEASUREMENT_COLOR)
+        draw_filled_arrowhead(dr, (xr_head_top_line, top_y), 'down', arrow, HEAD_TOP_MEASUREMENT_COLOR)
+        # Горизонтальные соединительные линии
+        dr.line([(x0+w_px, y0), (xr_head_top_line - arrow//2, y0)], fill=HEAD_TOP_MEASUREMENT_COLOR, width=1)
+        dr.line([(x0+w_px, top_y), (xr_head_top_line - arrow//2, top_y)], fill=HEAD_TOP_MEASUREMENT_COLOR, width=1)
+        canvas = draw_rotated_text_on_canvas(
+            canvas,
+            head_top_label,
+            (head_top_label_center_x, (y0+top_y)//2),
+            meas_font,
+            HEAD_TOP_MEASUREMENT_COLOR,
+            -90
+        )
     # --- Конец ИЗМЕНЕНИЯ для правой колонки ---
 
     # save with integer DPI
